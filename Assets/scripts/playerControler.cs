@@ -23,6 +23,10 @@ public class playerControler : MonoBehaviour
     private int dashBuffer = -1;
     private int grav = 2;
     private int dashTimer = -1;
+    private float dashx = 0f;
+    private float dashy = 0f;
+    private float dashDirx = 0f;
+    private float dashDiry = 0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,7 +40,6 @@ public class playerControler : MonoBehaviour
     {
         hori = Input.GetAxis("Horizontal");
         vert = Input.GetAxis("Vertical");
-        if (!dashing) { 
         if (Input.GetButtonDown("Jump") && grounded)
         {
             jumpSquat = jumpSquatVal;
@@ -46,7 +49,7 @@ public class playerControler : MonoBehaviour
         }
         //Debug.Log(rb.velocity.y.ToString());
 
-        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0)
+        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0 && !dashing)
         {
             hold = (-1 * rb.velocity.y);
             rb.velocity = new Vector2(rb.velocity.x, 3f);
@@ -56,11 +59,14 @@ public class playerControler : MonoBehaviour
         {
             dashing = true;
             rb.gravityScale = 0;
+            dashx = rb.velocity.x;
+            dashy = rb.velocity.y;
+            canDash = false;
             rb.velocity = new Vector2(0f, 0f);
             dashBuffer = 3;
-                transform.localScale = new Vector3(1f, 1f, 1f);
+            transform.localScale = new Vector3(1f, 1f, 1f);
         }
-    }
+    
 
       
     }
@@ -68,7 +74,18 @@ public class playerControler : MonoBehaviour
     {
         if (jump)
         {
-            if (jumpSquat > 0f)
+            if (dashing)
+            {
+                Debug.Log("superspeed");
+                rb.gravityScale = grav;
+                dashing = false;
+                jump = false;
+                jumpSquat = 0f;
+                dashTimer = -1;
+                transform.localScale = new Vector3(0.9f, 2.1f, 1f);
+                rb.velocity = new Vector2(rb.velocity.x + dashx, rb.velocity.y + jumpHeight);
+            }
+            else if (jumpSquat > 0f)
             {
                 jumpSquat--;
             }
@@ -81,7 +98,7 @@ public class playerControler : MonoBehaviour
             }
 
         }
-        else if (grounded && rb.velocity.y < 1f)
+        else if (grounded && rb.velocity.y < 1f && !dashing)
         {
             transform.localScale = (new Vector3(1f, 2f, 1f));
             canDash = true;
@@ -99,10 +116,14 @@ public class playerControler : MonoBehaviour
                 {
                     if(vert != 0)
                     {
+                        dashDirx = Mathf.Sign(hori);
+                        dashDiry = Mathf.Sign(vert);
                         rb.velocity = new Vector2((Mathf.Abs(hori) / hori) * dashDist, (Mathf.Abs(vert) / vert) * dashDist);
                     }
                     else
                     {
+                        dashDirx = Mathf.Sign(hori);
+                        dashDiry = 0f;
                         rb.velocity = new Vector2((Mathf.Abs(hori) / hori) * dashDist, 0);
                     }
                 }
@@ -110,10 +131,14 @@ public class playerControler : MonoBehaviour
                 {
                     if(vert != 0)
                     {
+                        dashDirx = 0f;
+                        dashDiry = Mathf.Sign(vert);
                         rb.velocity = new Vector2(0, (Mathf.Abs(vert) / vert) * dashDist);
                     }
                     else
                     {
+                        dashDirx = 0f;
+                        dashDiry = 0f;
                         rb.velocity = new Vector2(0, 0);
                     }
                 }
@@ -130,6 +155,14 @@ public class playerControler : MonoBehaviour
                 dashing = false;
                 dashTimer = -1;
                 transform.localScale = new Vector3(0.9f, 2.1f, 1f);
+                if (hori == 0)
+                {
+                    rb.velocity = new Vector2(0f, 0f /*Mathf.Max(0f, dashy)*/);
+                }
+                else
+                {
+                    rb.velocity = new Vector2(Mathf.Sign(hori) * Mathf.Max(Mathf.Abs(rb.velocity.x), Mathf.Abs(dashx)), 0f /*Mathf.Max(0f, dashy)*/);
+                }
             }
         }
         else
