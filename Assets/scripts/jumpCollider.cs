@@ -28,4 +28,9 @@ public class jumpCollider : MonoBehaviour
     {
         playerControler.instance.grounded = false;
     }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        playerControler.instance.grounded = true;
+    }
 }
