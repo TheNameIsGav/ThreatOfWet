@@ -41,23 +41,27 @@ public class playerControler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //gets the inputs
         hori = Input.GetAxis("Horizontal");
         vert = Input.GetAxis("Vertical");
+        //this initiates the jump
         if (Input.GetButtonDown("Jump") && grounded)
         {
             jumpSquat = jumpSquatVal;
             jump = true;
+            flatten = -4f;
             transform.localScale = (new Vector3(1.4f, 1.8f, 1f));
             //rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y + jumpHeight);
         }
-        //Debug.Log(rb.velocity.y.ToString());
-
-        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0 && !dashing)
+        
+        //this is for the short hop
+        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0 && !dashing && flatten == -4f)
         {
             hold = (-1 * rb.velocity.y);
             rb.velocity = new Vector2(rb.velocity.x, 3f);
             flatten = 2f;
         }
+        //this is the check for starting a dash
         if (Input.GetButtonDown("Dash") && canDash)
         {
             dashing = true;
@@ -70,18 +74,13 @@ public class playerControler : MonoBehaviour
             dashBuffer = 3;
             transform.localScale = new Vector3(1f, 1f, 1f);
         }
-        if(state == States.idle)
-        {
-            
-            
-        }
-
-      
+    
     }
     private void FixedUpdate()
     {
         if (jump)
         {
+            //this is the check for wavedashing and superjumping
             if (state == States.dash)
             {
                 Debug.Log("superspeed");
@@ -91,29 +90,35 @@ public class playerControler : MonoBehaviour
                 jump = false;
                 jumpSquat = 0f;
                 dashTimer = -1;
+                flatten = -5f;
                 transform.localScale = new Vector3(0.9f, 2.1f, 1f);
-                rb.velocity = new Vector2(rb.velocity.x + dashx, rb.velocity.y + jumpHeight);
+                rb.velocity = new Vector2(rb.velocity.x + dashx, Mathf.Min(rb.velocity.y, jumpHeight*2f ));
             }
+            //this is for the squash and stretch just for game feel
             else if (jumpSquat > 0f)
             {
                 jumpSquat--;
             }
             else
             {
+                //this sets the actual jump
                 jumpSquat = 0f;
-                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y + jumpHeight);
+                rb.velocity = new Vector2(rb.velocity.x,Mathf.Max(rb.velocity.y,0f) + jumpHeight);
                 jump = false;
                 transform.localScale = (new Vector3(.9f, 2.1f, 1f));
             }
 
         }
+        //this is essentially part 2 of the grounded check
         else if (grounded && rb.velocity.y < 1f && state != States.dash)
         {
             transform.localScale = (new Vector3(1f, 2f, 1f));
             canDash = true;
         }
+        //dash part of state machine
         if (state == States.dash)
         {
+            //dashBuffer will be used for input buffer/game juice, game feel thing
             if(dashBuffer > 0)
             {
                 dashBuffer--;
@@ -125,12 +130,14 @@ public class playerControler : MonoBehaviour
                 {
                     if(vert != 0)
                     {
+                        //dashing in a diagonal
                         dashDirx = Mathf.Sign(hori);
                         dashDiry = Mathf.Sign(vert);
                         rb.velocity = new Vector2((Mathf.Abs(hori) / hori) * dashDist * (1f / Mathf.Sqrt(2)), (Mathf.Abs(vert) / vert) * dashDist * (1f / Mathf.Sqrt(2)));
                     }
                     else
                     {
+                        //dashing horisonzally left or right
                         dashDirx = Mathf.Sign(hori);
                         dashDiry = 0f;
                         rb.velocity = new Vector2((Mathf.Abs(hori) / hori) * dashDist, 0);
@@ -140,12 +147,14 @@ public class playerControler : MonoBehaviour
                 {
                     if(vert != 0)
                     {
+                        //dashing vertically
                         dashDirx = 0f;
                         dashDiry = Mathf.Sign(vert);
                         rb.velocity = new Vector2(0, (Mathf.Abs(vert) / vert) * dashDist);
                     }
                     else
                     {
+                        //dashing in place
                         dashDirx = 0f;
                         dashDiry = 0f;
                         rb.velocity = new Vector2(0, 0);
@@ -154,10 +163,12 @@ public class playerControler : MonoBehaviour
                 
                 dashTimer = 10;
             }
+            //this is how long the player dashes (moves with the set dash velocity)
             if(dashTimer > 0)
             {
                 dashTimer--;
             }
+            //this resets the player back to an idle state, turns on gravity, etc.
             else if (dashTimer == 0)
             {
                 rb.gravityScale = grav;
@@ -167,11 +178,13 @@ public class playerControler : MonoBehaviour
                 transform.localScale = new Vector3(0.9f, 2.1f, 1f);
                 if (hori == 0)
                 {
+                    //stops momentum if no direction
                     rb.velocity = new Vector2(0f, 0f /*Mathf.Max(0f, dashy)*/);
                 }
                 else
                 {
-                    rb.velocity = new Vector2(Mathf.Sign(hori) * Mathf.Max(Mathf.Abs(rb.velocity.x), Mathf.Abs(dashx)), 0f /*Mathf.Max(0f, dashy)*/);
+                    //keeps old pre-dash momentum
+                    rb.velocity = new Vector2((Mathf.Sign(hori) * speedCap), 0f /*Mathf.Max(0f, dashy)*/);
                 }
             }
         }
@@ -181,11 +194,11 @@ public class playerControler : MonoBehaviour
         }
         else if(state == States.idle)
         {
+            //flatten smooths out the short hop to make it feel better (flattens the curve in a smooth way)
             if (flatten > -2f)
             {
                 flatten--;
                 rb.velocity = new Vector2(rb.velocity.x, flatten);
-               // Debug.Log("flaots");
             }
             else if (flatten == -3f)
             {
@@ -194,43 +207,46 @@ public class playerControler : MonoBehaviour
             }
             if (hori == 0)
             {
+                //this is the code to stop accellerating if no input is held
                 desync = true;
-                //Debug.Log(hori.ToString());
                 if (Mathf.Abs(rb.velocity.x) > 1f)
                 {
                     if (grounded)
                     {
-                        //Debug.Log("we stop now");
+                        //de-cellerate on the ground
                         rb.velocity = new Vector2(rb.velocity.x - (((1f) * Mathf.Sign(rb.velocity.x))), rb.velocity.y);
                     }
                     else
                     {
-                       // Debug.Log("lazysdf?");
+                       
+                       //de-cellerate in the air
                         rb.velocity = new Vector2(rb.velocity.x - ((accell) * Mathf.Sign(rb.velocity.x)), rb.velocity.y);
                     }
                 }
                 else
                 {
-                    //Debug.Log("stop");
+                    //stops the player once far enough along
                     rb.velocity = new Vector2(0f, rb.velocity.y);
                 }
             }
             else if (hori != 0)
             {
-                //Debug.Log(hori.ToString());
+                //speed up if speed is less than speedcap
                 if (Mathf.Abs(rb.velocity.x) < speedCap && (Mathf.Sign(rb.velocity.x) == Mathf.Sign(hori) || rb.velocity.x == 0f))
                 {
                     rb.velocity = new Vector2(rb.velocity.x + (accell * (Mathf.Abs(hori) / hori)), rb.velocity.y);
                 }
+                //instant pivot with no acceleration cooldown
                 else if (grounded && Mathf.Sign(rb.velocity.x) != Mathf.Sign(hori))
                 {
-                    //Debug.Log("turn");
                     rb.velocity = new Vector2(-1 * rb.velocity.x, rb.velocity.y);
                 }
+                //arial turnaround, a lot slower
                 else if (Mathf.Sign(rb.velocity.x) != Mathf.Sign(hori))
                 {
                     rb.velocity = new Vector2(rb.velocity.x + ((accell) * (Mathf.Abs(hori) / hori)), rb.velocity.y);
                 }
+                
             }
         }
     }
