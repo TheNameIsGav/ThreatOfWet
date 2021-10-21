@@ -27,7 +27,9 @@ public class playerControler : MonoBehaviour
     private float dashy = 0f;
     private float dashDirx = 0f;
     private float dashDiry = 0f;
-    private bool desync = false; 
+    private bool desync = false;
+    private float collx = 0f;
+    private float colly = 0f;
     enum States {dash, idle, attack}
     private States state = States.idle;
     // Start is called before the first frame update
@@ -92,7 +94,11 @@ public class playerControler : MonoBehaviour
                 dashTimer = -1;
                 flatten = -5f;
                 transform.localScale = new Vector3(0.9f, 2.1f, 1f);
-                rb.velocity = new Vector2(rb.velocity.x + dashx, Mathf.Min(rb.velocity.y, jumpHeight*2f ));
+                if(rb.velocity.x == 0)
+                {
+                    flatten = -4f;
+                }
+                rb.velocity = new Vector2(rb.velocity.x + dashx, Mathf.Max(jumpHeight, Mathf.Min(rb.velocity.y, jumpHeight*2f) ));
             }
             //this is for the squash and stretch just for game feel
             else if (jumpSquat > 0f)
@@ -166,11 +172,13 @@ public class playerControler : MonoBehaviour
             //this is how long the player dashes (moves with the set dash velocity)
             if(dashTimer > 0)
             {
+                Debug.Log(rb.velocity.x.ToString() + "  " + rb.velocity.y.ToString() + "  " + dashTimer.ToString());
                 dashTimer--;
             }
             //this resets the player back to an idle state, turns on gravity, etc.
             else if (dashTimer == 0)
             {
+                Debug.Log(rb.velocity.x.ToString() + "  " + rb.velocity.y.ToString() + "  " + dashTimer.ToString());
                 rb.gravityScale = grav;
                 dashing = false;
                 state = States.idle;
@@ -246,8 +254,21 @@ public class playerControler : MonoBehaviour
                 {
                     rb.velocity = new Vector2(rb.velocity.x + ((accell) * (Mathf.Abs(hori) / hori)), rb.velocity.y);
                 }
+                else if(grounded && Mathf.Abs(rb.velocity.x) > speedCap + accell)
+                {
+                    rb.velocity = new Vector2(rb.velocity.x - (accell * Mathf.Sign(rb.velocity.x)), rb.velocity.y);
+                }
                 
             }
+        }
+       // Debug.Log(rb.velocity.x.ToString() + "  " + rb.velocity.y.ToString());
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //Debug.Log("col");
+        if(state == States.dash)
+        {
+            rb.velocity = new Vector2(rb.velocity.x * 2, rb.velocity.y * 2);
         }
     }
 }
