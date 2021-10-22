@@ -4,32 +4,53 @@ using UnityEngine;
 
 public class playerControler : MonoBehaviour
 {
+    //these are the base jump variables
     public bool grounded = false;
     public float jumpHeight;
+    //these are two global refrences for the player and others
     public Rigidbody2D rb;
     public static playerControler instance;
+    //this is for the shorthop, hold is to make the fall feel good, flatten is to make a good jump arc
     private float flatten = -4f;
     private float hold = 0f;
+    //the player grounded speed cap and accelleration
     public float speedCap;
     public float accell;
+    //store left / right input
     private float hori = 0f;
     private float vert = 0f;
+    //how long the player crouches before jumping
     private float jumpSquat = 0f;
     private float jumpSquatVal = 3f;
+    //the big jump bool and what counts the jump buffer
     private bool jump = false;
+    private int jumpBuffer = -1;
+    //these three control the short hop / variable jump height
+    private int minJumpTime = 12;
+    private bool jumpRelease = false;
+    private int shortHop = 0;
+    //these 5 control the feel / vibe of the dash, also the distance
     private bool canDash = false;
     private bool dashing = false;
     public float dashDist;
     private int dashBuffer = -1;
-    private int grav = 3;
     private int dashTimer = -1;
+    //I had already used dash buffer like a dumbass so whoops shitty variable name
+    private int realDashBuffer = -1;
+    //just gravity storage variable cause it gets set to zero sometimes
+    private int grav = 3;
+    //these are used to control the direction the player dashes in
     private float dashx = 0f;
     private float dashy = 0f;
     private float dashDirx = 0f;
     private float dashDiry = 0f;
-    private bool desync = false;
-    private float collx = 0f;
-    private float colly = 0f;
+    //these 4 are used for the dash buffer
+    private float holdx = 0f;
+    private int holdxTime = 0;
+    private float holdy = 0f;
+    private int holdyTime = 0;
+    //this is the buffer time for all variables
+    private int universalBufferTime = 4;
     enum States {dash, idle, attack}
     private States state = States.idle;
     // Start is called before the first frame update
@@ -47,24 +68,37 @@ public class playerControler : MonoBehaviour
         hori = Input.GetAxis("Horizontal");
         vert = Input.GetAxis("Vertical");
         //this initiates the jump
-        if (Input.GetButtonDown("Jump") && grounded)
+        if ((Input.GetButtonDown("Jump") || jumpBuffer >= 0) && grounded)
         {
             jumpSquat = jumpSquatVal;
             jump = true;
+            jumpBuffer = -1;
+            shortHop = 1;
             flatten = -4f;
             transform.localScale = (new Vector3(1.4f, 1.8f, 1f));
-            //rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y + jumpHeight);
+            jumpRelease = false;
+        }
+        else if (Input.GetButtonDown("Jump"))
+        {
+            jumpBuffer = universalBufferTime;
         }
         
-        //this is for the short hop
-        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0 && !dashing && flatten == -4f)
+        //this the store that the player wants to short hop
+        if (!Input.GetButton("Jump") && rb.velocity.y > 0 && !dashing && flatten == -4f)
+        {
+            jumpRelease = true;
+        }
+        //this actually initaites the shorthop
+        if(shortHop >= minJumpTime && jumpRelease)
         {
             hold = (-1 * rb.velocity.y);
             rb.velocity = new Vector2(rb.velocity.x, 3f);
+            shortHop = 0;
             flatten = 2f;
+            jumpRelease = false;
         }
         //this is the check for starting a dash
-        if (Input.GetButtonDown("Dash") && canDash)
+        if ((Input.GetButtonDown("Dash") || realDashBuffer >=0) && canDash)
         {
             dashing = true;
             state = States.dash;
@@ -73,13 +107,62 @@ public class playerControler : MonoBehaviour
             dashy = rb.velocity.y;
             canDash = false;
             rb.velocity = new Vector2(0f, 0f);
-            dashBuffer = 3;
+            dashBuffer = 4;
             transform.localScale = new Vector3(1f, 1f, 1f);
+        }
+        else if (Input.GetButtonDown("Dash"))
+        {
+            realDashBuffer = universalBufferTime;
         }
     
     }
     private void FixedUpdate()
     {
+        //the countdown timer for the jump buffer
+        if(jumpBuffer >= 0)
+        {
+            jumpBuffer--;
+        }
+        //the countdownTimer for the dash buffer
+        if(realDashBuffer >= 0)
+        {
+            realDashBuffer--;
+        }
+        //imput buffer for horizontal axis, used for dashes
+        if(hori !=0)
+        {
+            holdx = hori;
+            holdxTime = 0;
+        }
+        else if(holdxTime < universalBufferTime -1 )
+        {
+            holdxTime++;
+        }
+        else
+        {
+            holdx = 0f;
+            holdxTime = 0;
+        }
+        //input buffer for vertical axis, used for dashes
+        if (vert != 0)
+        {
+            holdy = vert;
+            holdyTime = 0;
+        }
+        else if (holdyTime < universalBufferTime -1 )
+        {
+            holdyTime++;
+        }
+        else
+        {
+            holdy = 0f;
+            holdyTime = 0;
+        }
+        //counter to enforce a minimum jump height
+        if(shortHop > 0)
+        {
+            shortHop++;
+        }
         if (jump)
         {
             //this is the check for wavedashing and superjumping
@@ -91,12 +174,19 @@ public class playerControler : MonoBehaviour
                 state = States.idle;
                 jump = false;
                 jumpSquat = 0f;
+                jumpBuffer = -1;
                 dashTimer = -1;
                 flatten = -5f;
+                shortHop = 0;
                 transform.localScale = new Vector3(0.9f, 2.1f, 1f);
-                if(rb.velocity.x == 0)
+                //this is for if the player is wavedashing rather than superjumping, also sorry not sorry
+                if(rb.velocity.y <= 0)
                 {
+                    
+                    canDash = true;
                     flatten = -4f;
+                    shortHop = 1;
+
                 }
                 rb.velocity = new Vector2(rb.velocity.x + dashx, Mathf.Max(jumpHeight, Mathf.Min(rb.velocity.y, jumpHeight*2f) ));
             }
@@ -111,6 +201,7 @@ public class playerControler : MonoBehaviour
                 jumpSquat = 0f;
                 rb.velocity = new Vector2(rb.velocity.x,Mathf.Max(rb.velocity.y,0f) + jumpHeight);
                 jump = false;
+                jumpBuffer = -1;
                 transform.localScale = (new Vector3(.9f, 2.1f, 1f));
             }
 
@@ -120,6 +211,7 @@ public class playerControler : MonoBehaviour
         {
             transform.localScale = (new Vector3(1f, 2f, 1f));
             canDash = true;
+            shortHop = 0;
         }
         //dash part of state machine
         if (state == States.dash)
@@ -132,31 +224,31 @@ public class playerControler : MonoBehaviour
             else if (dashBuffer == 0)
             {
                 dashBuffer = -1;
-                if (hori != 0)
+                if (holdx != 0)
                 {
-                    if(vert != 0)
+                    if(holdy != 0)
                     {
                         //dashing in a diagonal
-                        dashDirx = Mathf.Sign(hori);
-                        dashDiry = Mathf.Sign(vert);
-                        rb.velocity = new Vector2((Mathf.Abs(hori) / hori) * dashDist * (1f / Mathf.Sqrt(2)), (Mathf.Abs(vert) / vert) * dashDist * (1f / Mathf.Sqrt(2)));
+                        dashDirx = Mathf.Sign(holdx);
+                        dashDiry = Mathf.Sign(holdy);
+                        rb.velocity = new Vector2((Mathf.Abs(holdx) / holdx) * dashDist * (1f / Mathf.Sqrt(2)), (Mathf.Abs(holdy) / holdy) * dashDist * (1f / Mathf.Sqrt(2)));
                     }
                     else
                     {
                         //dashing horisonzally left or right
-                        dashDirx = Mathf.Sign(hori);
+                        dashDirx = Mathf.Sign(holdx);
                         dashDiry = 0f;
-                        rb.velocity = new Vector2((Mathf.Abs(hori) / hori) * dashDist, 0);
+                        rb.velocity = new Vector2((Mathf.Abs(holdx) / holdx) * dashDist, 0);
                     }
                 }
                 else
                 {
-                    if(vert != 0)
+                    if(holdy != 0)
                     {
                         //dashing vertically
                         dashDirx = 0f;
-                        dashDiry = Mathf.Sign(vert);
-                        rb.velocity = new Vector2(0, (Mathf.Abs(vert) / vert) * dashDist);
+                        dashDiry = Mathf.Sign(holdy);
+                        rb.velocity = new Vector2(0, (Mathf.Abs(holdy) / holdy) * dashDist);
                     }
                     else
                     {
@@ -211,12 +303,17 @@ public class playerControler : MonoBehaviour
             else if (flatten == -3f)
             {
                 flatten = -4f;
+               // jumpRelease = false;
                 rb.velocity = new Vector2(rb.velocity.x, hold);
+            }
+            else
+            {
+               // jumpRelease = false;
             }
             if (hori == 0)
             {
                 //this is the code to stop accellerating if no input is held
-                desync = true;
+                
                 if (Mathf.Abs(rb.velocity.x) > 1f)
                 {
                     if (grounded)
@@ -254,6 +351,7 @@ public class playerControler : MonoBehaviour
                 {
                     rb.velocity = new Vector2(rb.velocity.x + ((accell) * (Mathf.Abs(hori) / hori)), rb.velocity.y);
                 }
+                //makes the player slow down to the speedcap if they were over it while on the ground
                 else if(grounded && Mathf.Abs(rb.velocity.x) > speedCap + accell)
                 {
                     rb.velocity = new Vector2(rb.velocity.x - (accell * Mathf.Sign(rb.velocity.x)), rb.velocity.y);
@@ -261,11 +359,10 @@ public class playerControler : MonoBehaviour
                 
             }
         }
-       // Debug.Log(rb.velocity.x.ToString() + "  " + rb.velocity.y.ToString());
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //Debug.Log("col");
+        //this makes dashing into a wall / ground feel better than it did before
         if(state == States.dash)
         {
             rb.velocity = new Vector2(rb.velocity.x * 2, rb.velocity.y * 2);
