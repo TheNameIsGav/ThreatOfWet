@@ -6,7 +6,7 @@ public class playerControler : MonoBehaviour
 {
     //these are the base jump variables
     public bool grounded = false;
-    public float jumpHeight;
+    public float jumpHeight = 13f;
     //these are two global refrences for the player and others
     public Rigidbody2D rb;
     public static playerControler instance;
@@ -14,8 +14,8 @@ public class playerControler : MonoBehaviour
     private float flatten = -4f;
     private float hold = 0f;
     //the player grounded speed cap and accelleration
-    public float speedCap;
-    public float accell;
+    public float speedCap = 13f;
+    public float accell = 1f;
     //store left / right input
     private float hori = 0f;
     private float vert = 0f;
@@ -32,7 +32,7 @@ public class playerControler : MonoBehaviour
     //these 5 control the feel / vibe of the dash, also the distance
     private bool canDash = false;
     private bool dashing = false;
-    public float dashDist;
+    public float dashDist = 30f;
     private int dashBuffer = -1;
     private int dashTimer = -1;
     //I had already used dash buffer like a dumbass so whoops shitty variable name
