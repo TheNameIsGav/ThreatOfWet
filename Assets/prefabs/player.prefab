@@ -179,8 +179,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2845900222651375959}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.5169, z: 0}
-  m_LocalScale: {x: 1.2, y: 0.12981, z: 1}
+  m_LocalPosition: {x: 0, y: -0.0395, z: 0}
+  m_LocalScale: {x: 1.2, y: 1.0846024, z: 1}
   m_Children: []
   m_Father: {fileID: 2853325444824186867}
   m_RootOrder: 0
@@ -192,7 +192,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2845900222651375959}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1

@@ -49,6 +49,8 @@ public class playerControler : MonoBehaviour
     private int holdxTime = 0;
     private float holdy = 0f;
     private int holdyTime = 0;
+    //this is for gabe's combat roll
+    private bool rolling = false;
     //this is the buffer time for all variables
     private int universalBufferTime = 4;
     enum States {dash, idle, attack}
@@ -223,6 +225,10 @@ public class playerControler : MonoBehaviour
             }
             else if (dashBuffer == 0)
             {
+                if (rolling)
+                {
+                    rb.gravityScale = grav*3;
+                }
                 dashBuffer = -1;
                 if (holdx != 0)
                 {
