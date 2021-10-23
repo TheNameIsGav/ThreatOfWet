@@ -116,6 +116,31 @@ public class playerControler : MonoBehaviour
         {
             realDashBuffer = universalBufferTime;
         }
+        //how to get a light melee input
+        if (Input.GetButtonDown("Light Melee"))
+        {
+
+        }
+        // how to get a heavy melee input
+        if (Input.GetButtonDown("Heavy Melee"))
+        {
+
+        }
+        //how to get a light ranged input
+        if (Input.GetButtonDown("Light Range"))
+        {
+
+        }
+        //how to get a heavy ranged input
+        if (Input.GetButtonDown("Heavy Range"))
+        {
+
+        }
+        // this is also the button to pick up
+        if (Input.GetButtonDown("Interact"))
+        {
+
+        }
     
     }
     private void FixedUpdate()
@@ -136,7 +161,7 @@ public class playerControler : MonoBehaviour
             holdx = hori;
             holdxTime = 0;
         }
-        else if(holdxTime < universalBufferTime -1 )
+        else if(holdxTime < universalBufferTime)
         {
             holdxTime++;
         }
@@ -151,7 +176,7 @@ public class playerControler : MonoBehaviour
             holdy = vert;
             holdyTime = 0;
         }
-        else if (holdyTime < universalBufferTime -1 )
+        else if (holdyTime < universalBufferTime)
         {
             holdyTime++;
         }
@@ -364,6 +389,14 @@ public class playerControler : MonoBehaviour
                 }
                 
             }
+        }
+        if (Mathf.Abs(rb.velocity.x) > dashDist)
+        {
+            rb.velocity = new Vector2(dashDist * Mathf.Sign(rb.velocity.x), rb.velocity.y);
+        }
+        if (Mathf.Abs(rb.velocity.y) > dashDist)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, dashDist * Mathf.Sign(rb.velocity.y));
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
