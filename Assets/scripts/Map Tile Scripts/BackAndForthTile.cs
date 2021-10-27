@@ -8,43 +8,40 @@ public class BackAndForthTile : BasicTile
     public Vector2 position1;
     public Vector2 position2;
     public float secondsBetween;
-    Vector2 velocity;
+    float t;
     bool goingToTwo;
-    // Start is called before the first frame update
+
     void Start()
     {
         base.Start();
-        secondsBetween *= 60;
-        // Debug.Log(secondsBetween);
-        velocity = new Vector2((position2.x - position1.x) / secondsBetween, 
-            (position2.y - position1.y) / secondsBetween
-            );
-        // Debug.Log("("+velocity.x+", "+velocity.y+")");
-        transform.position = position1;
+        t = 0;
         goingToTwo = true;
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    float transTime()
     {
-        transform.position = new Vector3(transform.position.x + velocity.x, transform.position.y + velocity.y, transform.position.z);
-        if ((goingToTwo && didItPass(transform.position, position2, velocity)) 
-            || (!goingToTwo && didItPass(transform.position, position1, velocity)))
-        {
-            velocity.x = velocity.x * -1;
-            velocity.y = velocity.y * -1;
-            goingToTwo = !goingToTwo;
-        } 
+        return t / secondsBetween;
     }
 
-    private bool didItPass(Vector3 pos, Vector2 dest, Vector2 velocity)
+    void FixedUpdate()
     {
-        bool xPassed = (pos.x <= dest.x && velocity.x < 0) 
-            || (pos.x >= dest.x && velocity.x > 0) 
-            || (velocity.x == 0);
-        bool yPassed = (pos.y <= dest.y && velocity.y < 0)
-            || (pos.y >= dest.y && velocity.y > 0)
-            || (velocity.y == 0);
-        return xPassed && yPassed;
+        if (goingToTwo)
+        {
+            float newX = Mathf.Lerp(position1.x, position2.x, transTime());
+            float newY = Mathf.Lerp(position1.y, position2.y, transTime());
+            transform.position = new Vector3(newX, newY, transform.position.z);
+            
+        } else
+        {
+            float newX = Mathf.Lerp(position2.x, position1.x, transTime());
+            float newY = Mathf.Lerp(position2.y, position1.y, transTime());
+            transform.position = new Vector3(newX, newY, transform.position.z);
+        }
+        t += Time.deltaTime;
+        if (t > secondsBetween)
+        {
+            goingToTwo = !goingToTwo;
+            t = 0;
+        }
     }
 }

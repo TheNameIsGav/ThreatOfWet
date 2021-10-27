@@ -20,18 +20,18 @@ public class DirectionCollisionTile : BasicTile
         extraHitbox = this.gameObject.AddComponent<BoxCollider2D>();
         if (Up())
         {
-            extraHitbox.offset = new Vector2(extraHitbox.offset.x, extraHitbox.offset.y-.5f);
+            extraHitbox.offset = new Vector2(extraHitbox.offset.x, extraHitbox.offset.y-.2f);
         } else if (Right())
         {
-            extraHitbox.offset = new Vector2(extraHitbox.offset.x - .5f, extraHitbox.offset.y);
+            extraHitbox.offset = new Vector2(extraHitbox.offset.x - .2f, extraHitbox.offset.y);
         }
         else if (Down())
         {
-            extraHitbox.offset = new Vector2(extraHitbox.offset.x, extraHitbox.offset.y + .5f);
+            extraHitbox.offset = new Vector2(extraHitbox.offset.x, extraHitbox.offset.y + .2f);
         }
         else // if (Left()) 
         {
-            extraHitbox.offset = new Vector2(extraHitbox.offset.x + .5f, extraHitbox.offset.y);
+            extraHitbox.offset = new Vector2(extraHitbox.offset.x + .2f, extraHitbox.offset.y);
         }
         extraHitbox.isTrigger = true;
     }
@@ -71,7 +71,7 @@ public class DirectionCollisionTile : BasicTile
     {
         if (col == extraHitbox)
         {
-            hitbox.isTrigger = false;
+            hitbox.enabled = true;
         }
     }
 
@@ -79,7 +79,7 @@ public class DirectionCollisionTile : BasicTile
     {
         if (col == extraHitbox)
         {
-            hitbox.isTrigger = true;
+            hitbox.enabled = false;
         }
     }
 }
