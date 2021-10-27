@@ -4,25 +4,26 @@ using UnityEngine;
 
 public class DirectionCollisionTile : BasicTile
 {
-    public int direction;
+    public int blockDirection;
      int UP = 1;
      int RIGHT = 2;
      int DOWN = 3;
      int LEFT = 4;
-    bool oneWay = false;
     Collider2D extraHitbox;
 
     // Start is called before the first frame update
     void Start()
     {
         base.Start();
+        if (blockDirection == 0)
+            blockDirection = 1;
         extraHitbox = this.gameObject.AddComponent<BoxCollider2D>();
         if (Up())
         {
             extraHitbox.offset = new Vector2(extraHitbox.offset.x, extraHitbox.offset.y-.5f);
         } else if (Right())
         {
-            extraHitbox.offset = new Vector2(extraHitbox.offset.x + .5f, extraHitbox.offset.y);
+            extraHitbox.offset = new Vector2(extraHitbox.offset.x - .5f, extraHitbox.offset.y);
         }
         else if (Down())
         {
@@ -30,26 +31,26 @@ public class DirectionCollisionTile : BasicTile
         }
         else // if (Left()) 
         {
-            extraHitbox.offset = new Vector2(extraHitbox.offset.x - .5f, extraHitbox.offset.y);
+            extraHitbox.offset = new Vector2(extraHitbox.offset.x + .5f, extraHitbox.offset.y);
         }
         extraHitbox.isTrigger = true;
     }
 
     bool Up()
     {
-        return direction == UP;
+        return blockDirection == UP;
     }
     bool Right()
     {
-        return direction == RIGHT;
+        return blockDirection == RIGHT;
     }
     bool Down()
     {
-        return direction == DOWN;
+        return blockDirection == DOWN;
     }
     bool Left()
     {
-        return direction == LEFT;
+        return blockDirection == LEFT;
     }
 
     // Update is called once per frame
