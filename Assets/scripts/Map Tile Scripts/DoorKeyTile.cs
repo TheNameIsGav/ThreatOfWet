@@ -10,20 +10,14 @@ public class DoorKeyTile : BasicTile
         base.Start();
         hitbox.isTrigger = true;
     }
-    // Start is called before the first frame update
-    public virtual void UpdateBehavior(Collider2D col, bool exitingCollider)
+
+    // Update is called once per frame
+    void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log("Key Collided");
-        if (!exitingCollider && col.gameObject.GetComponent<TileTriggerInstruct>() != null)
+        if (col.gameObject.GetComponent<TileTriggerInstruct>() != null)
         {
             col.gameObject.GetComponent<TileTriggerInstruct>().getKey();
             gameObject.SetActive(false);
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

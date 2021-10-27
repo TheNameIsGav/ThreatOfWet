@@ -930,7 +930,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.6320754, g: 0.3648587, b: 0.23056836, a: 1}
+  m_Color: {r: 0.6627451, g: 0.3647059, b: 0.23137255, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -5024,12 +5024,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 0}
   positions:
-  - {x: -6, y: 4}
-  - {x: -6, y: 2}
-  - {x: 2, y: 2}
-  - {x: 2, y: 4}
+  - {x: -8, y: 6}
+  - {x: -8, y: 0}
+  - {x: -6, y: 6}
+  - {x: -6, y: 0}
   transitionsInSeconds:
-  - 1
   - 2
 --- !u!212 &1599501956
 SpriteRenderer:

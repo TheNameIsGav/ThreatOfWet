@@ -5,24 +5,29 @@ using UnityEngine;
 public class LockedDoorTile : BasicTile
 {
     bool locked;
+    BoxCollider2D triggerCollider;
     // Start is called before the first frame update
     void Start()
     {
         base.Start();
         locked = true;
+        triggerCollider = gameObject.AddComponent<BoxCollider2D>();
+        triggerCollider.isTrigger = true;
+        triggerCollider.size = new Vector2(1.2f, 1.2f);
     }
 
     // Update is called once per frame
-    public virtual void UpdateBehavior(Collider2D col, bool exitingCollider)
+    void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log("Door Locked Try ");
-        if (!exitingCollider &&
-            locked &&
-            col.gameObject.GetComponent<TileTriggerInstruct>() != null && 
+        if (locked &&
+            col.gameObject.GetComponent<TileTriggerInstruct>() != null &&
             col.gameObject.GetComponent<TileTriggerInstruct>().hasKey())
         {
             hitbox.enabled = false;
+            triggerCollider.enabled = false;
             locked = false;
+            gameObject.GetComponent<SpriteRenderer>().color = new Color(219f, 172f, 148f);
         }
     }
+    // 161, 93, 59
 }
