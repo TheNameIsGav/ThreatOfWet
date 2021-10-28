@@ -11,7 +11,7 @@ public class BackAndForthTile : BasicTile
     float t;
     bool goingToTwo;
 
-    void Start()
+    protected override void Start()
     {
         base.Start();
         t = 0;

@@ -7,7 +7,7 @@ public class LockedDoorTile : BasicTile
     bool locked;
     BoxCollider2D triggerCollider;
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
         base.Start();
         locked = true;
@@ -16,7 +16,6 @@ public class LockedDoorTile : BasicTile
         triggerCollider.size = new Vector2(1.2f, 1.2f);
     }
 
-    // Update is called once per frame
     void OnTriggerEnter2D(Collider2D col)
     {
         if (locked &&

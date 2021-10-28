@@ -5,7 +5,7 @@ using UnityEngine;
 public class DoorKeyTile : BasicTile
 {
 
-    void Start()
+    protected override void Start()
     {
         base.Start();
         hitbox.isTrigger = true;
