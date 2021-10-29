@@ -74,6 +74,8 @@ public class playerControler : MonoBehaviour
     void Update()
     {
         //gets the inputs
+        //pHori = Input.GetAxis("Horizontal");
+        //pVert = Input.GetAxis("Vertical");
         hori = Input.GetAxis("Horizontal");
         vert = Input.GetAxis("Vertical");
         //this initiates the jump

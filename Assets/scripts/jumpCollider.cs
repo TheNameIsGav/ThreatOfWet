@@ -22,15 +22,23 @@ public class jumpCollider : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        playerControler.instance.grounded = true;
+        playerController.instance.grounded = true;
+        if(!State.ReferenceEquals(playerController.instance.state.GetType(), new DashState()) && playerController.instance.rbs.velocity.y < 1f)
+        {
+            playerController.instance.canDash = true;
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        playerControler.instance.grounded = false;
+        playerController.instance.grounded = false;
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        playerControler.instance.grounded = true;
+        playerController.instance.grounded = true;
+        if (!State.ReferenceEquals(playerController.instance.state.GetType(), new DashState()) && playerController.instance.rbs.velocity.y < 1f)
+        {
+            playerController.instance.canDash = true;
+        }
     }
 }
