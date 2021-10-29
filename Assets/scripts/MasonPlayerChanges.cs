@@ -32,4 +32,9 @@ public class MasonPlayerChanges : MonoBehaviour
             gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
         }
     }
+
+    public void gainLoot(System.Object loot)
+    {
+        // Do stuff
+    }
 }

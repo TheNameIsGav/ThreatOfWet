@@ -19,18 +19,12 @@ public class CheckpointTile : BasicTile
         return transform.position;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        /*
-        if (collision.gameObject.name.Equals("Player"))
-            Debug.Log("Checkpoint Reached! "+progression);
-        */
-        Debug.Log(collision.gameObject.name);
         if (collision.gameObject.name.Equals("Player"))
         {
             if (player.GetComponent<MasonPlayerChanges>().spawnProgressed(progression)) 
             { 
-                Debug.Log("Checkpoint Reached!");
                 player.GetComponent<MasonPlayerChanges>().SetSpawn(GetComponent<CheckpointTile>());
                 hitbox.enabled = false;
             }
