@@ -9,6 +9,9 @@ public class playerController : MonoBehaviour
     public float pVert;
     public float pHori;
     public float flatten = -4;
+    public  DashState dash = new DashState();
+    public  IdleState idle = new IdleState();
+    //public static AttackState attack;
     public static playerController instance;
     public Weapon rangedWeapon = new StarterSword();
     public Weapon meleeWeapon = new StarterSword();
@@ -24,10 +27,11 @@ public class playerController : MonoBehaviour
     private int universalBufferTime = 4;
     public bool jumpRelease = false;
     public bool jump = false;
+    public int shortHop = 0;
     void Start()
     {
         instance = this;
-        state = new IdleState();
+        state = idle;
         pHori = 0;
         pVert = 0;
     }
@@ -44,9 +48,15 @@ public class playerController : MonoBehaviour
             //jumpSquat = jumpSquatVal;
             jump = true;
             jumpBuffer = -1;
-            if(State.ReferenceEquals(playerController.instance.state.GetType(), new IdleState()))
+            jumpRelease = false;
+            shortHop = 1;
+            if (idle == state)
             {
-                state.JumpTrigger(-4f);
+                Debug.Log("WE ARE ONE I SEWEWEWE");
+                shortHop = 1;
+                flatten = -4f;
+                
+                state.JumpTrigger();
             }
             //shortHop = 1;
             //flatten = -4f;
@@ -59,7 +69,7 @@ public class playerController : MonoBehaviour
         }
 
         //this the store that the player wants to short hop
-        if (!Input.GetButton("Jump") && rbs.velocity.y > 0 && State.ReferenceEquals(state.GetType(),new IdleState()) && flatten == -4f)
+        if (!Input.GetButton("Jump") && rbs.velocity.y > 0 && state == idle && flatten == -4f)
         {
             jumpRelease = true;
         }
@@ -78,8 +88,8 @@ public class playerController : MonoBehaviour
         //this is the check for starting a dash
         if ((Input.GetButtonDown("Dash") || dashBuffer >= 0) && canDash)
         {
-            state = new DashState();
-
+            //state = new DashState();
+            ChangeState(dash);
             //rb.gravityScale = 0;
             //dashx = rb.velocity.x;
             //dashy = rb.velocity.y;
@@ -125,7 +135,11 @@ public class playerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //Debug.Log(state.shortHop);
+        //Debug.Log(flatten);
+        //Debug.Log(jumpRelease);
         //the countdown timer for the jump buffer
+        Debug.Log(rbs.velocity);
         if (jumpBuffer >= 0)
         {
             jumpBuffer--;
@@ -142,11 +156,12 @@ public class playerController : MonoBehaviour
         //this is universal animation and no clip stuff
         if (Mathf.Abs(rbs.velocity.x) > absMax)
         {
+            Debug.Log("FUCK FUCK FUCK");
             rbs.velocity = new Vector2(absMax * Mathf.Sign(rbs.velocity.x), rbs.velocity.y);
         }
-        if (Mathf.Abs(rbs.velocity.y) > absMax)
+        if (Mathf.Abs(rbs.velocity.y) > 30f)
         {
-            rbs.velocity = new Vector2(rbs.velocity.x, absMax * Mathf.Sign(rbs.velocity.y));
+            rbs.velocity = new Vector2(rbs.velocity.x,30f * Mathf.Sign(rbs.velocity.y));
         }
         if (rbs.velocity.x < 0)
         {
@@ -157,5 +172,21 @@ public class playerController : MonoBehaviour
             gameObject.GetComponent<SpriteRenderer>().flipX = false;
         }
         animator.SetFloat("Speed", Mathf.Abs(rbs.velocity.x));
+    }
+
+    public void ChangeState(State newState)
+    {
+        state.OnExit();
+        state = newState;
+        state.OnEnter();
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //this makes dashing into a wall / ground feel better than it did before
+        if (state ==  dash)
+        {
+            rbs.velocity = new Vector2(rbs.velocity.x * 2, rbs.velocity.y * 2);
+        }
     }
 }

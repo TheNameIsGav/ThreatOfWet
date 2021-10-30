@@ -8,7 +8,7 @@ public class IdleState : State
     private float jumpSquat = 0f;
     private float jumpSquatVal = 3f;
     private int minJumpTime = 12;
-    private int shortHop = 0;
+    //private int playerController.instance.shortHop = 0;
     //private float flatten = -4f;
     private float hold = 0f;
     public float jumpHeight = 13f;
@@ -20,34 +20,45 @@ public class IdleState : State
     public IdleState()
     {
         Debug.Log("heare");
+       
         //rb = playerController.instance.rbs;
         //rb = playerController.instance.rb;
 
     }
-    
-    // Update is called once per frame
-    new public void Update()
+    public override void OnEnter()
     {
-        Debug.Log("ilde idle");
+        playerController.instance.rbs.gravityScale = playerController.instance.grav;
+        eatShit = 2;
+    }
+    public override void OnExit()
+    {
+        
+    }
+    // Update is called once per frame
+    public override void Update()
+    {
+        //Debug.Log("ilde idle");
         hori = playerController.instance.pHori;
         vert = playerController.instance.pVert;
         jump = playerController.instance.jump;
-        if (shortHop >= minJumpTime && jumpRelease)
+        jumpRelease = playerController.instance.jumpRelease;
+        if (playerController.instance.shortHop >= minJumpTime && jumpRelease)
         {
+            Debug.Log("if this calls I'm over it");
             hold = (-1 * playerController.instance.rbs.velocity.y);
             playerController.instance.rbs.velocity = new Vector2(playerController.instance.rbs.velocity.x, 3f);
-            shortHop = 0;
+            playerController.instance.shortHop = 0;
             playerController.instance.flatten = 2f;
             jumpRelease = playerController.instance.jumpRelease;
         }
     }
 
-    new public void StateUpdate()
+    public override void StateUpdate()
     {
-        Debug.Log("fixed update poser");
-        if (shortHop > 0)
+        //Debug.Log("fixed update poser");
+        if (playerController.instance.shortHop > 0)
         {
-            shortHop++;
+            playerController.instance.shortHop++;
         }
         if (jump)
         {
@@ -70,10 +81,11 @@ public class IdleState : State
 
         }
         //this is essentially part 2 of the grounded check
-        else if (playerController.instance.grounded && playerController.instance.rbs.velocity.y < 1f)
+        else if (playerController.instance.grounded && playerController.instance.rbs.velocity.y < 1f && playerController.instance.flatten == -4f)
         {
             playerController.instance.transform.localScale = (new Vector3(1f, 1f, 1f));
-            shortHop = 0;
+            
+            //playerController.instance.shortHop = 0;
         }
 
         if (playerController.instance.flatten > -2f)
@@ -93,6 +105,7 @@ public class IdleState : State
         }
         if (hori == 0)
         {
+            Debug.Log("I love my own hatefull existance");
             //this is the code to stop accellerating if no input is held
 
             if (Mathf.Abs(playerController.instance.rbs.velocity.x) > 1f)
@@ -117,6 +130,7 @@ public class IdleState : State
         }
         else if (hori != 0)
         {
+            Debug.Log("some kinda piss wizard");
             //speed up if speed is less than speedcap
             if (Mathf.Abs(playerController.instance.rbs.velocity.x) < speedCap && (Mathf.Sign(playerController.instance.rbs.velocity.x) == Mathf.Sign(hori) || playerController.instance.rbs.velocity.x == 0f))
             {
@@ -135,22 +149,21 @@ public class IdleState : State
             //makes the player slow down to the speedcap if they were over it while on the ground
             else if (playerController.instance.grounded && Mathf.Abs(playerController.instance.rbs.velocity.x) > speedCap + accell && !jump)
             {
+                Debug.Log("MY OWN HUBRIS");
                 playerController.instance.rbs.velocity = new Vector2(playerController.instance.rbs.velocity.x - (accell * Mathf.Sign(playerController.instance.rbs.velocity.x)), playerController.instance.rbs.velocity.y);
             }
 
         }
 
     }
-    new public void JumpTrigger(float flat)
+    public override void JumpTrigger()
     {
-        playerController.instance.flatten = flat;
+        //playerController.instance.flatten = flat;
+        Debug.Log("WHO WANT S TO WATHC ME SCREAM");
         jumpSquat = jumpSquatVal;
-        if(playerController.instance.flatten > -5f)
-        {
-            shortHop = 1;
-        }
-        playerController.instance.transform.localScale = (new Vector3(1.4f, 0.8f, 1f));
         jumpRelease = false;
+        playerController.instance.transform.localScale = (new Vector3(1.4f, 0.8f, 1f));
+        //jumpRelease = false;
         //playerController.instance.jump = true;
     }
   
@@ -179,16 +192,32 @@ public class DashState : State
     public DashState()
     {
         //rb = playerController.instance.rbs;
+        /*
         dashx = playerController.instance.rbs.velocity.x;
         dashy = playerController.instance.rbs.velocity.y;
         dashBuffer = 4;
         playerController.instance.rbs.gravityScale = 0;
         playerController.instance.rbs.velocity = new Vector2(0f, 0f);
         playerController.instance.transform.localScale = new Vector3(1f, 0.5f, 1f);
+        */
     }
 
+    public override void OnEnter()
+    {
+        dashx = playerController.instance.rbs.velocity.x;
+        dashy = playerController.instance.rbs.velocity.y;
+        dashBuffer = 4;
+        playerController.instance.rbs.gravityScale = 0;
+        Debug.Log("no fucking way");
+        playerController.instance.rbs.velocity = new Vector2(0f, 0f);
+        playerController.instance.transform.localScale = new Vector3(1f, 0.5f, 1f);
+    }
+    public override void OnExit()
+    {
+
+    }
     // Update is called once per frame
-    new public void Update()
+    public override void Update()
     {
         hori = playerController.instance.pHori;
         vert = playerController.instance.pVert;
@@ -225,24 +254,39 @@ public class DashState : State
 
     }
 
-    new public void StateUpdate()
+    public override void StateUpdate()
     {
         if (jump)
         {
+            Debug.Log("superspeed we go again");
             playerController.instance.rbs.gravityScale = playerController.instance.grav;
-            playerController.instance.state = new IdleState();
-            playerController.instance.jump = false;
+            //playerController.instance.state = new IdleState();
+            playerController.instance.jumpRelease = false;
+            //playerController.instance.jump = false;
             dashTimer = -1;
             playerController.instance.transform.localScale = new Vector3(0.9f, 1.1f, 1f);
             //this is for if the player is wavedashing rather than superjumping, also sorry not sorry
             if (playerController.instance.rbs.velocity.y <= 0)
             {
-                playerController.instance.state.JumpTrigger(-4f);
+                //playerController.instance.state.JumpTrigger();
+                playerController.instance.flatten = -4f;
+                playerController.instance.shortHop = 1;
             }
             else
             {
-                playerController.instance.state.JumpTrigger(-5f);
+                playerController.instance.flatten = -5f;
+                Debug.Log("hell cite hell cite");
+
+                //playerController.instance.state.JumpTrigger(-5);
+                playerController.instance.shortHop = 0;
+                
             }
+            playerController.instance.rbs.velocity = new Vector2(playerController.instance.rbs.velocity.x + dashx, playerController.instance.rbs.velocity.y);
+            playerController.instance.shortHop = 1;
+            playerController.instance.flatten = -4f;
+            playerController.instance.ChangeState(playerController.instance.idle);
+            Debug.Log("do I exist");
+            playerController.instance.state.JumpTrigger();
             //playerController.instance.rbs.velocity = new Vector2(playerController.instance.rbs.velocity.x + dashx, Mathf.Max(jumpHeight, Mathf.Min(playerController.instance.rbs.velocity.y, jumpHeight * 2f)));
         }
         if (dashBuffer > 0)
@@ -275,6 +319,7 @@ public class DashState : State
             }
             else
             {
+                Debug.Log("HOW HOW HOW");
                 if (holdy != 0)
                 {
                     //dashing vertically
@@ -287,6 +332,7 @@ public class DashState : State
                     //dashing in place
                     dashDirx = 0f;
                     dashDiry = 0f;
+                    //Debug.Log("HOW HOW HOW");
                     playerController.instance.rbs.velocity = new Vector2(0, 0);
                 }
             }
@@ -304,20 +350,22 @@ public class DashState : State
         {
             Debug.Log(playerController.instance.rbs.velocity.x.ToString() + "  " + playerController.instance.rbs.velocity.y.ToString() + "  " + dashTimer.ToString());
             playerController.instance.rbs.gravityScale = playerController.instance.grav;
-            playerController.instance.state = new IdleState();
+            playerController.instance.ChangeState(playerController.instance.idle);
             dashTimer = -1;
             playerController.instance.transform.localScale = new Vector3(0.9f, 1.1f, 1f);
             if (hori == 0)
             {
                 //stops momentum if no direction
+                Debug.Log("FOE THR LOV E OF GOD");
                 playerController.instance.rbs.velocity = new Vector2(0f, 0f /*Mathf.Max(0f, dashy)*/);
             }
             else
             {
+                Debug.Log("HOW DID I EVEN GET HERE");
                 //keeps old pre-dash momentum
-                playerController.instance.rbs.velocity = new Vector2((Mathf.Sign(hori) * speedCap), 0f /*Mathf.Max(0f, dashy)*/);
+                playerController.instance.rbs.velocity = new Vector2((Mathf.Sign(hori) * Mathf.Abs(dashx)), 0f /*Mathf.Max(0f, dashy)*/);
             }
         }
     }
-
+    public override void JumpTrigger() { }
 }

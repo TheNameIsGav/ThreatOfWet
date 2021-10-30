@@ -23,7 +23,8 @@ public class jumpCollider : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         playerController.instance.grounded = true;
-        if(!State.ReferenceEquals(playerController.instance.state.GetType(), new DashState()) && playerController.instance.rbs.velocity.y < 1f)
+        //playerController.instance.state.shortHop = 0;
+        if(playerController.instance.state != playerController.instance.dash && playerController.instance.rbs.velocity.y < 1f)
         {
             playerController.instance.canDash = true;
         }
@@ -36,9 +37,11 @@ public class jumpCollider : MonoBehaviour
     private void OnTriggerStay2D(Collider2D collision)
     {
         playerController.instance.grounded = true;
-        if (!State.ReferenceEquals(playerController.instance.state.GetType(), new DashState()) && playerController.instance.rbs.velocity.y < 1f)
+        //playerController.instance.state.shortHop = 0;
+        if (playerController.instance.state != playerController.instance.dash && playerController.instance.rbs.velocity.y < 1f)
         {
             playerController.instance.canDash = true;
+           
         }
     }
 }
