@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Second Collider
+  - WalkPoint
+  - JumpPoint
   layers:
   - Default
   - TransparentFX
