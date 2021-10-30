@@ -11,6 +11,8 @@ public class playerController : MonoBehaviour
     public float flatten = -4;
     public  DashState dash = new DashState();
     public  IdleState idle = new IdleState();
+    public MenuState menu = new MenuState();
+    public AttackState attack = new AttackState();
     //public static AttackState attack;
     public static playerController instance;
     public Weapon rangedWeapon = new StarterSword();
@@ -49,7 +51,7 @@ public class playerController : MonoBehaviour
             jump = true;
             jumpBuffer = -1;
             jumpRelease = false;
-            shortHop = 1;
+            //shortHop = 1;
             if (idle == state)
             {
                 Debug.Log("WE ARE ONE I SEWEWEWE");
@@ -188,5 +190,10 @@ public class playerController : MonoBehaviour
         {
             rbs.velocity = new Vector2(rbs.velocity.x * 2, rbs.velocity.y * 2);
         }
+    }
+
+    public void InCombat()
+    {
+        //yo we in hitting range
     }
 }

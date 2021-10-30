@@ -283,7 +283,7 @@ public class DashState : State
             }
             playerController.instance.rbs.velocity = new Vector2(playerController.instance.rbs.velocity.x + dashx, playerController.instance.rbs.velocity.y);
             playerController.instance.shortHop = 1;
-            playerController.instance.flatten = -4f;
+            //playerController.instance.flatten = -4f;
             playerController.instance.ChangeState(playerController.instance.idle);
             Debug.Log("do I exist");
             playerController.instance.state.JumpTrigger();
