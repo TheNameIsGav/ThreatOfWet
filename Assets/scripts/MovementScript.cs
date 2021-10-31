@@ -77,6 +77,7 @@ public class IdleState : State
                 playerController.instance.jump = false;
                 //jumpBuffer = -1;
                 playerController.instance.transform.localScale = (new Vector3(.9f, 1.1f, 1f));
+                playerController.instance.coyote = playerController.instance.universalBufferTime + 1;
             }
 
         }

@@ -21,12 +21,13 @@ public class playerController : MonoBehaviour
     public SpriteRenderer weaponHitbox;
     public int grav = 3;
     public bool grounded;
+    public int coyote = 100;
     public bool canDash;
     private int jumpBuffer = -1;
     private int dashBuffer = -1;
     private float absMax = 45f;
     public State state;
-    private int universalBufferTime = 4;
+    public int universalBufferTime = 4;
     public bool jumpRelease = false;
     public bool jump = false;
     public int shortHop = 0;
@@ -137,6 +138,15 @@ public class playerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(coyote == universalBufferTime)
+        {
+            coyote++;
+            grounded = false;
+        }
+        else if (coyote < universalBufferTime)
+        {
+            coyote++;
+        }
         //Debug.Log(state.shortHop);
         //Debug.Log(flatten);
         //Debug.Log(jumpRelease);
@@ -172,6 +182,10 @@ public class playerController : MonoBehaviour
         else
         {
             gameObject.GetComponent<SpriteRenderer>().flipX = false;
+        }
+        if(rbs.velocity.y > 1f)
+        {
+            coyote = universalBufferTime;
         }
         animator.SetFloat("Speed", Mathf.Abs(rbs.velocity.x));
     }
