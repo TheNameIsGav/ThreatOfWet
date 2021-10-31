@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    // Game Manager? I hardly know her!
     public static GameManager instance;
 
+    // I don't know
     private int difficulty;
+    // I don't know
     private long score;
+    // I don't know where Imma gonna go when the volcano blows
     private int enemiesKilled;
 
     // Jack and Jill are talking with each other. Jack says "I met a man with a wooden leg named Smith." Jill asks "What's the name of his other leg?"

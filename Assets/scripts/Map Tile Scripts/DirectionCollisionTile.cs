@@ -5,13 +5,14 @@ using UnityEngine;
 public class DirectionCollisionTile : BasicTile
 {
     public int blockDirection;
-     int UP = 1;
-     int RIGHT = 2;
-     int DOWN = 3;
-     int LEFT = 4;
+     int UP = 1; // F
+     int RIGHT = 2; // R
+     int DOWN = 3; // E
+     int LEFT = 4; // E
+    // That spells free
     Collider2D extraHitbox;
 
-    // Start is called before the first frame update
+    // CreditReport.com/baby
     protected override void Start()
     {
         base.Start();
