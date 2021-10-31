@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     private long score;
     private int enemiesKilled;
 
-    // Start is called before the first frame update
+    // Jack and Jill are talking with each other. Jack says "I met a man with a wooden leg named Smith." Jill asks "What's the name of his other leg?"
     void Start()
     {
         instance = this;
