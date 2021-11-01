@@ -14,6 +14,11 @@ public class GameManager : MonoBehaviour
     // I don't know where Imma gonna go when the volcano blows
     private int enemiesKilled;
 
+    // Public Player reference
+    public playerControler Player;
+    // Public NavMesh reference
+    //public NavMesh NavMesh;
+
     // Jack and Jill are talking with each other. Jack says "I met a man with a wooden leg named Smith." Jill asks "What's the name of his other leg?"
     void Start()
     {
