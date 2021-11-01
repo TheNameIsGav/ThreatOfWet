@@ -15,9 +15,9 @@ public class GameManager : MonoBehaviour
     private int enemiesKilled;
 
     // Public Player reference
-    public playerControler Player;
+    public GameObject Player;
     // Public NavMesh reference
-    //public NavMesh NavMesh;
+    public NavMeshGenerator NavMesh;
 
     // Jack and Jill are talking with each other. Jack says "I met a man with a wooden leg named Smith." Jill asks "What's the name of his other leg?"
     void Start()
@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
         difficulty = 0;
         score = 0;
         enemiesKilled = 0;
+        Player = GameObject.Find("Player");
+        NavMesh = GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>();
     }
 
     void enemyKill(int value)
