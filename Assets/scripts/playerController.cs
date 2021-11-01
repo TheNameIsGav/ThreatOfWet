@@ -9,6 +9,7 @@ public class playerController : MonoBehaviour
     public float pVert;
     public float pHori;
     public float flatten = -4;
+    public float health = 100f;
     public  DashState dash = new DashState();
     public  IdleState idle = new IdleState();
     public MenuState menu = new MenuState();
@@ -211,17 +212,21 @@ public class playerController : MonoBehaviour
         {
             //rbs.velocity = new Vector2(rbs.velocity.x * 2, rbs.velocity.y * 2);
         }
-        if (pHori == 0 && Mathf.Abs(rbs.velocity.x) < 2f)
+        if (pHori == 0 && Mathf.Abs(rbs.velocity.x) < 2f && state != dash)
         {
             Debug.Log("tokeyo no drift");
             rbs.sharedMaterial = stop;
             //rbs.velocity = new Vector2(0f, rbs.velocity.y);
             //rbs.velocity = new Vector2(0f,0f);
         }
+        else
+        {
+            rbs.sharedMaterial = go;
+        }
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (pHori == 0 && Mathf.Abs(rbs.velocity.x) < 2f)
+        if (pHori == 0 && Mathf.Abs(rbs.velocity.x) < 2f && state != dash)
         {
             Debug.Log("tokeyo noerist drift");
             rbs.sharedMaterial = stop;
@@ -237,5 +242,10 @@ public class playerController : MonoBehaviour
     public void InCombat()
     {
         //yo we in hitting range
+    }
+    public void ChangeHealth(float change)
+    {
+        health += change;
+    
     }
 }
