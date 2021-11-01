@@ -187,6 +187,11 @@ public class playerController : MonoBehaviour
         {
             coyote = universalBufferTime;
         }
+        if(pHori == 0 && Mathf.Abs(rbs.velocity.x) < 2f)
+        {
+            //Debug.Log("tokeyo no drift");
+            //rbs.velocity = new Vector2(0f, rbs.velocity.y);
+        }
         animator.SetFloat("Speed", Mathf.Abs(rbs.velocity.x));
     }
 
@@ -202,7 +207,22 @@ public class playerController : MonoBehaviour
         //this makes dashing into a wall / ground feel better than it did before
         if (state ==  dash)
         {
-            rbs.velocity = new Vector2(rbs.velocity.x * 2, rbs.velocity.y * 2);
+            //rbs.velocity = new Vector2(rbs.velocity.x * 2, rbs.velocity.y * 2);
+        }
+        if (pHori == 0 && Mathf.Abs(rbs.velocity.x) < 2f)
+        {
+            Debug.Log("tokeyo no drift");
+            //rbs.velocity = new Vector2(0f, rbs.velocity.y);
+            //rbs.velocity = new Vector2(0f,0f);
+        }
+    }
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (pHori == 0 && Mathf.Abs(rbs.velocity.x) < 2f)
+        {
+            Debug.Log("tokeyo noerist drift");
+            //rbs.velocity = new Vector2(0f, rbs.velocity.y);
+            //rbs.velocity = new Vector2(0f,0f);
         }
     }
 
