@@ -149,8 +149,6 @@ MonoBehaviour:
   pVert: 0
   pHori: 0
   flatten: -4
-  go: {fileID: 6200000, guid: 0db643819d966b642810bfff27174013, type: 2}
-  stop: {fileID: 6200000, guid: 2313fc7735b0b274b9b0f6c294f5ec8b, type: 2}
   animator: {fileID: 163978799}
   weaponHitbox: {fileID: 667834763}
   grav: 3

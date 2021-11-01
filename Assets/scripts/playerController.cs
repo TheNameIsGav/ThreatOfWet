@@ -13,8 +13,6 @@ public class playerController : MonoBehaviour
     public  IdleState idle = new IdleState();
     public MenuState menu = new MenuState();
     public AttackState attack = new AttackState();
-    public PhysicsMaterial2D go;
-    public PhysicsMaterial2D stop;
     //public static AttackState attack;
     public static playerController instance;
     public Weapon rangedWeapon = new StarterSword();
@@ -214,7 +212,6 @@ public class playerController : MonoBehaviour
         if (pHori == 0 && Mathf.Abs(rbs.velocity.x) < 2f)
         {
             Debug.Log("tokeyo no drift");
-            rbs.sharedMaterial = stop;
             //rbs.velocity = new Vector2(0f, rbs.velocity.y);
             //rbs.velocity = new Vector2(0f,0f);
         }
@@ -224,13 +221,8 @@ public class playerController : MonoBehaviour
         if (pHori == 0 && Mathf.Abs(rbs.velocity.x) < 2f)
         {
             Debug.Log("tokeyo noerist drift");
-            rbs.sharedMaterial = stop;
             //rbs.velocity = new Vector2(0f, rbs.velocity.y);
             //rbs.velocity = new Vector2(0f,0f);
-        }
-        else
-        {
-            rbs.sharedMaterial = go;
         }
     }
 
