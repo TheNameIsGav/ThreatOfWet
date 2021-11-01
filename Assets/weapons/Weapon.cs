@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon
+public abstract class Weapon
 {
    
     //this gives the element of the weapon
@@ -32,11 +32,6 @@ public class Weapon
     public Sprite weaponSprite;
 
 
-    public Weapon() { }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
