@@ -7,6 +7,7 @@ public class NavMeshGenerator : MonoBehaviour
     List<GameObject> navPoints;
     GameObject player;
 
+    //Make it so that we build a matrix of all points and then run through and connect them to the closest points (And also the other point on their block)
     // Start is called before the first frame update
     void Start()
     {

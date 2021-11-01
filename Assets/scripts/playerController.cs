@@ -58,7 +58,7 @@ public class playerController : MonoBehaviour
             //shortHop = 1;
             if (idle == state)
             {
-                Debug.Log("WE ARE ONE I SEWEWEWE");
+                //Debug.Log("WE ARE ONE I SEWEWEWE");
                 shortHop = 1;
                 flatten = -4f;
                 
@@ -135,7 +135,7 @@ public class playerController : MonoBehaviour
         {
 
         }
-        //Debug.Log(state);
+        ////Debug.Log(state);
         state.Update();
     }
 
@@ -150,11 +150,11 @@ public class playerController : MonoBehaviour
         {
             coyote++;
         }
-        //Debug.Log(state.shortHop);
-        //Debug.Log(flatten);
-        //Debug.Log(jumpRelease);
+        ////Debug.Log(state.shortHop);
+        ////Debug.Log(flatten);
+        ////Debug.Log(jumpRelease);
         //the countdown timer for the jump buffer
-        Debug.Log(rbs.velocity);
+        //Debug.Log(rbs.velocity);
         if (jumpBuffer >= 0)
         {
             jumpBuffer--;
@@ -165,13 +165,13 @@ public class playerController : MonoBehaviour
             dashBuffer--;
         }
         //THE BIG CALL 
-        //Debug.Log("fixed call mother");
+        ////Debug.Log("fixed call mother");
         state.StateUpdate();
 
         //this is universal animation and no clip stuff
         if (Mathf.Abs(rbs.velocity.x) > absMax)
         {
-            Debug.Log("FUCK FUCK FUCK");
+            //Debug.Log("FUCK FUCK FUCK");
             rbs.velocity = new Vector2(absMax * Mathf.Sign(rbs.velocity.x), rbs.velocity.y);
         }
         if (Mathf.Abs(rbs.velocity.y) > 30f)
@@ -192,7 +192,7 @@ public class playerController : MonoBehaviour
         }
         if(pHori == 0 && Mathf.Abs(rbs.velocity.x) < 2f)
         {
-            //Debug.Log("tokeyo no drift");
+            ////Debug.Log("tokeyo no drift");
             //rbs.velocity = new Vector2(0f, rbs.velocity.y);
         }
         animator.SetFloat("Speed", Mathf.Abs(rbs.velocity.x));
@@ -214,7 +214,7 @@ public class playerController : MonoBehaviour
         }
         if (pHori == 0 && Mathf.Abs(rbs.velocity.x) < 2f && state != dash)
         {
-            Debug.Log("tokeyo no drift");
+            //Debug.Log("tokeyo no drift");
             rbs.sharedMaterial = stop;
             //rbs.velocity = new Vector2(0f, rbs.velocity.y);
             //rbs.velocity = new Vector2(0f,0f);
@@ -228,7 +228,7 @@ public class playerController : MonoBehaviour
     {
         if (pHori == 0 && Mathf.Abs(rbs.velocity.x) < 2f && state != dash)
         {
-            Debug.Log("tokeyo noerist drift");
+            //Debug.Log("tokeyo noerist drift");
             rbs.sharedMaterial = stop;
             //rbs.velocity = new Vector2(0f, rbs.velocity.y);
             //rbs.velocity = new Vector2(0f,0f);
@@ -246,6 +246,6 @@ public class playerController : MonoBehaviour
     public void ChangeHealth(float change)
     {
         health += change;
-    
+
     }
 }

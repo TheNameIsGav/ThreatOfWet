@@ -13,12 +13,11 @@ public class EnemyIdleState : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if(Vector2.Distance(animator.gameObject.transform.position, GameObject.Find("player").transform.position) <= animator.gameObject.GetComponent<EnemyDefault>().getAggroRange())
+        if(Vector2.Distance(animator.gameObject.transform.position, GameObject.Find("player").transform.position) <= animator.gameObject.GetComponent<EnemyDefault>().Range)
         {
             animator.SetBool("ShouldCombat", true);
-            Debug.Log("Transitioning to Combat State");
+            //Debug.Log("Transitioning to Combat State");
         }
-
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
