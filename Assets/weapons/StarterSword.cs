@@ -35,12 +35,12 @@ public class StarterSword : Weapon
         rhythm = false;
 
         lightStartup = 8;
-        lightActive = 60;
+        lightActive = 4;
         lightEndlag = 8;
 
-        heavyStartup = 30;
-        heavyActive = 60;
-        heavyEndlag = 30;
+        heavyStartup = 20;
+        heavyActive = 8;
+        heavyEndlag = 20;
     }
 
     // Update is called once per frame

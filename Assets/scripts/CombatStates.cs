@@ -11,8 +11,9 @@ public class AttackState : State
     private float startup;
     private float active;
     private float endlag;
-    private int phase = 0;
+    //public int phase = 0;
     private int count = 0;
+    private float holdSpeed;
     public AttackState()
     {
 
@@ -24,9 +25,13 @@ public class AttackState : State
         ranged = playerController.instance.rangedWeapon;
         phase = 0;
         count = 0;
-        playerController.instance.rbs.gravityScale = 0f;
-        playerController.instance.rbs.velocity = new Vector2(0f, 0f);
-        if(playerController.instance.attackVal == 1)
+        holdSpeed = playerController.instance.rbs.velocity.x;
+        //playerController.instance.rbs.gravityScale = 0f;
+        playerController.instance.rbs.gravityScale = playerController.instance.grav;
+        playerController.instance.rbs.sharedMaterial = playerController.instance.stop;
+        playerController.instance.transform.localScale = new Vector3(1f, 1f, 1f);
+        //playerController.instance.rbs.velocity = new Vector2(0f, 0f);
+        if (playerController.instance.attackVal == 1)
         {
             startup = melee.lightStartup;
             active = melee.lightActive;
@@ -61,6 +66,11 @@ public class AttackState : State
     public override void OnExit()
     {
         playerController.instance.rbs.gravityScale = playerController.instance.grav;
+        playerController.instance.rbs.sharedMaterial = playerController.instance.go;
+        playerController.instance.weaponHitbox.enabled = false;
+        playerController.instance.weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
+        playerController.instance.transform.localScale = new Vector3(1f, 1f, 1f);
+        
     }
     // Update is called once per frame
     public override void Update()
@@ -71,13 +81,14 @@ public class AttackState : State
     {
         if (phase == 0)
         {
-            if(count == startup)
+            playerController.instance.transform.localScale = new Vector3(.8f, 1.2f, 1f);
+            if (count == startup)
             {
                 phase++;
                 count = 0;
                 
                 playerController.instance.weaponHitbox.enabled = true;
-                playerController.instance.weaponHitbox.transform.localScale = new Vector2(activeWeapon.hitboxWidth * Mathf.Sign(playerController.instance.rbs.velocity.x), activeWeapon.hitboxHeight);
+                playerController.instance.weaponHitbox.transform.localScale = new Vector2(activeWeapon.hitboxWidth * Mathf.Sign(playerController.instance.dir), activeWeapon.hitboxHeight);
             }
             else
             {
@@ -87,6 +98,7 @@ public class AttackState : State
         }
         else if(phase == 1)
         {
+            playerController.instance.transform.localScale = new Vector3(1f, 1f, 1f);
             if (count == active)
             {
                 phase++;
@@ -103,11 +115,16 @@ public class AttackState : State
         }
         else if(phase == 2)
         {
+            playerController.instance.transform.localScale = new Vector3(1.2f, 0.8f,1f);
             if (count == endlag)
             {
                 phase = 0;
                 count = 0;
                 Debug.Log("left by normal means");
+                if (playerController.instance.pHori != 0)
+                {
+                    playerController.instance.rbs.velocity = new Vector2(holdSpeed, playerController.instance.rbs.velocity.y);
+                }
                 playerController.instance.ChangeState(playerController.instance.idle);
             }
             else

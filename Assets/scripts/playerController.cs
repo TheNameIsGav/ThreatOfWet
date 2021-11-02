@@ -35,6 +35,7 @@ public class playerController : MonoBehaviour
     public bool jump = false;
     public int shortHop = 0;
     public int attackVal = 0;
+    public int dir = 1;
     //Debug.Log(meleeWeapon.lightActive);
        // meleeWeapon.lightActive;
        
@@ -43,6 +44,7 @@ public class playerController : MonoBehaviour
         instance = this;
         Debug.Log(meleeWeapon.lightActive);
         state = idle;
+        weaponHitbox.enabled = false;
         pHori = 0;
         pVert = 0;
     }
@@ -114,6 +116,7 @@ public class playerController : MonoBehaviour
             dashBuffer = universalBufferTime;
         }
         //how to get a light melee input
+        if(state != attack || state.phase == 2)
         if (Input.GetButtonDown("Light Melee"))
         {
             attackVal = 1;
@@ -122,7 +125,7 @@ public class playerController : MonoBehaviour
             //weaponHitbox.transform.localScale = new Vector2(meleeWeapon.hitboxWidth * Mathf.Sign(rbs.velocity.x), meleeWeapon.hitboxHeight);
         }
         // how to get a heavy melee input
-        if (Input.GetButtonDown("Heavy Melee"))
+        else if (Input.GetButtonDown("Heavy Melee"))
         {
             attackVal = 2;
             ChangeState(attack);
@@ -130,13 +133,13 @@ public class playerController : MonoBehaviour
             //weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
         }
         //how to get a light ranged input
-        if (Input.GetButtonDown("Light Range"))
+        else if (Input.GetButtonDown("Light Range"))
         {
             attackVal = 3;
             ChangeState(attack);
         }
         //how to get a heavy ranged input
-        if (Input.GetButtonDown("Heavy Range"))
+        else if (Input.GetButtonDown("Heavy Range"))
         {
             attackVal = 4;
             ChangeState(attack);
@@ -189,7 +192,18 @@ public class playerController : MonoBehaviour
         {
             rbs.velocity = new Vector2(rbs.velocity.x,30f * Mathf.Sign(rbs.velocity.y));
         }
-        if (rbs.velocity.x < 0)
+        if(pHori != 0)
+        {
+            if(pHori == 1)
+            {
+                dir = 1;
+            }
+            else
+            {
+                dir = -1;
+            }
+        }
+        if (dir == -1)
         {
             gameObject.GetComponent<SpriteRenderer>().flipX = true;
         }
@@ -232,7 +246,7 @@ public class playerController : MonoBehaviour
         }
         else
         {
-            rbs.sharedMaterial = go;
+            //rbs.sharedMaterial = go;
         }
     }
     private void OnCollisionStay2D(Collision2D collision)
@@ -246,7 +260,7 @@ public class playerController : MonoBehaviour
         }
         else
         {
-            rbs.sharedMaterial = go;
+            //rbs.sharedMaterial = go;
         }
     }
 

@@ -227,6 +227,8 @@ MonoBehaviour:
   jumpRelease: 0
   jump: 0
   shortHop: 0
+  attackVal: 0
+  dir: 1
 --- !u!50 &163978801 stripped
 Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 2845900223041345608, guid: 86ae3d2bbdddc5a4c9b298e87438b9c0, type: 3}
@@ -538,7 +540,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.19215688, g: 0.44480458, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
