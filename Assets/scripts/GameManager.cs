@@ -13,6 +13,12 @@ public class GameManager : MonoBehaviour
     private long score;
     // I don't know where Imma gonna go when the volcano blows
     private int enemiesKilled;
+    /* 
+     * Something made to track the combos the player performs,
+     * I'm thinking that when a combo of magnitude/type X is performed successfully, it's added to 
+     * the Xth position in the array. Easy way to track it
+    */
+    private int[] combos;
 
     // Public Player reference
     public GameObject Player;
@@ -28,6 +34,12 @@ public class GameManager : MonoBehaviour
         enemiesKilled = 0;
         Player = GameObject.Find("Player");
         NavMesh = GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>();
+        combos = new int[5+1];
+    }
+
+    void successfulCombo(int mag)
+    {
+        combos[mag]++;
     }
 
     void enemyKill(int value)
