@@ -113,7 +113,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 2}
   m_EdgeRadius: 0
 --- !u!50 &2845900223041345608
 Rigidbody2D:
@@ -131,7 +131,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 3
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 0db643819d966b642810bfff27174013, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -184,6 +184,8 @@ MonoBehaviour:
   jumpRelease: 0
   jump: 0
   shortHop: 0
+  attackVal: 0
+  dir: 1
 --- !u!1 &2845900222651375959
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,6 +320,7 @@ GameObject:
   - component: {fileID: 2059285083638828774}
   - component: {fileID: 569787578420807823}
   - component: {fileID: 1905324937478509574}
+  - component: {fileID: 8543459388972856440}
   m_Layer: 0
   m_Name: weaponHitbox
   m_TagString: Untagged
@@ -417,3 +420,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &8543459388972856440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3672981038067599317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54780ae78d660c94a93f719c4f0f850f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

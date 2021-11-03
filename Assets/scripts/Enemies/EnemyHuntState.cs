@@ -20,6 +20,11 @@ public class EnemyHuntState : StateMachineBehaviour
             animator.SetBool("ShouldCombat", true);
             //Debug.Log("Transitioning to Combat State");
         }
+
+        if (animator.gameObject.GetComponent<EnemyDefault>().Die)
+        {
+            animator.SetBool("ShouldDie", true);
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

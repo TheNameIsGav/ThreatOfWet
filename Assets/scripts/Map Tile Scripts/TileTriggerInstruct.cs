@@ -28,7 +28,7 @@ public class TileTriggerInstruct : MonoBehaviour
         else
             if (collision.gameObject.GetComponent<BasicTile>() == null)
             return;
-        collision.gameObject.GetComponent<BasicTile>().updateBehavior(collision, false);
+        collision.gameObject.GetComponent<BasicTile>().updateBehavior(collision, GetComponent<Collider2D>(), false);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -38,6 +38,6 @@ public class TileTriggerInstruct : MonoBehaviour
         else
             if (collision.gameObject.GetComponent<BasicTile>() == null)
             return;
-        collision.gameObject.GetComponent<BasicTile>().updateBehavior(collision, true);
+        collision.gameObject.GetComponent<BasicTile>().updateBehavior(collision, GetComponent<Collider2D>(), true);
     }
 }

@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class EnemyDefault : MonoBehaviour
 {
-    float health;
+    float health = 100;
     public float Health { get { return health; } set { health = value; } }
+
+    bool shouldDie = false;
+    public bool Die { get { return shouldDie; } set { shouldDie = value; } }
 
     int scale;
 
@@ -39,5 +42,21 @@ public class EnemyDefault : MonoBehaviour
         //TODO Get player and scaled damage component from Game Manager
         GameObject.Find("player").GetComponent<playerController>().ChangeHealth(-baseDamage);
         transform.GetChild(1).GetComponent<ParticleSystem>().Play();
+    }
+
+    /// <summary>
+    /// Takes in a positive float and subtracts that value from the enemies health
+    /// </summary>
+    /// <param name="inc"></param>
+    public void TakeDamage(float inc)
+    {
+        health -= inc;
+        Debug.Log("Took damage from somewhere, now at " + health + " hp");
+        transform.GetChild(2).GetComponent<ParticleSystem>().Play();
+
+        if(health <= 0)
+        {
+            shouldDie = true;
+        }
     }
 }

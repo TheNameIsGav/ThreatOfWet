@@ -19,10 +19,13 @@ public class EnemyCombatState : StateMachineBehaviour
         if (Vector2.Distance(animator.gameObject.transform.position, GameObject.Find("player").transform.position) > animator.gameObject.GetComponent<EnemyDefault>().Range)
         {
             animator.SetBool("ShouldHunt", true);
-            Debug.Log("Transitioning to Hunt State");
+            //Debug.Log("Transitioning to Hunt State");
         }
 
-        
+        if (animator.gameObject.GetComponent<EnemyDefault>().Die)
+        {
+            animator.SetBool("ShouldDie", true);
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

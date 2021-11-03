@@ -6,7 +6,7 @@ public class LockedDoorTile : BasicTile
 {
     bool locked;
     BoxCollider2D triggerCollider;
-    // Start is called before the first frame update
+    // Start is called before the first frame update but after I want to cry
     protected override void Start()
     {
         base.Start();
@@ -28,5 +28,5 @@ public class LockedDoorTile : BasicTile
             gameObject.GetComponent<SpriteRenderer>().color = new Color(219f, 172f, 148f);
         }
     }
-    // 161, 93, 59
+    // 161, 93, 59 is the rgb 
 }

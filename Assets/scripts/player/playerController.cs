@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class playerController : MonoBehaviour
 {
@@ -34,10 +35,17 @@ public class playerController : MonoBehaviour
     public bool jumpRelease = false;
     public bool jump = false;
     public int shortHop = 0;
+    public int attackVal = 0;
+    public int dir = 1;
+    //Debug.Log(meleeWeapon.lightActive);
+       // meleeWeapon.lightActive;
+       
     void Start()
     {
         instance = this;
+        Debug.Log(meleeWeapon.lightActive);
         state = idle;
+        weaponHitbox.enabled = false;
         pHori = 0;
         pVert = 0;
     }
@@ -109,33 +117,40 @@ public class playerController : MonoBehaviour
             dashBuffer = universalBufferTime;
         }
         //how to get a light melee input
+        if(state != attack || state.phase == 2)
         if (Input.GetButtonDown("Light Melee"))
         {
-            weaponHitbox.enabled = true;
-            weaponHitbox.transform.localScale = new Vector2(meleeWeapon.hitboxWidth * Mathf.Sign(rbs.velocity.x), meleeWeapon.hitboxHeight);
+            attackVal = 1;
+            ChangeState(attack);
+            //weaponHitbox.enabled = true;
+            //weaponHitbox.transform.localScale = new Vector2(meleeWeapon.hitboxWidth * Mathf.Sign(rbs.velocity.x), meleeWeapon.hitboxHeight);
         }
         // how to get a heavy melee input
-        if (Input.GetButtonDown("Heavy Melee"))
+        else if (Input.GetButtonDown("Heavy Melee"))
         {
-            weaponHitbox.enabled = false;
-            weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
+            attackVal = 2;
+            ChangeState(attack);
+            //weaponHitbox.enabled = false;
+            //weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
         }
         //how to get a light ranged input
-        if (Input.GetButtonDown("Light Range"))
+        else if (Input.GetButtonDown("Light Range"))
         {
-
+            attackVal = 3;
+            ChangeState(attack);
         }
         //how to get a heavy ranged input
-        if (Input.GetButtonDown("Heavy Range"))
+        else if (Input.GetButtonDown("Heavy Range"))
         {
-
+            attackVal = 4;
+            ChangeState(attack);
         }
         // this is also the button to pick up
         if (Input.GetButtonDown("Interact"))
         {
 
         }
-        ////Debug.Log(state);
+        //Debug.Log(state);
         state.Update();
     }
 
@@ -150,9 +165,9 @@ public class playerController : MonoBehaviour
         {
             coyote++;
         }
-        ////Debug.Log(state.shortHop);
-        ////Debug.Log(flatten);
-        ////Debug.Log(jumpRelease);
+        //Debug.Log(state.shortHop);
+        //Debug.Log(flatten);
+        //Debug.Log(jumpRelease);
         //the countdown timer for the jump buffer
         //Debug.Log(rbs.velocity);
         if (jumpBuffer >= 0)
@@ -165,7 +180,7 @@ public class playerController : MonoBehaviour
             dashBuffer--;
         }
         //THE BIG CALL 
-        ////Debug.Log("fixed call mother");
+        //Debug.Log("fixed call mother");
         state.StateUpdate();
 
         //this is universal animation and no clip stuff
@@ -178,7 +193,18 @@ public class playerController : MonoBehaviour
         {
             rbs.velocity = new Vector2(rbs.velocity.x,30f * Mathf.Sign(rbs.velocity.y));
         }
-        if (rbs.velocity.x < 0)
+        if(pHori != 0)
+        {
+            if(pHori == 1)
+            {
+                dir = 1;
+            }
+            else
+            {
+                dir = -1;
+            }
+        }
+        if (dir == -1)
         {
             gameObject.GetComponent<SpriteRenderer>().flipX = true;
         }
@@ -192,10 +218,14 @@ public class playerController : MonoBehaviour
         }
         if(pHori == 0 && Mathf.Abs(rbs.velocity.x) < 2f)
         {
-            ////Debug.Log("tokeyo no drift");
+            //Debug.Log("tokeyo no drift");
             //rbs.velocity = new Vector2(0f, rbs.velocity.y);
         }
         animator.SetFloat("Speed", Mathf.Abs(rbs.velocity.x));
+        if(health < 0)
+        {
+            SceneManager.LoadScene("Wright-MainMenuButtons");
+        }
     }
 
     public void ChangeState(State newState)
@@ -215,13 +245,13 @@ public class playerController : MonoBehaviour
         if (pHori == 0 && Mathf.Abs(rbs.velocity.x) < 2f && state != dash)
         {
             //Debug.Log("tokeyo no drift");
-            rbs.sharedMaterial = stop;
+            //rbs.sharedMaterial = stop;
             //rbs.velocity = new Vector2(0f, rbs.velocity.y);
             //rbs.velocity = new Vector2(0f,0f);
         }
         else
         {
-            rbs.sharedMaterial = go;
+            //rbs.sharedMaterial = go;
         }
     }
     private void OnCollisionStay2D(Collision2D collision)
@@ -229,13 +259,13 @@ public class playerController : MonoBehaviour
         if (pHori == 0 && Mathf.Abs(rbs.velocity.x) < 2f && state != dash)
         {
             //Debug.Log("tokeyo noerist drift");
-            rbs.sharedMaterial = stop;
+            //rbs.sharedMaterial = stop;
             //rbs.velocity = new Vector2(0f, rbs.velocity.y);
             //rbs.velocity = new Vector2(0f,0f);
         }
         else
         {
-            rbs.sharedMaterial = go;
+            //rbs.sharedMaterial = go;
         }
     }
 
@@ -246,6 +276,5 @@ public class playerController : MonoBehaviour
     public void ChangeHealth(float change)
     {
         health += change;
-
     }
 }
