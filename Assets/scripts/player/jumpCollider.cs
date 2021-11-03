@@ -51,6 +51,7 @@ public class jumpCollider : MonoBehaviour
         //playerController.instance.state.shortHop = 0;
         if (playerController.instance.state != playerController.instance.dash && playerController.instance.rbs.velocity.y < 1f)
         {
+            
             playerController.instance.canDash = true;
            
         }

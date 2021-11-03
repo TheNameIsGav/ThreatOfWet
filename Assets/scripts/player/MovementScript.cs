@@ -29,6 +29,7 @@ public class IdleState : State
     {
         playerController.instance.rbs.gravityScale = playerController.instance.grav;
         eatShit = 2;
+        jumpSquatVal = 3f;
     }
     public override void OnExit()
     {
@@ -67,12 +68,14 @@ public class IdleState : State
             //this is for the squash and stretch just for game feel
             if (jumpSquat > 0f)
             {
+                Debug.Log("squat");
                 jumpSquat--;
             }
             else
             {
                 //this sets the actual jump
                 jumpSquat = 0f;
+                Debug.Log("up");
                 playerController.instance.rbs.velocity = new Vector2(playerController.instance.rbs.velocity.x, Mathf.Max(playerController.instance.rbs.velocity.y, 0f) + jumpHeight);
                 playerController.instance.jump = false;
                 //jumpBuffer = -1;
@@ -212,10 +215,11 @@ public class DashState : State
         //Debug.Log("no fucking way");
         playerController.instance.rbs.velocity = new Vector2(0f, 0f);
         playerController.instance.transform.localScale = new Vector3(1f, 0.5f, 1f);
+        playerController.instance.coyote = playerController.instance.universalBufferTime;
     }
     public override void OnExit()
     {
-
+        //playerController.instance.canDash = false;
     }
     // Update is called once per frame
     public override void Update()
@@ -272,18 +276,19 @@ public class DashState : State
                 //playerController.instance.state.JumpTrigger();
                 playerController.instance.flatten = -4f;
                 playerController.instance.shortHop = 1;
+                playerController.instance.canDash = true;
             }
             else
             {
                 playerController.instance.flatten = -5f;
                 //Debug.Log("hell cite hell cite");
-
+                playerController.instance.canDash = false;
                 //playerController.instance.state.JumpTrigger(-5);
                 playerController.instance.shortHop = 0;
                 
             }
             playerController.instance.rbs.velocity = new Vector2(playerController.instance.rbs.velocity.x + Mathf.Sign(dashx)*Mathf.Max(Mathf.Abs(dashx) - speedCap,0f), playerController.instance.rbs.velocity.y);
-            playerController.instance.shortHop = 1;
+            //playerController.instance.shortHop = 1;
             //playerController.instance.flatten = -4f;
             playerController.instance.ChangeState(playerController.instance.idle);
             //Debug.Log("do I exist");
@@ -351,6 +356,7 @@ public class DashState : State
         {
             Debug.Log(playerController.instance.rbs.velocity.x.ToString() + "  " + playerController.instance.rbs.velocity.y.ToString() + "  " + dashTimer.ToString());
             playerController.instance.rbs.gravityScale = playerController.instance.grav;
+            playerController.instance.canDash = false;
             playerController.instance.ChangeState(playerController.instance.idle);
             dashTimer = -1;
             playerController.instance.transform.localScale = new Vector3(0.9f, 1.1f, 1f);

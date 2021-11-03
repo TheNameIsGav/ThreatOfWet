@@ -20,7 +20,7 @@ public class AttackState : State
     }
     public override void OnEnter()
     {
-        Debug.Log("we got here");
+        //Debug.Log("we got here");
         melee = playerController.instance.meleeWeapon;
         ranged = playerController.instance.rangedWeapon;
         phase = 0;
@@ -92,7 +92,7 @@ public class AttackState : State
             }
             else
             {
-                Debug.Log("coudnd");
+                //Debug.Log("coudnd");
                 count++;
             }
         }
@@ -109,7 +109,7 @@ public class AttackState : State
             }
             else
             {
-                Debug.Log("coudnd");
+                //Debug.Log("coudnd");
                 count++;
             }
         }
@@ -120,7 +120,7 @@ public class AttackState : State
             {
                 phase = 0;
                 count = 0;
-                Debug.Log("left by normal means");
+                //Debug.Log("left by normal means");
                 if (playerController.instance.pHori != 0)
                 {
                     playerController.instance.rbs.velocity = new Vector2(holdSpeed, playerController.instance.rbs.velocity.y);
@@ -129,7 +129,7 @@ public class AttackState : State
             }
             else
             {
-                Debug.Log("coudnd");
+                //Debug.Log("coudnd");
                 count++;
             }
         }

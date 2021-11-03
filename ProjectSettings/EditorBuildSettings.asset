@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/movementScene.unity
     guid: 66a4128ce07ee9b45a702168b142a3f9
+  - enabled: 1
+    path: Assets/Scenes/Wright-MainMenuButtons.unity
+    guid: 58c74fc914dbd304a9e9f851ed86f3c2
   m_configObjects: {}

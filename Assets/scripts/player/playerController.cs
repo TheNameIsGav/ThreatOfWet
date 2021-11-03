@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class playerController : MonoBehaviour
 {
@@ -221,6 +222,11 @@ public class playerController : MonoBehaviour
             //rbs.velocity = new Vector2(0f, rbs.velocity.y);
         }
         animator.SetFloat("Speed", Mathf.Abs(rbs.velocity.x));
+        if(health < 0)
+        {
+            SceneManager.LoadScene("Wright-MainMenuButtons");
+        }
+        Debug.Log(rbs.velocity);
     }
 
     public void ChangeState(State newState)
