@@ -15,8 +15,12 @@ public class enemyContact : MonoBehaviour
     {
         
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        collision.gameObject.GetComponent<EnemyDefault>().TakeDamage(4f);
+        if (collision.gameObject.CompareTag("Hostile"))
+        {
+            collision.gameObject.GetComponent<EnemyDefault>().TakeDamage(4f);
+        }
     }
 }

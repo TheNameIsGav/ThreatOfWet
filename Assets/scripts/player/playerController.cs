@@ -226,7 +226,6 @@ public class playerController : MonoBehaviour
         {
             SceneManager.LoadScene("Wright-MainMenuButtons");
         }
-        Debug.Log(rbs.velocity);
     }
 
     public void ChangeState(State newState)
@@ -277,6 +276,5 @@ public class playerController : MonoBehaviour
     public void ChangeHealth(float change)
     {
         health += change;
-    
     }
 }

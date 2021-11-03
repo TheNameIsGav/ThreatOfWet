@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class EnemyDefault : MonoBehaviour
 {
-    float health;
+    float health = 100;
     public float Health { get { return health; } set { health = value; } }
+
+    bool shouldDie = false;
+    public bool Die { get { return shouldDie; } set { shouldDie = value; } }
 
     int scale;
 
@@ -48,5 +51,12 @@ public class EnemyDefault : MonoBehaviour
     public void TakeDamage(float inc)
     {
         health -= inc;
+        Debug.Log("Took damage from somewhere, now at " + health + " hp");
+        transform.GetChild(2).GetComponent<ParticleSystem>().Play();
+
+        if(health <= 0)
+        {
+            shouldDie = true;
+        }
     }
 }

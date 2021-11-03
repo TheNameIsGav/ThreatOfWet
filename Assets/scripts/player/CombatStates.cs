@@ -59,9 +59,9 @@ public class AttackState : State
             endlag = ranged.heavyEndlag;
             activeWeapon = ranged;
         }
-        Debug.Log(startup);
-        Debug.Log(active);
-        Debug.Log(endlag);
+        //Debug.Log(startup);
+        //Debug.Log(active);
+        //Debug.Log(endlag);
     }
     public override void OnExit()
     {
