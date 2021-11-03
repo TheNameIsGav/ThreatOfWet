@@ -40,4 +40,13 @@ public class EnemyDefault : MonoBehaviour
         GameObject.Find("player").GetComponent<playerController>().ChangeHealth(-baseDamage);
         transform.GetChild(1).GetComponent<ParticleSystem>().Play();
     }
+
+    /// <summary>
+    /// Takes in a positive float and subtracts that value from the enemies health
+    /// </summary>
+    /// <param name="inc"></param>
+    public void TakeDamage(float inc)
+    {
+        health -= inc;
+    }
 }
