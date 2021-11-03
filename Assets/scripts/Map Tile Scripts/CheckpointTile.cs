@@ -11,7 +11,7 @@ public class CheckpointTile : BasicTile
     {
         base.Start();
         hitbox.isTrigger = true;
-        player = GameObject.Find("Player");
+        player = GameObject.Find("player");
     }
 
     public Vector2 getSpawn()
@@ -21,7 +21,7 @@ public class CheckpointTile : BasicTile
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.name.Equals("Player"))
+        if (collision.gameObject.name.Equals("player"))
         {
             if (player.GetComponent<MasonPlayerChanges>().spawnProgressed(progression)) 
             { 

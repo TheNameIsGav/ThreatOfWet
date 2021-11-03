@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
         difficulty = 0;
         score = 0;
         enemiesKilled = 0;
-        Player = GameObject.Find("Player");
+        Player = GameObject.Find("player");
         NavMesh = GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>();
         combos = new int[5+1];
         DontDestroyOnLoad(this);
