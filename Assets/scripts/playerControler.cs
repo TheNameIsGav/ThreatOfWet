@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class playerControler : MonoBehaviour
 {
+    public Animator animator;
+    public SpriteRenderer weaponHitbox;
+    public Weapon rangedWeapon = new StarterSword();
+    public Weapon meleeWeapon = new StarterSword();
     //these are the base jump variables
     public bool grounded = false;
     public float jumpHeight = 13f;
@@ -59,6 +63,9 @@ public class playerControler : MonoBehaviour
     void Start()
     {
         instance = this;
+        weaponHitbox.enabled = false;
+        //animator.SetActive(true);
+        
         hori = 0f;
         vert = 0f;
     }
@@ -67,6 +74,8 @@ public class playerControler : MonoBehaviour
     void Update()
     {
         //gets the inputs
+        //pHori = Input.GetAxis("Horizontal");
+        //pVert = Input.GetAxis("Vertical");
         hori = Input.GetAxis("Horizontal");
         vert = Input.GetAxis("Vertical");
         //this initiates the jump
@@ -77,7 +86,7 @@ public class playerControler : MonoBehaviour
             jumpBuffer = -1;
             shortHop = 1;
             flatten = -4f;
-            transform.localScale = (new Vector3(1.4f, 1.8f, 1f));
+            transform.localScale = (new Vector3(1.4f, 0.8f, 1f));
             jumpRelease = false;
         }
         else if (Input.GetButtonDown("Jump"))
@@ -110,7 +119,7 @@ public class playerControler : MonoBehaviour
             canDash = false;
             rb.velocity = new Vector2(0f, 0f);
             dashBuffer = 4;
-            transform.localScale = new Vector3(1f, 1f, 1f);
+            transform.localScale = new Vector3(1f, 0.5f, 1f);
         }
         else if (Input.GetButtonDown("Dash"))
         {
@@ -119,12 +128,14 @@ public class playerControler : MonoBehaviour
         //how to get a light melee input
         if (Input.GetButtonDown("Light Melee"))
         {
-
+            weaponHitbox.enabled = true;
+            weaponHitbox.transform.localScale = new Vector2(meleeWeapon.hitboxWidth * Mathf.Sign(rb.velocity.x), meleeWeapon.hitboxHeight);
         }
         // how to get a heavy melee input
         if (Input.GetButtonDown("Heavy Melee"))
         {
-
+            weaponHitbox.enabled = false;
+            weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
         }
         //how to get a light ranged input
         if (Input.GetButtonDown("Light Range"))
@@ -205,7 +216,7 @@ public class playerControler : MonoBehaviour
                 dashTimer = -1;
                 flatten = -5f;
                 shortHop = 0;
-                transform.localScale = new Vector3(0.9f, 2.1f, 1f);
+                transform.localScale = new Vector3(0.9f, 1.1f, 1f);
                 //this is for if the player is wavedashing rather than superjumping, also sorry not sorry
                 if(rb.velocity.y <= 0)
                 {
@@ -229,14 +240,14 @@ public class playerControler : MonoBehaviour
                 rb.velocity = new Vector2(rb.velocity.x,Mathf.Max(rb.velocity.y,0f) + jumpHeight);
                 jump = false;
                 jumpBuffer = -1;
-                transform.localScale = (new Vector3(.9f, 2.1f, 1f));
+                transform.localScale = (new Vector3(.9f, 1.1f, 1f));
             }
 
         }
         //this is essentially part 2 of the grounded check
         else if (grounded && rb.velocity.y < 1f && state != States.dash)
         {
-            transform.localScale = (new Vector3(1f, 2f, 1f));
+            transform.localScale = (new Vector3(1f, 1f, 1f));
             canDash = true;
             shortHop = 0;
         }
@@ -306,7 +317,7 @@ public class playerControler : MonoBehaviour
                 dashing = false;
                 state = States.idle;
                 dashTimer = -1;
-                transform.localScale = new Vector3(0.9f, 2.1f, 1f);
+                transform.localScale = new Vector3(0.9f, 1.1f, 1f);
                 if (hori == 0)
                 {
                     //stops momentum if no direction
@@ -398,6 +409,15 @@ public class playerControler : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, dashDist * Mathf.Sign(rb.velocity.y));
         }
+        if(rb.velocity.x < 0)
+        {
+            gameObject.GetComponent<SpriteRenderer>().flipX = true;
+        }
+        else
+        {
+            gameObject.GetComponent<SpriteRenderer>().flipX = false;
+        }
+        animator.SetFloat("Speed", Mathf.Abs(rb.velocity.x));
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -407,4 +427,6 @@ public class playerControler : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x * 2, rb.velocity.y * 2);
         }
     }
+
+ 
 }

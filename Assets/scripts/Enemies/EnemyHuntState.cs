@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemyHuntState : StateMachineBehaviour
 {
-
     bool doOnce = true;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -16,10 +15,10 @@ public class EnemyHuntState : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (Vector2.Distance(animator.gameObject.transform.position, GameObject.Find("player").transform.position) <= animator.gameObject.GetComponent<EnemyDefault>().getAggroRange())
+        if (Vector2.Distance(animator.gameObject.transform.position, GameObject.Find("player").transform.position) <= animator.gameObject.GetComponent<EnemyDefault>().Range)
         {
             animator.SetBool("ShouldCombat", true);
-            Debug.Log("Transitioning to Combat State");
+            //Debug.Log("Transitioning to Combat State");
         }
     }
 
@@ -32,7 +31,8 @@ public class EnemyHuntState : StateMachineBehaviour
     // OnStateMove is called right after Animator.OnAnimatorMove()
     override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        (Vector2 move, bool jump) = GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>().FindNextPointAlongPath(animator.gameObject.transform.position, 20f);
+        //TODO Change Navmesh accessors to be the game manager reference
+        (Vector2 move, bool jump) = GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>().FindNextPointAlongPath(animator.gameObject.transform.position, animator.gameObject.GetComponent<EnemyDefault>().PathR);
         if (jump)
         {
             //Debug.Log("Jumping to " + move);

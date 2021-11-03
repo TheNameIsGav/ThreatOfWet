@@ -15,7 +15,7 @@ public class BasicTile : MonoBehaviour
             hitbox = this.gameObject.AddComponent<BoxCollider2D>();
     }
 
-    public virtual void updateBehavior(Collider2D col, bool exitingCollider)
+    public virtual void updateBehavior(Collider2D col, Collider2D other, bool exitingCollider)
     {
         if (exitingCollider)
             updateExitBehavior(col);
