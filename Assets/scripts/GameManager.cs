@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
         Player = GameObject.Find("Player");
         NavMesh = GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>();
         combos = new int[5+1];
+        DontDestroyOnLoad(this);
     }
 
     void successfulCombo(int mag)
