@@ -13,10 +13,10 @@ public class MasonPlayerChanges : MonoBehaviour
         Debug.Log("New Spawn: "+currSpawn);
     }
 
-    bool isDead()
+   /* bool isDead()
     {
-        return transform.position.y < -10;
-    }
+        //return transform.position.y < -10;
+    }*/
 
     public bool spawnProgressed(int progression)
     {
@@ -25,12 +25,12 @@ public class MasonPlayerChanges : MonoBehaviour
 
     void Update()
     {
-        if (isDead()) // RESPAWN
+        /*if (isDead()) // RESPAWN
         {
             transform.position 
                 = currSpawn.getSpawn();
             gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
-        }
+        }*/
     }
 
     public void gainLoot(System.Object loot)
