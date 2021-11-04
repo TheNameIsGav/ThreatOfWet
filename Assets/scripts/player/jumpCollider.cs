@@ -22,12 +22,15 @@ public class jumpCollider : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        playerController.instance.grounded = true;
-        playerController.instance.coyote = playerController.instance.universalBufferTime + 1;
-        //playerController.instance.state.shortHop = 0;
-        if (playerController.instance.state != playerController.instance.dash && playerController.instance.rbs.velocity.y < 1f)
+        if ((collision.gameObject.transform.position.y - (collision.gameObject.transform.localScale.y / 2)) < (playerController.instance.transform.position.y + (playerController.instance.transform.localScale.y / 2)))
         {
-            playerController.instance.canDash = true;
+            playerController.instance.grounded = true;
+            playerController.instance.coyote = playerController.instance.universalBufferTime + 1;
+            //playerController.instance.state.shortHop = 0;
+            if (playerController.instance.state != playerController.instance.dash && playerController.instance.rbs.velocity.y < 1f)
+            {
+                playerController.instance.canDash = true;
+            }
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -41,19 +44,19 @@ public class jumpCollider : MonoBehaviour
         {
             playerController.instance.coyote = playerController.instance.universalBufferTime;
         }
-       
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        if((collision.gameObject.transform.position.y - (collision.gameObject.transform.localScale.y / 2)) < (playerController.instance.transform.position.y + (playerController.instance.transform.localScale.y / 2)))
+        {
         playerController.instance.grounded = true;
         playerController.instance.coyote = playerController.instance.universalBufferTime + 1;
         //playerController.instance.state.shortHop = 0;
         if (playerController.instance.state != playerController.instance.dash && playerController.instance.rbs.velocity.y < 1f)
         {
-            
-            playerController.instance.canDash = true;
-           
+            playerController.instance.canDash = true;    
         }
     }
+}
 }
