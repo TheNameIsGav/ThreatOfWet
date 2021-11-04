@@ -224,7 +224,7 @@ public class playerController : MonoBehaviour
         animator.SetFloat("Speed", Mathf.Abs(rbs.velocity.x));
         if(health < 0)
         {
-            SceneManager.LoadScene("Wright-MainMenuButtons");
+            SceneManager.LoadScene("MainMenu");
         }
     }
 

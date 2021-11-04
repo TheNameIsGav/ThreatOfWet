@@ -5,13 +5,16 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/movementScene.unity
     guid: 66a4128ce07ee9b45a702168b142a3f9
   - enabled: 1
-    path: Assets/Scenes/Wright-MainMenuButtons.unity
+    path: Assets/Scenes/MainMenu.unity
     guid: 58c74fc914dbd304a9e9f851ed86f3c2
+  - enabled: 1
+    path: Assets/Scenes/TestLevel.unity
+    guid: 65eab1e9fbc82874f99b2a5d6689a30b
   m_configObjects: {}

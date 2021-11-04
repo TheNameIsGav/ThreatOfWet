@@ -7,6 +7,6 @@ public class MainMenuButtonController : MonoBehaviour
 {
     public void PlayGame()
     {
-        SceneManager.LoadScene("movementScene");
+        SceneManager.LoadScene("TestLevel");
     }
 }
