@@ -10,7 +10,8 @@ public abstract class State
     public float hori;
     public float vert;
     public bool jump = false;
-    
+    public int phase = 0;
+    //public Rigidbody2D rb = playerController.instance.GetComponent<Rigidbody2D>();
     public int eatShit = 4;
     //rb = playerController.instance.rb;
     // Start is called before the first frame update

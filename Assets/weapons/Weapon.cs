@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon
+public abstract class Weapon
 {
    
     //this gives the element of the weapon
     enum Elements { Default, Fire, Eletric, Water, Earth}
     Elements element = Elements.Default;
-    //these are in unity units, if the weapon is ranged then the height is the range of the weapon, and the width is how wide the beam is 
+    //these are in unity units, if the weapon is ranged then the width is the range of the weapon, and the height is how wide the beam is 
     public float hitboxWidth = 2f;
     public float hitboxHeight = 2f;
     //these are self explanitory
@@ -32,11 +32,6 @@ public class Weapon
     public Sprite weaponSprite;
 
 
-    public Weapon() { }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
