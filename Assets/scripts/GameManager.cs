@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,8 +11,10 @@ public class GameManager : MonoBehaviour
 
     // I don't know
     private int difficulty;
+    private Text difficultyText;
     // I don't know
     private long score;
+    private Text scoreText;
     // I don't know where Imma gonna go when the volcano blows
     private int enemiesKilled;
     /* 
@@ -19,6 +23,9 @@ public class GameManager : MonoBehaviour
      * the Xth position in the array. Easy way to track it
     */
     private int[] combos;
+    private int gold;
+    private Text goldText;
+    private Text levelText;
 
     // Public Player reference
     public GameObject Player;
@@ -29,8 +36,18 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         instance = this;
-        difficulty = 0;
+        difficultyText = GameObject.Find("Difficulty").GetComponent<Text>();
+        scoreText = GameObject.Find("Score").GetComponent<Text>();
+        goldText = GameObject.Find("Gold").GetComponent<Text>();
+        levelText = GameObject.Find("Level").GetComponent<Text>();
+
+        difficulty = 1;
         score = 0;
+        gold = 0;
+        difficultyText.text = "Difficulty: " + difficulty;
+        scoreText.text = "Score: " + score;
+        goldText.text = "Gold: " + gold;
+        levelText.text = "Level: " + SceneManager.GetActiveScene().name;
         enemiesKilled = 0;
         Player = GameObject.Find("player");
         NavMesh = GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>();
@@ -47,16 +64,19 @@ public class GameManager : MonoBehaviour
     {
         enemiesKilled++;
         score += value;
+        scoreText.text = "Score: " + score;
     }
 
     void scorePoints(int value)
     {
         score += value;
+        scoreText.text = "Score: " + score;
     }
 
     void setDifficulty(int challenge)
     {
         difficulty = challenge;
+        difficultyText.text = "Difficulty: " + difficulty;
     }
 
     int EnemiesKilled()
