@@ -8,6 +8,7 @@ public class MultiMovementTile : BasicTile
     public float[] transitionsInSeconds;
     int currStartPoisition;
     float t = 0;
+    public bool sticky;
 
     protected override void Start()
     {
@@ -51,6 +52,28 @@ public class MultiMovementTile : BasicTile
         {
             t = 0;
             next();
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (sticky)
+        {
+            if (collision.gameObject.Equals(GameManager.instance.Player))
+            {
+                collision.gameObject.transform.SetParent(transform);
+            }
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (sticky)
+        {
+            if (collision.gameObject.Equals(GameManager.instance.Player))
+            {
+                collision.gameObject.transform.SetParent(null);
+            }
         }
     }
 }
