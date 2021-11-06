@@ -6997,6 +6997,10 @@ PrefabInstance:
       value: Back and Forth Platform
       objectReference: {fileID: 0}
     - target: {fileID: 5927603635577990359, guid: 413956838ebfa134ba711309d1d98868, type: 3}
+      propertyPath: sticky
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5927603635577990359, guid: 413956838ebfa134ba711309d1d98868, type: 3}
       propertyPath: position1.x
       value: 26
       objectReference: {fileID: 0}
@@ -12631,6 +12635,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 613668320}
     m_Modifications:
     - target: {fileID: 7785612071807955984, guid: dea06f60d0305974f809f24b309b5a3f, type: 3}
+      propertyPath: sticky
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7785612071807955984, guid: dea06f60d0305974f809f24b309b5a3f, type: 3}
       propertyPath: positions.Array.data[0].x
       value: -90
       objectReference: {fileID: 0}
@@ -13373,6 +13381,10 @@ PrefabInstance:
     - target: {fileID: 5927603635577990358, guid: 413956838ebfa134ba711309d1d98868, type: 3}
       propertyPath: m_Name
       value: Back and Forth Platform (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5927603635577990359, guid: 413956838ebfa134ba711309d1d98868, type: 3}
+      propertyPath: sticky
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5927603635577990359, guid: 413956838ebfa134ba711309d1d98868, type: 3}
       propertyPath: position1.x
