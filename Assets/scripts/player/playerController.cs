@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class playerController : MonoBehaviour
 {
@@ -9,10 +10,13 @@ public class playerController : MonoBehaviour
     public float pVert;
     public float pHori;
     public float flatten = -4;
+    public float health = 100f;
     public  DashState dash = new DashState();
     public  IdleState idle = new IdleState();
     public MenuState menu = new MenuState();
     public AttackState attack = new AttackState();
+    public PhysicsMaterial2D go;
+    public PhysicsMaterial2D stop;
     //public static AttackState attack;
     public static playerController instance;
     public Weapon rangedWeapon = new StarterSword();
@@ -31,10 +35,17 @@ public class playerController : MonoBehaviour
     public bool jumpRelease = false;
     public bool jump = false;
     public int shortHop = 0;
+    public int attackVal = 0;
+    public int dir = 1;
+    //Debug.Log(meleeWeapon.lightActive);
+       // meleeWeapon.lightActive;
+       
     void Start()
     {
         instance = this;
+        Debug.Log(meleeWeapon.lightActive);
         state = idle;
+        weaponHitbox.enabled = false;
         pHori = 0;
         pVert = 0;
     }
@@ -55,7 +66,7 @@ public class playerController : MonoBehaviour
             //shortHop = 1;
             if (idle == state)
             {
-                Debug.Log("WE ARE ONE I SEWEWEWE");
+                //Debug.Log("WE ARE ONE I SEWEWEWE");
                 shortHop = 1;
                 flatten = -4f;
                 
@@ -106,26 +117,33 @@ public class playerController : MonoBehaviour
             dashBuffer = universalBufferTime;
         }
         //how to get a light melee input
+        if(state != attack || state.phase == 2)
         if (Input.GetButtonDown("Light Melee"))
         {
-            weaponHitbox.enabled = true;
-            weaponHitbox.transform.localScale = new Vector2(meleeWeapon.hitboxWidth * Mathf.Sign(rbs.velocity.x), meleeWeapon.hitboxHeight);
+            attackVal = 1;
+            ChangeState(attack);
+            //weaponHitbox.enabled = true;
+            //weaponHitbox.transform.localScale = new Vector2(meleeWeapon.hitboxWidth * Mathf.Sign(rbs.velocity.x), meleeWeapon.hitboxHeight);
         }
         // how to get a heavy melee input
-        if (Input.GetButtonDown("Heavy Melee"))
+        else if (Input.GetButtonDown("Heavy Melee"))
         {
-            weaponHitbox.enabled = false;
-            weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
+            attackVal = 2;
+            ChangeState(attack);
+            //weaponHitbox.enabled = false;
+            //weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
         }
         //how to get a light ranged input
-        if (Input.GetButtonDown("Light Range"))
+        else if (Input.GetButtonDown("Light Range"))
         {
-
+            attackVal = 3;
+            ChangeState(attack);
         }
         //how to get a heavy ranged input
-        if (Input.GetButtonDown("Heavy Range"))
+        else if (Input.GetButtonDown("Heavy Range"))
         {
-
+            attackVal = 4;
+            ChangeState(attack);
         }
         // this is also the button to pick up
         if (Input.GetButtonDown("Interact"))
@@ -151,7 +169,7 @@ public class playerController : MonoBehaviour
         //Debug.Log(flatten);
         //Debug.Log(jumpRelease);
         //the countdown timer for the jump buffer
-        Debug.Log(rbs.velocity);
+        //Debug.Log(rbs.velocity);
         if (jumpBuffer >= 0)
         {
             jumpBuffer--;
@@ -168,14 +186,25 @@ public class playerController : MonoBehaviour
         //this is universal animation and no clip stuff
         if (Mathf.Abs(rbs.velocity.x) > absMax)
         {
-            Debug.Log("FUCK FUCK FUCK");
+            //Debug.Log("FUCK FUCK FUCK");
             rbs.velocity = new Vector2(absMax * Mathf.Sign(rbs.velocity.x), rbs.velocity.y);
         }
         if (Mathf.Abs(rbs.velocity.y) > 30f)
         {
             rbs.velocity = new Vector2(rbs.velocity.x,30f * Mathf.Sign(rbs.velocity.y));
         }
-        if (rbs.velocity.x < 0)
+        if(pHori != 0)
+        {
+            if(pHori == 1)
+            {
+                dir = 1;
+            }
+            else
+            {
+                dir = -1;
+            }
+        }
+        if (dir == -1)
         {
             gameObject.GetComponent<SpriteRenderer>().flipX = true;
         }
@@ -193,6 +222,10 @@ public class playerController : MonoBehaviour
             //rbs.velocity = new Vector2(0f, rbs.velocity.y);
         }
         animator.SetFloat("Speed", Mathf.Abs(rbs.velocity.x));
+        if(health < 0)
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
     }
 
     public void ChangeState(State newState)
@@ -209,25 +242,39 @@ public class playerController : MonoBehaviour
         {
             //rbs.velocity = new Vector2(rbs.velocity.x * 2, rbs.velocity.y * 2);
         }
-        if (pHori == 0 && Mathf.Abs(rbs.velocity.x) < 2f)
+        if (pHori == 0 && Mathf.Abs(rbs.velocity.x) < 2f && state != dash)
         {
-            Debug.Log("tokeyo no drift");
+            //Debug.Log("tokeyo no drift");
+            //rbs.sharedMaterial = stop;
             //rbs.velocity = new Vector2(0f, rbs.velocity.y);
             //rbs.velocity = new Vector2(0f,0f);
+        }
+        else
+        {
+            //rbs.sharedMaterial = go;
         }
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (pHori == 0 && Mathf.Abs(rbs.velocity.x) < 2f)
+        if (pHori == 0 && Mathf.Abs(rbs.velocity.x) < 2f && state != dash)
         {
-            Debug.Log("tokeyo noerist drift");
+            //Debug.Log("tokeyo noerist drift");
+            //rbs.sharedMaterial = stop;
             //rbs.velocity = new Vector2(0f, rbs.velocity.y);
             //rbs.velocity = new Vector2(0f,0f);
+        }
+        else
+        {
+            //rbs.sharedMaterial = go;
         }
     }
 
     public void InCombat()
     {
         //yo we in hitting range
+    }
+    public void ChangeHealth(float change)
+    {
+        health += change;
     }
 }
