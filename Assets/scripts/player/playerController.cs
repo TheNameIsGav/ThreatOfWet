@@ -38,6 +38,11 @@ public class playerController : MonoBehaviour
     public int attackVal = 0;
     public bool superJump = false;
     public int dir = 1;
+    public bool nDash = true;
+    public bool rolling = false;
+    public bool grapple = false;
+    public LineRenderer lineRender;
+    public DistanceJoint2D distJoint;
     //Debug.Log(meleeWeapon.lightActive);
        // meleeWeapon.lightActive;
        
@@ -45,6 +50,8 @@ public class playerController : MonoBehaviour
     {
         instance = this;
         Debug.Log(meleeWeapon.lightActive);
+        distJoint.enabled = false;
+        lineRender.enabled = false;
         state = idle;
         weaponHitbox.enabled = false;
         pHori = 0;
@@ -157,7 +164,8 @@ public class playerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(coyote == universalBufferTime)
+        //Debug.Log(Mathf.Atan2(playerController.instance.rbs.velocity.y, playerController.instance.rbs.velocity.x));
+        if (coyote == universalBufferTime)
         {
             coyote++;
             grounded = false;
