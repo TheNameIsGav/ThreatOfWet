@@ -36,6 +36,7 @@ public class playerController : MonoBehaviour
     public bool jump = false;
     public int shortHop = 0;
     public int attackVal = 0;
+    public bool superJump = false;
     public int dir = 1;
     //Debug.Log(meleeWeapon.lightActive);
        // meleeWeapon.lightActive;

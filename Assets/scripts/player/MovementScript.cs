@@ -76,7 +76,18 @@ public class IdleState : State
                 //this sets the actual jump
                 jumpSquat = 0f;
                 //Debug.Log.Log("up");
-                playerController.instance.rbs.velocity = new Vector2(playerController.instance.rbs.velocity.x, Mathf.Max(playerController.instance.rbs.velocity.y, 0f) + jumpHeight);
+                if (playerController.instance.superJump)
+                {
+                    playerController.instance.rbs.velocity = new Vector2(playerController.instance.rbs.velocity.x, Mathf.Max(playerController.instance.rbs.velocity.y, 0f) + jumpHeight);
+                }
+                else
+                {
+                    playerController.instance.rbs.velocity = new Vector2(playerController.instance.rbs.velocity.x, 0f + jumpHeight);
+                    //playerController.instance.rbs.velocity = new Vector2(playerController.instance.rbs.velocity.x, Mathf.Max(playerController.instance.rbs.velocity.y, 0f) + jumpHeight);
+                }
+            
+                playerController.instance.superJump = false;
+                //playerController.instance.rbs.velocity = new Vector2(playerController.instance.rbs.velocity.x, Mathf.Max(playerController.instance.rbs.velocity.y, 0f) + jumpHeight);
                 playerController.instance.jump = false;
                 //jumpBuffer = -1;
                 playerController.instance.transform.localScale = (new Vector3(.9f, 1.1f, 1f));
@@ -216,6 +227,7 @@ public class DashState : State
         playerController.instance.rbs.velocity = new Vector2(0f, 0f);
         playerController.instance.transform.localScale = new Vector3(1f, 0.5f, 1f);
         playerController.instance.coyote = playerController.instance.universalBufferTime;
+        playerController.instance.superJump = true;
     }
     public override void OnExit()
     {
@@ -357,9 +369,11 @@ public class DashState : State
             //Debug.Log.Log(playerController.instance.rbs.velocity.x.ToString() + "  " + playerController.instance.rbs.velocity.y.ToString() + "  " + dashTimer.ToString());
             playerController.instance.rbs.gravityScale = playerController.instance.grav;
             playerController.instance.canDash = false;
+            playerController.instance.superJump = false;
             playerController.instance.ChangeState(playerController.instance.idle);
             dashTimer = -1;
             playerController.instance.transform.localScale = new Vector3(0.9f, 1.1f, 1f);
+            
             if (hori == 0)
             {
                 //stops momentum if no direction
