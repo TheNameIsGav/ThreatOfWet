@@ -5,7 +5,7 @@ using UnityEngine;
 public class customControls : MonoBehaviour
 {
     // Start is called before the first frame update
-    public string[] inputLst = ["w", "s", "a", "d", "space", "i", "e", "o", "p", "l", ";"];
+    public KeyCode[] inputLst = new KeyCode[] { KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Space, KeyCode.I, KeyCode.E, KeyCode.O, KeyCode.P, KeyCode.L, KeyCode.Semicolon };
     /*
     public string up = "w";
     public string down = "s";
@@ -23,6 +23,7 @@ public class customControls : MonoBehaviour
     void Start()
     {
         instance = this;
+        DontDestroyOnLoad(this);
     }
 
     // Update is called once per frame

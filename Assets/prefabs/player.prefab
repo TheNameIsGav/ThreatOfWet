@@ -194,6 +194,7 @@ MonoBehaviour:
   grapple: 0
   lineRender: {fileID: 5419697240797163335}
   distJoint: {fileID: 657538956639310578}
+  inputs: 
 --- !u!120 &5419697240797163335
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -234,7 +235,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
