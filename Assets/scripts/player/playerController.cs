@@ -65,7 +65,7 @@ public class playerController : MonoBehaviour
         pHori = Input.GetAxis("Horizontal");
         pVert = Input.GetAxis("Vertical");
         //this initiates the jump
-        if ((Input.GetButtonDown("Jump") || jumpBuffer >= 0) && grounded)
+        if ((Input.GetKeyDown("space") || jumpBuffer >= 0) && grounded)
         {
             //jumpSquat = jumpSquatVal;
             jump = true;

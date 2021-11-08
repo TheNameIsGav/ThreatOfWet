@@ -275,7 +275,7 @@ public class DashState : State
             holdy = 0f;
             holdyTime = 0;
         }
-        if (Input.GetButtonDown("Jump"))
+        if (!Input.GetButton("Dash"))
         {
             swingRelease = true;
         }
@@ -381,6 +381,7 @@ public class DashState : State
                 {
                     dashTimer = -1;
                     swinging = true;
+                    playerController.instance.rbs.velocity = new Vector2(dashx, dashy);
                     playerController.instance.rbs.gravityScale =4* playerController.instance.grav;
                     playerController.instance.distJoint.connectedAnchor =new Vector2 (playerController.instance.transform.position.x + ((dashDist / 4) * playerController.instance.dir * (1f / Mathf.Sqrt(2))), playerController.instance.transform.position.y + ((dashDist / 4)* (1f / Mathf.Sqrt(2))));
                     playerController.instance.lineRender.SetPosition(0, playerController.instance.distJoint.connectedAnchor);
@@ -439,6 +440,7 @@ public class DashState : State
             {
                 dashTimer = 0;
                 swinging = false;
+                playerController.instance.rbs.gravityScale = playerController.instance.grav;
                 playerController.instance.distJoint.enabled = false;
                 playerController.instance.lineRender.enabled = false;
             }
@@ -446,7 +448,7 @@ public class DashState : State
             {
                 if(hori != 0)
                 {
-                    playerController.instance.rbs.velocity = new Vector2(playerController.instance.rbs.velocity.x + hori, playerController.instance.rbs.velocity.y);
+                    playerController.instance.rbs.velocity = new Vector2(playerController.instance.rbs.velocity.x + (.3f*hori), playerController.instance.rbs.velocity.y);
                 }
             }
         }
