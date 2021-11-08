@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     private int gold;
     private Text goldText;
     private Text levelText;
+    // private GameObject backgroundSquare;
 
     // Public Player reference
     public GameObject Player;
@@ -40,6 +41,12 @@ public class GameManager : MonoBehaviour
         scoreText = GameObject.Find("Score").GetComponent<Text>();
         goldText = GameObject.Find("Gold").GetComponent<Text>();
         levelText = GameObject.Find("Level").GetComponent<Text>();
+
+        /*
+        backgroundSquare = GameObject.Find("Background Square");
+        backgroundSquare.transform.localScale = new Vector3(300, 270, 45);
+        backgroundSquare.transform.position = new Vector3(-810, 402, -4050);
+        */
 
         difficulty = 1;
         score = 0;
