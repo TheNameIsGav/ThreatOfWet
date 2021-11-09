@@ -230,7 +230,13 @@ public class DashState : State
         ////Debug.Log.Log("no fucking way");
         playerController.instance.rbs.velocity = new Vector2(0f, 0f);
 
-        playerController.instance.transform.localScale = new Vector3(1f, 0.5f, 1f);
+        // playerController.instance.transform.localScale = new Vector3(1f, 0.5f, 1f);
+        if (playerController.instance.transform.parent == null)
+            playerController.instance.transform.localScale = (new Vector3(1f, 0.5f, 1f));
+        else
+            playerController.instance.transform.localScale = (new Vector3(1f / (playerController.instance.transform.parent.transform.localScale.x),
+                0.5f / (playerController.instance.transform.parent.transform.localScale.y), 1f));
+
         playerController.instance.coyote = playerController.instance.universalBufferTime;
     }
     public override void OnExit()
@@ -285,7 +291,15 @@ public class DashState : State
             playerController.instance.jumpRelease = false;
             //playerController.instance.jump = false;
             dashTimer = -1;
-            playerController.instance.transform.localScale = new Vector3(0.9f, 1.1f, 1f);
+            
+            // playerController.instance.transform.localScale = new Vector3(0.9f, 1.1f, 1f);
+
+            if (playerController.instance.transform.parent == null)
+                playerController.instance.transform.localScale = (new Vector3(.9f, 1.1f, 1f));
+            else
+                playerController.instance.transform.localScale = (new Vector3(.9f / (playerController.instance.transform.parent.transform.localScale.x),
+                    1.1f / (playerController.instance.transform.parent.transform.localScale.y), 1f));
+            
             //this is for if the player is wavedashing rather than superjumping, also sorry not sorry
             if (playerController.instance.rbs.velocity.y <= 0)
             {
@@ -375,7 +389,15 @@ public class DashState : State
             playerController.instance.canDash = false;
             playerController.instance.ChangeState(playerController.instance.idle);
             dashTimer = -1;
-            playerController.instance.transform.localScale = new Vector3(0.9f, 1.1f, 1f);
+
+            // playerController.instance.transform.localScale = new Vector3(0.9f, 1.1f, 1f);
+
+            if (playerController.instance.transform.parent == null)
+                playerController.instance.transform.localScale = (new Vector3(.9f, 1.1f, 1f));
+            else
+                playerController.instance.transform.localScale = (new Vector3(.9f / (playerController.instance.transform.parent.transform.localScale.x),
+                    1.1f / (playerController.instance.transform.parent.transform.localScale.y), 1f));
+
             if (hori == 0)
             {
                 //stops momentum if no direction
