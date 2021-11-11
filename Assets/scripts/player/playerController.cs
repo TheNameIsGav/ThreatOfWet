@@ -36,7 +36,14 @@ public class playerController : MonoBehaviour
     public bool jump = false;
     public int shortHop = 0;
     public int attackVal = 0;
+    public bool superJump = false;
     public int dir = 1;
+    public bool nDash = true;
+    public bool rolling = false;
+    public bool grapple = false;
+    public LineRenderer lineRender;
+    public DistanceJoint2D distJoint;
+    public KeyCode[] inputs;
     //Debug.Log(meleeWeapon.lightActive);
        // meleeWeapon.lightActive;
        
@@ -44,20 +51,51 @@ public class playerController : MonoBehaviour
     {
         instance = this;
         Debug.Log(meleeWeapon.lightActive);
+        distJoint.enabled = false;
+        lineRender.enabled = false;
         state = idle;
         weaponHitbox.enabled = false;
         pHori = 0;
         pVert = 0;
+        if(GameObject.Find("ControlSaver") != null)
+        {
+            Debug.Log("helsinki");
+            inputs = customControls.instance.inputLst;
+        }
+        else
+        {
+            inputs = new KeyCode[] { KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Space, KeyCode.I, KeyCode.E, KeyCode.O, KeyCode.P, KeyCode.L, KeyCode.Semicolon };
+            // (up , down, left, right, jump, dash, interact, light melee, heavy melee, light range, heavy range)
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        pHori = 0;
+        pVert = 0;
         //gets the inputs
-        pHori = Input.GetAxis("Horizontal");
-        pVert = Input.GetAxis("Vertical");
+        if (Input.GetKey(inputs[0]))
+        {
+            pVert++;
+        }
+        if (Input.GetKey(inputs[1]))
+        {
+            pVert--;
+        }
+        if (Input.GetKey(inputs[2]))
+        {
+            pHori--;
+        }
+        if (Input.GetKey(inputs[3]))
+        {
+            pHori++;
+        }
+
+        //pHori = Input.GetAxis("Horizontal");
+        //pVert = Input.GetAxis("Vertical");
         //this initiates the jump
-        if ((Input.GetButtonDown("Jump") || jumpBuffer >= 0) && grounded)
+        if ((Input.GetKeyDown(inputs[4]) || jumpBuffer >= 0) && grounded)
         {
             //jumpSquat = jumpSquatVal;
             jump = true;
@@ -77,13 +115,13 @@ public class playerController : MonoBehaviour
             //transform.localScale = (new Vector3(1.4f, 0.8f, 1f));
             //jumpRelease = false;
         }
-        else if (Input.GetButtonDown("Jump"))
+        else if (Input.GetKeyDown(inputs[4]))
         {
             jumpBuffer = universalBufferTime;
         }
 
         //this the store that the player wants to short hop
-        if (!Input.GetButton("Jump") && rbs.velocity.y > 0 && state == idle && flatten == -4f)
+        if (!Input.GetKey(inputs[4]) && rbs.velocity.y > 0 && state == idle && flatten == -4f)
         {
             jumpRelease = true;
         }
@@ -100,7 +138,7 @@ public class playerController : MonoBehaviour
         }
         */
         //this is the check for starting a dash
-        if ((Input.GetButtonDown("Dash") || dashBuffer >= 0) && canDash)
+        if ((Input.GetKeyDown(inputs[5]) || dashBuffer >= 0) && canDash)
         {
             //state = new DashState();
             ChangeState(dash);
@@ -112,13 +150,13 @@ public class playerController : MonoBehaviour
             dashBuffer = -1;
             //transform.localScale = new Vector3(1f, 0.5f, 1f);
         }
-        else if (Input.GetButtonDown("Dash"))
+        else if (Input.GetKeyDown(inputs[5]))
         {
             dashBuffer = universalBufferTime;
         }
         //how to get a light melee input
         if(state != attack || state.phase == 2)
-        if (Input.GetButtonDown("Light Melee"))
+        if (Input.GetKeyDown(inputs[7]))
         {
             attackVal = 1;
             ChangeState(attack);
@@ -126,7 +164,7 @@ public class playerController : MonoBehaviour
             //weaponHitbox.transform.localScale = new Vector2(meleeWeapon.hitboxWidth * Mathf.Sign(rbs.velocity.x), meleeWeapon.hitboxHeight);
         }
         // how to get a heavy melee input
-        else if (Input.GetButtonDown("Heavy Melee"))
+        else if (Input.GetKeyDown(inputs[8]))
         {
             attackVal = 2;
             ChangeState(attack);
@@ -134,13 +172,13 @@ public class playerController : MonoBehaviour
             //weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
         }
         //how to get a light ranged input
-        else if (Input.GetButtonDown("Light Range"))
+        else if (Input.GetKeyDown(inputs[9]))
         {
             attackVal = 3;
             ChangeState(attack);
         }
         //how to get a heavy ranged input
-        else if (Input.GetButtonDown("Heavy Range"))
+        else if (Input.GetKeyDown(inputs[10]))
         {
             attackVal = 4;
             ChangeState(attack);
@@ -156,7 +194,8 @@ public class playerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(coyote == universalBufferTime)
+        //Debug.Log(Mathf.Atan2(playerController.instance.rbs.velocity.y, playerController.instance.rbs.velocity.x));
+        if (coyote == universalBufferTime)
         {
             coyote++;
             grounded = false;
