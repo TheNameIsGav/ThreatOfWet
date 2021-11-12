@@ -41,6 +41,9 @@ public class playerController : MonoBehaviour
     public bool nDash = true;
     public bool rolling = false;
     public bool grapple = false;
+    public bool combo = false;
+    public int comboCount = 0;
+    public int hitstun = 30;
     public LineRenderer lineRender;
     public DistanceJoint2D distJoint;
     public KeyCode[] inputs;
@@ -59,7 +62,7 @@ public class playerController : MonoBehaviour
         pVert = 0;
         if(GameObject.Find("ControlSaver") != null)
         {
-            Debug.Log("helsinki");
+            //Debug.Log("helsinki");
             inputs = customControls.instance.inputLst;
         }
         else
@@ -107,7 +110,7 @@ public class playerController : MonoBehaviour
                 //Debug.Log("WE ARE ONE I SEWEWEWE");
                 shortHop = 1;
                 flatten = -4f;
-                
+
                 state.JumpTrigger();
             }
             //shortHop = 1;
@@ -127,16 +130,16 @@ public class playerController : MonoBehaviour
         }
         //this actually initaites the shorthop
 
-       /*
-        if (shortHop >= minJumpTime && jumpRelease)
-        {
-            hold = (-1 * rb.velocity.y);
-            rb.velocity = new Vector2(rb.velocity.x, 3f);
-            shortHop = 0;
-            flatten = 2f;
-            jumpRelease = false;
-        }
-        */
+        /*
+         if (shortHop >= minJumpTime && jumpRelease)
+         {
+             hold = (-1 * rb.velocity.y);
+             rb.velocity = new Vector2(rb.velocity.x, 3f);
+             shortHop = 0;
+             flatten = 2f;
+             jumpRelease = false;
+         }
+         */
         //this is the check for starting a dash
         if ((Input.GetKeyDown(inputs[5]) || dashBuffer >= 0) && canDash)
         {
@@ -155,34 +158,60 @@ public class playerController : MonoBehaviour
             dashBuffer = universalBufferTime;
         }
         //how to get a light melee input
-        if(state != attack || state.phase == 2)
-        if (Input.GetKeyDown(inputs[7]))
-        {
-            attackVal = 1;
-            ChangeState(attack);
-            //weaponHitbox.enabled = true;
-            //weaponHitbox.transform.localScale = new Vector2(meleeWeapon.hitboxWidth * Mathf.Sign(rbs.velocity.x), meleeWeapon.hitboxHeight);
-        }
-        // how to get a heavy melee input
-        else if (Input.GetKeyDown(inputs[8]))
-        {
-            attackVal = 2;
-            ChangeState(attack);
-            //weaponHitbox.enabled = false;
-            //weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
-        }
-        //how to get a light ranged input
-        else if (Input.GetKeyDown(inputs[9]))
-        {
-            attackVal = 3;
-            ChangeState(attack);
-        }
-        //how to get a heavy ranged input
-        else if (Input.GetKeyDown(inputs[10]))
-        {
-            attackVal = 4;
-            ChangeState(attack);
-        }
+        if (state != attack || (state.phase == 2 && combo)) { 
+
+            if (Input.GetKeyDown(inputs[7]))
+            {
+                //Debug.Log("lpldsdl");
+                attackVal = 1;
+                if(state != attack)
+                {
+                    ChangeState(attack);
+                }
+                
+                //weaponHitbox.enabled = true;
+                //weaponHitbox.transform.localScale = new Vector2(meleeWeapon.hitboxWidth * Mathf.Sign(rbs.velocity.x), meleeWeapon.hitboxHeight);
+            }
+            // how to get a heavy melee input
+            else if (Input.GetKeyDown(inputs[8]))
+            {
+                //Debug.Log("lpldsdl");
+                attackVal = 2;
+                if (state != attack)
+                {
+                    ChangeState(attack);
+                }
+                //ChangeState(attack);
+                //weaponHitbox.enabled = false;
+                //weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
+            }
+            //how to get a light ranged input
+            else if (Input.GetKeyDown(inputs[9]))
+            {
+                //Debug.Log("lpldsdl");
+                attackVal = 3;
+                if (state != attack)
+                {
+                    ChangeState(attack);
+                }
+                //ChangeState(attack);
+            }
+            //how to get a heavy ranged input
+            else if (Input.GetKeyDown(inputs[10]))
+            {
+                //Debug.Log("lpldsdl");
+                attackVal = 4;
+                if (state != attack)
+                {
+                    ChangeState(attack);
+                }
+                //ChangeState(attack);
+            }
+            else
+            {
+                attackVal = 0;
+            }
+    }
         // this is also the button to pick up
         if (Input.GetButtonDown("Interact"))
         {

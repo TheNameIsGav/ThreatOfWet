@@ -15,7 +15,7 @@ public class EnemyHuntState : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (Vector2.Distance(animator.gameObject.transform.position, GameObject.Find("player").transform.position) <= animator.gameObject.GetComponent<EnemyDefault>().Range)
+        if (Vector2.Distance(animator.gameObject.transform.position, GameObject.Find("player").transform.position) <= /*animator.gameObject.GetComponent<EnemyDefault>().Range*/ 2f)
         {
             animator.SetBool("ShouldCombat", true);
             //Debug.Log("Transitioning to Combat State");
@@ -37,7 +37,7 @@ public class EnemyHuntState : StateMachineBehaviour
     override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //TODO Change Navmesh accessors to be the game manager reference
-        (Vector2 move, bool jump) = GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>().FindNextPointAlongPath(animator.gameObject.transform.position, animator.gameObject.GetComponent<EnemyDefault>().PathR);
+        (Vector2 move, bool jump) = GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>().FindNextPointAlongPath(animator.gameObject.transform.position, /*animator.gameObject.GetComponent<EnemyDefault>().PathR*/ 20f);
         if (jump)
         {
             //Debug.Log("Jumping to " + move);
