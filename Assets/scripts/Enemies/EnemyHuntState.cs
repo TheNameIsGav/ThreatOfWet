@@ -37,7 +37,7 @@ public class EnemyHuntState : StateMachineBehaviour
     override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //TODO Change Navmesh accessors to be the game manager reference
-        (Vector2 move, bool jump) = GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>().FindNextPointAlongPath(animator.gameObject.transform.position, animator.gameObject.GetComponent<EnemyDefault>().PathR);
+        (Vector2 move, bool jump) = (Vector2.zero, false); //GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>().FindNextPointAlongPath(animator.gameObject.transform.position, animator.gameObject.GetComponent<EnemyDefault>().PathR);
         if (jump)
         {
             //Debug.Log("Jumping to " + move);
