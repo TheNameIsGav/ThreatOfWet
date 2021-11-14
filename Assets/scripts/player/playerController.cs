@@ -42,6 +42,7 @@ public class playerController : MonoBehaviour
     public bool rolling = false;
     public bool grapple = false;
     public bool combo = false;
+    public bool invuln = false;
     public int comboCount = 0;
     public int hitstun = 30;
     public LineRenderer lineRender;
@@ -158,7 +159,7 @@ public class playerController : MonoBehaviour
             dashBuffer = universalBufferTime;
         }
         //how to get a light melee input
-        if (state != attack || (state.phase == 2 && combo)) { 
+        if (state != attack || (state.phase >= 2 && combo)) { 
 
             if (Input.GetKeyDown(inputs[7]))
             {
@@ -343,6 +344,7 @@ public class playerController : MonoBehaviour
     }
     public void ChangeHealth(float change)
     {
+        if(!combo && !invuln)
         health += change;
     }
 }

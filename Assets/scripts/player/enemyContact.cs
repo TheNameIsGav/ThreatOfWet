@@ -20,7 +20,7 @@ public class enemyContact : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Hostile"))
         {
-            collision.gameObject.GetComponent<EnemyDefault>().TakeDamage(new Damage(20f));
+            collision.gameObject.GetComponent<EnemyDefault>().TakeDamage(new Damage(4f));
             playerController.instance.combo = true;
             playerController.instance.comboCount++;
             playerController.instance.attack.comboCount++;
