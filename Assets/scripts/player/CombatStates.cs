@@ -22,6 +22,10 @@ public class AttackState : State
     private int lastVal = 0;
     public int comboCount = 0;
     public int resetVal = 50;
+    public int delay = 0;
+    public float scale = 1f;
+    private bool water = false;
+    public GameObject enemy;
     public AttackState()
     {
 
@@ -53,7 +57,10 @@ public class AttackState : State
         playerController.instance.rbs.sharedMaterial = playerController.instance.go;
         playerController.instance.weaponHitbox.enabled = false;
         playerController.instance.combo = false;
+        water = false;
         playerController.instance.comboCount = 0;
+        lastVal = 0;
+        scale = 1f;
         stun = 0;
         phase = 0;
         count = 0;
@@ -80,8 +87,14 @@ public class AttackState : State
         }
     }
     public override void StateUpdate()
-    { if (ended != 0)
+    { 
+        if(playerController.instance.combo && enemy == null)
         {
+            playerController.instance.ChangeState(playerController.instance.idle);
+        }
+        if (ended != 0)
+        {
+            //this is for neutral element
             if(ended == 1)
             {
                 if(count >= resetVal)
@@ -102,7 +115,91 @@ public class AttackState : State
                     count = resetVal;
                 }
             }
+            //this is for fire element
+            else if(ended == 2)
+            {
+                //enemy.transform.position = new Vector2(10f*  playerController.instance.dir + enemy.transform.position.x, 5f + enemy.transform.position.y);
+                playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
+                enemy.GetComponent<EnemyDefault>().TakeDamage(new Damage(4f));
+                playerController.instance.ChangeState(playerController.instance.idle);
+            }
+            //this is for water element
+            else if(ended == 3)
+            {
+                if(count >= resetVal)
+                {
+                    //have player take damage
+                    playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
+                    playerController.instance.ChangeState(playerController.instance.idle);
+                }
+                if(lastVal != 0)
+                {
+                    if(count > 15 && count < 45)
+                    {
+                        ended = 0;
+                        phase = 0;
+                        count = 0;
+                        guess = 0;
+                        water = true;
+                        comboCount = 0;
+                    }
+                    else
+                    {
+                        count = resetVal;
+                    }
+                }
+            }
+            //this is for lightning element
+            else if(ended == 4)
+            {
+                if(count >= resetVal)
+                {
+                    playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
+                    playerController.instance.ChangeState(playerController.instance.idle);
+                }
+                else if(lastVal != 0)
+                {
+                    if(lastVal % 2 != 0)
+                    {
+                        comboCount = -3;
+                        ended = 0;
+                        phase = 0;
+                        count = 0;
+                        guess = 0;
+                    }
+                    else
+                    {
+                        count = resetVal;
+                    }
+                }
+            }
+            //this is for the ground element
+            else if (ended == 5)
+            {
+                if (count >= resetVal)
+                {
+                    playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
+                    playerController.instance.ChangeState(playerController.instance.idle);
+                }
+                else if (lastVal != 0)
+                {
+                    if (lastVal % 2 != 0)
+                    {
+                        comboCount = 0;
+                        ended = 0;
+                        phase = 0;
+                        count = 0;
+                        guess = 0;  
+                        scale *= 1.1f;
+                    }
+                    else
+                    {
+                        count = resetVal;
+                    }
+                }
+            }
             count++;
+            Debug.Log(count);
         }
         else
         {
@@ -156,7 +253,7 @@ public class AttackState : State
                             playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
                             playerController.instance.ChangeState(playerController.instance.idle);
                         }
-                        else if(comboCount >= 4)
+                        else if(comboCount >= 4 || (!light && !water))
                         {
                          count = 0;
                          stun = 0;
@@ -164,6 +261,7 @@ public class AttackState : State
                         }
                         else
                         {
+                            water = false;
                             //count = 0;
                             phase = 3;
                         }
@@ -172,12 +270,11 @@ public class AttackState : State
                     {
                         playerController.instance.ChangeState(playerController.instance.idle);
                     }
-                    /*
-                    if (playerController.instance.combo && count + stun == playerController.instance.hitstun)
-                    {
-                        playerController.instance.ChangeState(playerController.instance.idle);
-                    }
-                    else if (playerController.instance.combo && playerController.instance.comboCount >= 4)
+                }    
+                else
+                {
+                    //Debug.Log("coudnd");
+                    if (comboCount >= 4 || !light)
                     {
                         if (light)
                         {
@@ -191,20 +288,6 @@ public class AttackState : State
                             Ender();
                         }
                     }
-                    else if (playerController.instance.combo)
-                    {
-                        stun++;
-                    }
-                    else
-                    {
-                        //playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 25f, 10f);
-                        playerController.instance.ChangeState(playerController.instance.idle);
-                    }
-                    */
-                }    
-                else
-                {
-                    //Debug.Log("coudnd");
                     count++;
                 }
             }
@@ -220,6 +303,10 @@ public class AttackState : State
                     count++;
                 }
             }
+        }
+    if(delay > 0)
+        {
+            delay--;
         }
     }
     public override void JumpTrigger()
@@ -241,7 +328,27 @@ public class AttackState : State
             Debug.Log("Sword");
         }
         Debug.Log(guess);
-        ended = 1;
+        if(activeWeapon.element == Element.DEFAULT)
+        {
+            ended = 1;
+        }
+        else if(activeWeapon.element == Element.FIRE)
+        {
+            ended = 2;
+        }
+        else if (activeWeapon.element == Element.WATER)
+        {
+            ended = 3;
+        }
+        else if (activeWeapon.element == Element.ELECTRIC)
+        {
+            ended = 4;
+        }
+        else if (activeWeapon.element == Element.GROUND)
+        {
+            ended = 5;
+        }
+        //ended = 4;
         lastVal = 0;
     }
     private void SetAttack()
