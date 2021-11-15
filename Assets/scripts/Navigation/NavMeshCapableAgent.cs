@@ -9,7 +9,7 @@ public class NavMeshCapableAgent : MonoBehaviour{
 
     public void AStar()
     {
-
+        //If we are not on mesh then get on mesh and teleport, otherwise A* to the player. Then recall this method everytime we get to the point on the paht and rebuild the path. 
     }
 
     public GameObject GetOnMesh(GameObject enemy, List<GameObject> pts)
