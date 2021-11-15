@@ -22,10 +22,13 @@ public class enemyContact : MonoBehaviour
         {
             collision.gameObject.GetComponent<EnemyDefault>().TakeDamage(new Damage(playerController.instance.attack.scale *4f));
             playerController.instance.attack.delay = 5;
-            playerController.instance.combo = true;
-            playerController.instance.comboCount++;
-            playerController.instance.attack.comboCount++;
-            playerController.instance.attack.enemy = collision.gameObject;
+            //if(playerController.instance.attack.activeWeapon.element != collision.gameObject.getelement || playerController.instance.attack.activeWeapon.element == Element.DEFAULT)
+            //{
+                playerController.instance.combo = true;
+                playerController.instance.comboCount++;
+                playerController.instance.attack.comboCount++;
+                playerController.instance.attack.enemy = collision.gameObject;
+            //}
         }
         else if (collision.gameObject.CompareTag("Hostile"))
         {

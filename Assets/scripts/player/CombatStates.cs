@@ -97,13 +97,15 @@ public class AttackState : State
     }
     public override void StateUpdate()
     {
+        //this is so player doesn't get dropped combo for killing enemy
         if(playerController.instance.combo && enemy == null)
         {
             playerController.instance.ChangeState(playerController.instance.idle);
         }
+        //this is the code for the enders
         if (ended != 0)
         {
-            //this is for neutral element
+            //this is for the ground element
             if(ended == 1)
             {
                 if(count >= resetVal)
@@ -117,6 +119,7 @@ public class AttackState : State
                     phase = 0;
                     count = 0;
                     guess = 0;
+                    scale *= 1.2f;
                     comboCount = 0;
                 }
                 else if (lastVal != 0)
@@ -129,7 +132,7 @@ public class AttackState : State
             {
                 //enemy.transform.position = new Vector2(10f*  playerController.instance.dir + enemy.transform.position.x, 5f + enemy.transform.position.y);
                 playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
-                enemy.GetComponent<EnemyDefault>().TakeDamage(new Damage(4f));
+                enemy.GetComponent<EnemyDefault>().TakeDamage(new Damage(4f,false,true,false));
                 playerController.instance.ChangeState(playerController.instance.idle);
             }
             //this is for water element
@@ -138,7 +141,6 @@ public class AttackState : State
                 if(count >= resetVal)
                 {
                     //have player take damage
-                    //Debug.Log("break out");
                     playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
                     playerController.instance.ChangeState(playerController.instance.idle);
                 }
@@ -186,9 +188,10 @@ public class AttackState : State
                     }
                 }
             }
-            //this is for the ground element
+            //this is for the neutral element
             else if (ended == 5)
             {
+                //dropped combo
                 if (count >= resetVal)
                 {
                     playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
@@ -203,7 +206,6 @@ public class AttackState : State
                         phase = 0;
                         count = 0;
                         guess = 0;  
-                        scale *= 1.1f;
                     }
                     else
                     {
@@ -211,14 +213,22 @@ public class AttackState : State
                     }
                 }
             }
+            //this is for when elem of ender == enemy elem
+            else
+            {
+                playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
+                playerController.instance.ChangeState(playerController.instance.idle);
+            }
             count++;
             
         }
         else
         {
+            //this is the start up on the attack
             if (phase == 0)
             {
                 playerController.instance.transform.localScale = new Vector3(.8f, 1.2f, 1f);
+                //this enables the attack hitbox
                 if (count == startup)
                 {
                     phase++;
@@ -233,9 +243,12 @@ public class AttackState : State
                     count++;
                 }
             }
+            //these are the active frames for the attack
             else if (phase == 1)
             {
+                //swing animation
                 playerController.instance.transform.localScale = new Vector3(1f, 1f, 1f);
+                //this disables the attack hitbox
                 if (count == active)
                 {
                     phase++;
@@ -250,35 +263,36 @@ public class AttackState : State
                     count++;
                 }
             }
+            //this is the endlag for the attack
             else if (phase == 2)
             {
                 playerController.instance.transform.localScale = new Vector3(1.2f, 0.8f, 1f);
                 if (count == endlag)
                 {
-
-                    //phase = 0;
-                    //count = 0;
-                    //Debug.Log("left by normal means");
                     if (playerController.instance.combo)
                     {
+                        Debug.Log("how are we here");
+                        //when the combo ender is a light
                         if(comboCount >= 4 && light)
                         {
                             playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
                             playerController.instance.ChangeState(playerController.instance.idle);
                         }
+                        //when the combo ender is a heavy
                         else if(comboCount >= 4 || (!light && !water))
                         {
                             count = 0;
                             stun = 0;
                             Ender();
                         }
+                        //when the combo peice is a linker
                         else
                         {
-                            //water = false;
                             count = 0;
                             phase = 3;
                         }
                     }
+                    //if the player didn't hit anything with attack
                     else
                     {
                         playerController.instance.ChangeState(playerController.instance.idle);
@@ -286,14 +300,16 @@ public class AttackState : State
                 }    
                 else
                 {
-                    //Debug.Log("coudnd");
-                    if (comboCount >= 4 || (!light && !water))
+                    //this makes the ender feel better / happen quicker
+                    if ((comboCount >= 4 || (!light && !water)) && playerController.instance.combo)
                     {
+                        //if combo ender is a light
                         if (light)
                         {
                             playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
                             playerController.instance.ChangeState(playerController.instance.idle);
                         }
+                        //if combo ender is a heavy
                         else
                         {
                             count = 0;
@@ -304,9 +320,10 @@ public class AttackState : State
                     count++;
                 }
             }
+            //this is the time to chain the combo
             else if(phase == 3)
             {
-                //Debug.Log("PHASE 3 BAYBEeeee");
+                //this is when the player drops the combo
                 if(count >= playerController.instance.hitstun)
                 {
                     playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
@@ -318,6 +335,7 @@ public class AttackState : State
                 }
             }
         }
+        //prevents weird combo shenanigans
     if(delay > 0)
         {
             delay--;
@@ -329,20 +347,20 @@ public class AttackState : State
     }
     private void Ender()
     {
+        //this shit stuff is for combo scaling
         bool help = true;
-        //this is code for default ender
         if (buttons.Count == oldButtons.Count)
         {
             for (int i = 0; i < buttons.Count; i++)
             {
-                if(buttons.ToArray()[i] == oldButtons.ToArray()[i])
+                if(buttons.ToArray()[i].Equals(oldButtons.ToArray()[i]))
                 {
                     
                 }
                 else
                 {
-                    Debug.Log(buttons.ToArray()[i] + "  " + oldButtons.ToArray()[i]);
                     help = false;
+                    i = buttons.Count;
                 }
             }
         }
@@ -362,15 +380,21 @@ public class AttackState : State
             scale = 1f;
         }
         oldButtons.Clear();
+        
         while(buttons.Count > 0)
         {
             oldButtons.Enqueue(buttons.Dequeue());
         }
+
+        //buttons.CopyTo(oldButtons.ToArray(),0);
+        
         //oldButtons = buttons;
         buttons.Clear();
+        //combo scaling part ended
         water = false;
         comboCount = 0;
         guess = Random.Range(1, 3);
+        //this is for the default ender, its the guess
         if(guess == 2)
         {
             Debug.Log("Gun");
@@ -380,10 +404,10 @@ public class AttackState : State
         {
             Debug.Log("Sword");
         }
-        //Debug.Log(guess);
+        //assigns the proper ender for the attack
         if(activeWeapon.element == Element.DEFAULT)
         {
-            ended = 1;
+            ended = 5;
         }
         else if(activeWeapon.element == Element.FIRE)
         {
@@ -399,19 +423,27 @@ public class AttackState : State
         }
         else if (activeWeapon.element == Element.GROUND)
         {
-            ended = 5;
+            ended = 1;
         }
-        //ended = 4;
+        /*
+        if(activeWeapon.element == enemy.getElement)
+        {
+            ended = 6;
+        }
+        */
+
         lastVal = 0;
     }
     private void SetAttack()
     {
+        //prevents skipping out of enders
         if (ended == 0)
         {
             phase = 0;
             count = 0;
             //stun = 0;
         }
+        //light melee
         if (playerController.instance.attackVal == 1)
         {
             light = true;
@@ -420,6 +452,7 @@ public class AttackState : State
             endlag = melee.lightEndlag;
             activeWeapon = melee;
         }
+        //heavy melee
         else if (playerController.instance.attackVal == 2)
         {
             light = false;
@@ -428,6 +461,7 @@ public class AttackState : State
             endlag = melee.heavyEndlag;
             activeWeapon = melee;
         }
+        //light ranged
         else if (playerController.instance.attackVal == 3)
         {
             light = true;
@@ -436,6 +470,7 @@ public class AttackState : State
             endlag = ranged.lightEndlag;
             activeWeapon = ranged;
         }
+        //heavy ranged
         else if (playerController.instance.attackVal == 4)
         {
             light = false;

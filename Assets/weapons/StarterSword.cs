@@ -41,7 +41,7 @@ public class StarterSword : Weapon
         heavyStartup = 20;
         heavyActive = 8;
         heavyEndlag = 20;
-        element = Element.GROUND;
+        element = Element.DEFAULT;
     }
 
     // Update is called once per frame
