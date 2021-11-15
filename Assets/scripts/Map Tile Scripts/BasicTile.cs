@@ -32,4 +32,14 @@ public class BasicTile : MonoBehaviour
     {
         // Does nothing, unless common behavior is required
     }
+
+    public bool CanSpawnEnemy()
+    {
+        // Physics2D.OverlapBoxAll(transform.position - new Vector3(.5f, 0, 0), new Vector2(1, 2), LayerMask.GetMask("Spawnable Tile"));
+        Collider2D[] regularTiles = Physics2D.OverlapBoxAll(transform.position - new Vector3(.5f, 0, 0), 
+            new Vector2(1, 2), LayerMask.GetMask("Tile"));
+        Collider2D[] spawnableTiles = Physics2D.OverlapBoxAll(transform.position - new Vector3(.5f, 0, 0), 
+            new Vector2(1, 2), LayerMask.GetMask("Spawnable Tile"));
+        return regularTiles.Length <= 1 && spawnableTiles.Length <= 1;
+    }
 }

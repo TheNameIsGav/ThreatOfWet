@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     // I don't know
-    private int difficulty;
+    private float difficulty;
     // I don't know
     private long score;
     // I don't know where Imma gonna go when the volcano blows
@@ -25,17 +25,25 @@ public class GameManager : MonoBehaviour
     // Public NavMesh reference
     public NavMeshGenerator NavMesh;
 
+    private SpawnHandler spawner;
+    private float timeToSpawn;
+
+    private int[] numbers;
+
     // Jack and Jill are talking with each other. Jack says "I met a man with a wooden leg named Smith." Jill asks "What's the name of his other leg?"
     void Start()
     {
         instance = this;
-        difficulty = 0;
+        difficulty = 1;
         score = 0;
         enemiesKilled = 0;
         Player = GameObject.Find("player");
         NavMesh = GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>();
         combos = new int[5+1];
         DontDestroyOnLoad(this);
+        spawner = SpawnHandler.instance;
+        timeToSpawn = .1f;
+        numbers = new int[10];
     }
 
     void successfulCombo(int mag)
@@ -47,6 +55,7 @@ public class GameManager : MonoBehaviour
     {
         enemiesKilled++;
         score += value;
+        timeToSpawn -= 2;
     }
 
     void scorePoints(int value)
@@ -64,7 +73,7 @@ public class GameManager : MonoBehaviour
         return enemiesKilled;
     }
 
-    int Difficulty()
+    public float Difficulty()
     {
         return difficulty;
     }
@@ -72,5 +81,16 @@ public class GameManager : MonoBehaviour
     long Score()
     {
         return score;
+    }
+
+    public void Update()
+    {
+        timeToSpawn -= Time.deltaTime;
+        if (timeToSpawn <= 0)
+        {
+            timeToSpawn = 1f + (Random.Range(0f,3f) / difficulty);
+            Debug.Log(timeToSpawn);
+            spawner.SpawnStuff(difficulty, Player);
+        }
     }
 }

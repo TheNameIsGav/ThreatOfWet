@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-abstract public class EnemyDefault : MonoBehaviour
+public class EnemyDefault : MonoBehaviour
 {
     float health = 100;
     public float Health { get { return health; } set { health = value; } }
@@ -65,5 +65,5 @@ abstract public class EnemyDefault : MonoBehaviour
     /// </summary>
     /// <param name="position"></param>
     /// <param name="difficulty"></param>
-    abstract public void Spawn(Vector2 position, float difficulty);
+    public void Spawn(Vector2 position, float difficulty) { }
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 726757193398757455}
   - component: {fileID: 726757193398757452}
   - component: {fileID: 726757193398757453}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ghost Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
