@@ -25,6 +25,8 @@ public class AttackState : State
     public int delay = 0;
     public float scale = 1f;
     private bool water = false;
+    private Queue buttons = new Queue();
+    private Queue oldButtons = new Queue();
     public GameObject enemy;
     public AttackState()
     {
@@ -67,6 +69,8 @@ public class AttackState : State
         comboCount = 0;
         ended = 0;
         guess = 0;
+        buttons.Clear();
+        oldButtons.Clear();
         playerController.instance.weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
         playerController.instance.transform.localScale = new Vector3(1f, 1f, 1f);
         
@@ -77,8 +81,9 @@ public class AttackState : State
         if (currVal != playerController.instance.attackVal && playerController.instance.attackVal != 0)
         {
             SetAttack();
-            Debug.Log("shuld be zero");
+            //Debug.Log("shuld be zero");
             currVal = playerController.instance.attackVal;
+            buttons.Enqueue(currVal);
             if(lastVal != currVal)
             {
                 scale += .02f;
@@ -133,7 +138,7 @@ public class AttackState : State
                 if(count >= resetVal)
                 {
                     //have player take damage
-                    Debug.Log("break out");
+                    //Debug.Log("break out");
                     playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
                     playerController.instance.ChangeState(playerController.instance.idle);
                 }
@@ -301,7 +306,7 @@ public class AttackState : State
             }
             else if(phase == 3)
             {
-                Debug.Log("PHASE 3 BAYBEeeee");
+                //Debug.Log("PHASE 3 BAYBEeeee");
                 if(count >= playerController.instance.hitstun)
                 {
                     playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
@@ -324,7 +329,45 @@ public class AttackState : State
     }
     private void Ender()
     {
+        bool help = true;
         //this is code for default ender
+        if (buttons.Count == oldButtons.Count)
+        {
+            for (int i = 0; i < buttons.Count; i++)
+            {
+                if(buttons.ToArray()[i] == oldButtons.ToArray()[i])
+                {
+                    
+                }
+                else
+                {
+                    Debug.Log(buttons.ToArray()[i] + "  " + oldButtons.ToArray()[i]);
+                    help = false;
+                }
+            }
+        }
+        else
+        {
+            help = false;
+        }
+        if(help)
+        {
+            //Debug.Log(buttons.ToArray().ToString() + "  " + oldButtons.ToArray().ToString());
+            //Debug.Log(buttons.Peek().ToString() + "  " + oldButtons.Peek().ToString());
+            Debug.Log("them equat");
+            scale *= .9f;
+        }
+        else if(scale < 1f)
+        {
+            scale = 1f;
+        }
+        oldButtons.Clear();
+        while(buttons.Count > 0)
+        {
+            oldButtons.Enqueue(buttons.Dequeue());
+        }
+        //oldButtons = buttons;
+        buttons.Clear();
         water = false;
         comboCount = 0;
         guess = Random.Range(1, 3);
@@ -337,7 +380,7 @@ public class AttackState : State
         {
             Debug.Log("Sword");
         }
-        Debug.Log(guess);
+        //Debug.Log(guess);
         if(activeWeapon.element == Element.DEFAULT)
         {
             ended = 1;
