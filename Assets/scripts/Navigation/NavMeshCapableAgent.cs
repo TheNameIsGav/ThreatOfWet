@@ -5,21 +5,94 @@ using UnityEngine;
 public class NavMeshCapableAgent : MonoBehaviour{
 
     public bool onMesh = false;
-    public List<GameObject> path;
+    public List<MovePoint> path;
 
-    public void AStar()
+    public Vector2 rawGoal;
+
+    //This method is called by the enemy's hunt state and walks towards the first point in path
+    public (MovePoint, int) AStar(GameObject s, GameObject g, List<MovePoint> nodes)
     {
-        //If we are not on mesh then get on mesh and teleport, otherwise A* to the player. Then recall this method everytime we get to the point on the paht and rebuild the path. 
+
+        //TODO test the bitch
+        MovePoint start = FindNearestMovePoint(s, nodes);
+        MovePoint goal = FindNearestMovePoint(g, nodes);
+        rawGoal = g.transform.position;
+        if (!onMesh)
+        {
+            onMesh = true;
+            return (start, 1); //Returns the first point of the path to move to, as well as teleporting to that location so that we can snap to the map;
+        }
+
+        if(start == goal)
+        {
+            onMesh = false;
+            return (null, 2); //The enemy and the player are as close as they could be (They share the same closest navpoint), so we should just move to the player
+        }
+
+
+        List<MovePoint> openSet = new List<MovePoint>();
+        openSet.Add(start);
+
+        List<MovePoint> cameFrom = new List<MovePoint>();
+
+        Dictionary<MovePoint, float> gScore = new Dictionary<MovePoint, float>();
+        gScore[start] = 0;
+
+        Dictionary<MovePoint, float> fScore = new Dictionary<MovePoint, float>();
+        fScore[start] = H(start);
+
+        while(openSet.Count > 0)
+        {
+            MovePoint current = openSet[0];
+            foreach(MovePoint test in openSet)
+            {
+                if(fScore[test] < fScore[current])
+                {
+                    current = test;
+                }
+            }
+
+            if(current == goal)
+            {
+                return (cameFrom[0], 0);
+            }
+
+            openSet.Remove(current);
+            List<MovePoint> adjs = current.GetComponent<MovePoint>().Adj;
+            for(int i = 0; i < adjs.Count; i++)
+            {
+                float tentativeGScore = gScore[current] + 1;
+                if(tentativeGScore < gScore[adjs[i]])
+                {
+                    cameFrom[i] = current;
+                    gScore[adjs[i]] = tentativeGScore;
+                    fScore[adjs[i]] = gScore[adjs[i]] + H(adjs[i]);
+
+                    if (!openSet.Contains(adjs[i]))
+                    {
+                        openSet.Add(adjs[i]);
+                    }
+
+                }
+            }
+        }
+        return (null, 3);
     }
 
-    public GameObject GetOnMesh(GameObject enemy, List<GameObject> pts)
+    private float H(MovePoint a)
     {
-        GameObject ret = null;
+        return Vector2.Distance(a.transform.position, rawGoal);
+    }
+
+    public MovePoint FindNearestMovePoint(GameObject enemy, List<MovePoint> pts)
+    {
+        MovePoint ret = null;
         float minDist = Vector2.Distance(enemy.transform.position, pts[0].transform.position);
-        foreach (GameObject pt in pts)
+        foreach (MovePoint pt in pts)
         {
             float dist = Vector2.Distance(enemy.transform.position, pt.transform.position);
-            if(minDist > dist)
+
+            if (minDist > dist)
             {
                 ret = pt;
                 minDist = dist;
@@ -29,49 +102,9 @@ public class NavMeshCapableAgent : MonoBehaviour{
         if(ret == null)
         {
             Debug.Log("OH SHIT WE FOUND A NULL SOMETHING IN NavMeshCapableAgent");
-            return enemy;
+            return null;
         }
 
-        onMesh = true;
         return ret;
-    }
-
-        /*//Get rectangle of walking points
-        Vector2 rectA = new Vector2(enemy.transform.position.x + 10, enemy.transform.position.y + 2);
-        Vector2 rectB = new Vector2(enemy.transform.position.x - 10, enemy.transform.position.y - 2);
-        Collider2D[] inRangePts = Physics2D.OverlapAreaAll(rectA, rectB);
-        List<GameObject> validPts = new List<GameObject>();
-
-        foreach(Collider2D c in inRangePts)
-        {
-            RaycastHit2D cast = Physics2D.Raycast(transform.position, c.transform.position);
-            if(cast.collider == null) //No Hit so we can count this as a valid move point
-            {
-                validPts.Add(c.gameObject);
-            }
-        }
-
-        if(validPts.Count > 0) 
-        {
-            GameObject ret = validPts[0];
-            float dist = Vector2.Distance(ret.transform.position, player.transform.position) + Vector2.Distance(ret.transform.position, enemy.transform.position);
-            foreach(GameObject g in validPts)
-            {
-                float checkDist = Vector2.Distance(g.transform.position, player.transform.position) + Vector2.Distance(g.transform.position, enemy.transform.position);
-                if (dist > checkDist)
-                {
-                    ret = g;
-                    dist = checkDist;
-                }
-            }
-        }
-
-        //If here, then there are no points in range that are also reachable without collisions
-        //Get circle of potential jump points
-
-
-
-        //Teleport to the nearest Point straightup
-        return null;*/
-   
+    }   
 }

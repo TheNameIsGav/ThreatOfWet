@@ -820,10 +820,10 @@ PrefabInstance:
     - target: {fileID: 8365866551766630070, guid: 326818e955250074ea89b904fdffcbf5, type: 3}
       propertyPath: adj.Array.data[0]
       value: 
-      objectReference: {fileID: 578192039}
+      objectReference: {fileID: 1808854250}
     - target: {fileID: 8365866551766630070, guid: 326818e955250074ea89b904fdffcbf5, type: 3}
       propertyPath: adj.Array.data[1]
       value: 
-      objectReference: {fileID: 1808854250}
+      objectReference: {fileID: 578192039}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 326818e955250074ea89b904fdffcbf5, type: 3}
