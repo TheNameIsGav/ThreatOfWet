@@ -95,12 +95,20 @@ public class playerController : MonoBehaviour
         {
             pHori++;
         }
+        if(Input.GetAxis("Horizontal") != 0)
+        {
+            pHori = Input.GetAxis("Horizontal");
+        }
+        if(Input.GetAxis("Vertical") != 0)
+        {
+            pVert = Input.GetAxis("Vertical");
+        }
 
         //pHori = Input.GetAxis("Horizontal");
         //pVert = Input.GetAxis("Vertical");
         //this initiates the jump
-        if ((Input.GetKeyDown(inputs[4]) || jumpBuffer >= 0) && grounded)
-        {
+        if ((Input.GetKeyDown(inputs[4]) || Input.GetButtonDown("Jump") || jumpBuffer >= 0) && grounded)
+        { 
             //jumpSquat = jumpSquatVal;
             jump = true;
             jumpBuffer = -1;
@@ -119,13 +127,13 @@ public class playerController : MonoBehaviour
             //transform.localScale = (new Vector3(1.4f, 0.8f, 1f));
             //jumpRelease = false;
         }
-        else if (Input.GetKeyDown(inputs[4]))
+        else if (Input.GetKeyDown(inputs[4]) || Input.GetButtonDown("Jump"))
         {
             jumpBuffer = universalBufferTime;
         }
 
         //this the store that the player wants to short hop
-        if (!Input.GetKey(inputs[4]) && rbs.velocity.y > 0 && state == idle && flatten == -4f)
+        if (!Input.GetKey(inputs[4]) && !Input.GetButton("Jump") && rbs.velocity.y > 0 && state == idle && flatten == -4f)
         {
             jumpRelease = true;
         }
@@ -142,7 +150,7 @@ public class playerController : MonoBehaviour
          }
          */
         //this is the check for starting a dash
-        if ((Input.GetKeyDown(inputs[5]) || dashBuffer >= 0) && canDash)
+        if ((Input.GetKeyDown(inputs[5]) || dashBuffer >= 0 || Input.GetButtonDown("Dash")) && canDash)
         {
             //state = new DashState();
             ChangeState(dash);
@@ -154,14 +162,14 @@ public class playerController : MonoBehaviour
             dashBuffer = -1;
             //transform.localScale = new Vector3(1f, 0.5f, 1f);
         }
-        else if (Input.GetKeyDown(inputs[5]))
+        else if (Input.GetKeyDown(inputs[5]) || Input.GetButtonDown("Dash"))
         {
             dashBuffer = universalBufferTime;
         }
         //how to get a light melee input
         if (state != attack || (state.phase >= 2 && combo)) { 
 
-            if (Input.GetKeyDown(inputs[7]))
+            if (Input.GetKeyDown(inputs[7]) || Input.GetButtonDown("Light Melee"))
             {
                 //Debug.Log("lpldsdl");
                 attackVal = 1;
@@ -174,7 +182,7 @@ public class playerController : MonoBehaviour
                 //weaponHitbox.transform.localScale = new Vector2(meleeWeapon.hitboxWidth * Mathf.Sign(rbs.velocity.x), meleeWeapon.hitboxHeight);
             }
             // how to get a heavy melee input
-            else if (Input.GetKeyDown(inputs[8]))
+            else if (Input.GetKeyDown(inputs[8]) || Input.GetAxis("Heavy Melee") > 0)
             {
                 //Debug.Log("lpldsdl");
                 attackVal = 2;
@@ -187,7 +195,7 @@ public class playerController : MonoBehaviour
                 //weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
             }
             //how to get a light ranged input
-            else if (Input.GetKeyDown(inputs[9]))
+            else if (Input.GetKeyDown(inputs[9]) || Input.GetButtonDown("Light Range"))
             {
                 //Debug.Log("lpldsdl");
                 attackVal = 3;
@@ -198,7 +206,7 @@ public class playerController : MonoBehaviour
                 //ChangeState(attack);
             }
             //how to get a heavy ranged input
-            else if (Input.GetKeyDown(inputs[10]))
+            else if (Input.GetKeyDown(inputs[10]) || Input.GetAxis("Heavy Range") > 0)
             {
                 //Debug.Log("lpldsdl");
                 attackVal = 4;
