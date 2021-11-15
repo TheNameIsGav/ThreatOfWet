@@ -79,6 +79,10 @@ public class AttackState : State
             SetAttack();
             Debug.Log("shuld be zero");
             currVal = playerController.instance.attackVal;
+            if(lastVal != currVal)
+            {
+                scale += .02f;
+            }
             lastVal = currVal;
         }
         else if (playerController.instance.attackVal == 0)
@@ -87,7 +91,7 @@ public class AttackState : State
         }
     }
     public override void StateUpdate()
-    { 
+    {
         if(playerController.instance.combo && enemy == null)
         {
             playerController.instance.ChangeState(playerController.instance.idle);
@@ -129,19 +133,23 @@ public class AttackState : State
                 if(count >= resetVal)
                 {
                     //have player take damage
+                    Debug.Log("break out");
                     playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
                     playerController.instance.ChangeState(playerController.instance.idle);
                 }
-                if(lastVal != 0)
+                Debug.Log(count);
+                if (lastVal != 0)
                 {
-                    if(count > 15 && count < 45)
+                    
+                    if (count > 15 && count < 45)
                     {
                         ended = 0;
                         phase = 0;
                         count = 0;
                         guess = 0;
-                        water = true;
                         comboCount = 0;
+                        water = true;
+                        Debug.Log("parried");
                     }
                     else
                     {
@@ -199,7 +207,7 @@ public class AttackState : State
                 }
             }
             count++;
-            Debug.Log(count);
+            
         }
         else
         {
@@ -255,14 +263,14 @@ public class AttackState : State
                         }
                         else if(comboCount >= 4 || (!light && !water))
                         {
-                         count = 0;
-                         stun = 0;
-                         Ender();
+                            count = 0;
+                            stun = 0;
+                            Ender();
                         }
                         else
                         {
-                            water = false;
-                            //count = 0;
+                            //water = false;
+                            count = 0;
                             phase = 3;
                         }
                     }
@@ -274,7 +282,7 @@ public class AttackState : State
                 else
                 {
                     //Debug.Log("coudnd");
-                    if (comboCount >= 4 || !light)
+                    if (comboCount >= 4 || (!light && !water))
                     {
                         if (light)
                         {
@@ -293,6 +301,7 @@ public class AttackState : State
             }
             else if(phase == 3)
             {
+                Debug.Log("PHASE 3 BAYBEeeee");
                 if(count >= playerController.instance.hitstun)
                 {
                     playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
@@ -316,6 +325,7 @@ public class AttackState : State
     private void Ender()
     {
         //this is code for default ender
+        water = false;
         comboCount = 0;
         guess = Random.Range(1, 3);
         if(guess == 2)
