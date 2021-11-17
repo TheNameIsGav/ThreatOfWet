@@ -5,17 +5,17 @@ using UnityEngine;
 public class NavMeshCapableAgent : MonoBehaviour{
 
     public bool onMesh = false;
-    public List<MovePoint> path;
+    public List<GameObject> path;
 
     public Vector2 rawGoal;
 
     //This method is called by the enemy's hunt state and walks towards the first point in path
-    public (MovePoint, int) AStar(GameObject s, GameObject g, List<MovePoint> nodes)
+    public (GameObject, int) AStar(GameObject s, GameObject g, List<GameObject> nodes)
     {
 
         //TODO test the bitch
-        MovePoint start = FindNearestMovePoint(s, nodes);
-        MovePoint goal = FindNearestMovePoint(g, nodes);
+        GameObject start = FindNearestMovePoint(s, nodes);
+        GameObject goal = FindNearestMovePoint(g, nodes);
         rawGoal = g.transform.position;
         if (!onMesh)
         {
@@ -30,21 +30,21 @@ public class NavMeshCapableAgent : MonoBehaviour{
         }
 
 
-        List<MovePoint> openSet = new List<MovePoint>();
+        List<GameObject> openSet = new List<GameObject>();
         openSet.Add(start);
 
-        List<MovePoint> cameFrom = new List<MovePoint>();
+        List<GameObject> cameFrom = new List<GameObject>();
 
-        Dictionary<MovePoint, float> gScore = new Dictionary<MovePoint, float>();
+        Dictionary<GameObject, float> gScore = new Dictionary<GameObject, float>();
         gScore[start] = 0;
 
-        Dictionary<MovePoint, float> fScore = new Dictionary<MovePoint, float>();
+        Dictionary<GameObject, float> fScore = new Dictionary<GameObject, float>();
         fScore[start] = H(start);
 
         while(openSet.Count > 0)
         {
-            MovePoint current = openSet[0];
-            foreach(MovePoint test in openSet)
+            GameObject current = openSet[0];
+            foreach(GameObject test in openSet)
             {
                 if(fScore[test] < fScore[current])
                 {
@@ -58,7 +58,7 @@ public class NavMeshCapableAgent : MonoBehaviour{
             }
 
             openSet.Remove(current);
-            List<MovePoint> adjs = current.GetComponent<MovePoint>().Adj;
+            List<GameObject> adjs = current.GetComponent<MovePoint>().Adj;
             for(int i = 0; i < adjs.Count; i++)
             {
                 float tentativeGScore = gScore[current] + 1;
@@ -79,16 +79,16 @@ public class NavMeshCapableAgent : MonoBehaviour{
         return (null, 3);
     }
 
-    private float H(MovePoint a)
+    private float H(GameObject a)
     {
         return Vector2.Distance(a.transform.position, rawGoal);
     }
 
-    public MovePoint FindNearestMovePoint(GameObject enemy, List<MovePoint> pts)
+    public GameObject FindNearestMovePoint(GameObject enemy, List<GameObject> pts)
     {
-        MovePoint ret = null;
+        GameObject ret = null;
         float minDist = Vector2.Distance(enemy.transform.position, pts[0].transform.position);
-        foreach (MovePoint pt in pts)
+        foreach (GameObject pt in pts)
         {
             float dist = Vector2.Distance(enemy.transform.position, pt.transform.position);
 
