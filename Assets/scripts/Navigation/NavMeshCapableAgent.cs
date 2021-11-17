@@ -16,19 +16,16 @@ public class NavMeshCapableAgent : MonoBehaviour{
         //TODO test the bitch
         GameObject start = FindNearestMovePoint(s, nodes);
         GameObject goal = FindNearestMovePoint(g, nodes);
+
+        Debug.Log("start: " + start);
+        Debug.Log("Goal: " + goal);
         rawGoal = g.transform.position;
+
         if (!onMesh)
         {
             onMesh = true;
             return (start, 1); //Returns the first point of the path to move to, as well as teleporting to that location so that we can snap to the map;
         }
-
-        if(start == goal)
-        {
-            onMesh = false;
-            return (null, 2); //The enemy and the player are as close as they could be (They share the same closest navpoint), so we should just move to the player
-        }
-
 
         List<GameObject> openSet = new List<GameObject>();
         openSet.Add(start);
@@ -36,10 +33,10 @@ public class NavMeshCapableAgent : MonoBehaviour{
         List<GameObject> cameFrom = new List<GameObject>();
 
         Dictionary<GameObject, float> gScore = new Dictionary<GameObject, float>();
-        gScore[start] = 0;
+        gScore.Add(start, 0);
 
         Dictionary<GameObject, float> fScore = new Dictionary<GameObject, float>();
-        fScore[start] = H(start);
+        fScore.Add(start, H(start));
 
         while(openSet.Count > 0)
         {
@@ -59,14 +56,15 @@ public class NavMeshCapableAgent : MonoBehaviour{
 
             openSet.Remove(current);
             List<GameObject> adjs = current.GetComponent<MovePoint>().Adj;
+            //Something here is wrong because of where the came from is actually doing
             for(int i = 0; i < adjs.Count; i++)
             {
                 float tentativeGScore = gScore[current] + 1;
-                if(tentativeGScore < gScore[adjs[i]])
+                if(!gScore.ContainsKey(adjs[i]) || tentativeGScore < gScore[adjs[i]])
                 {
                     cameFrom[i] = current;
-                    gScore[adjs[i]] = tentativeGScore;
-                    fScore[adjs[i]] = gScore[adjs[i]] + H(adjs[i]);
+                    gScore.Add(adjs[i], tentativeGScore);
+                    fScore.Add(adjs[i], gScore[adjs[i]] + H(adjs[i]));
 
                     if (!openSet.Contains(adjs[i]))
                     {
@@ -86,7 +84,7 @@ public class NavMeshCapableAgent : MonoBehaviour{
 
     public GameObject FindNearestMovePoint(GameObject enemy, List<GameObject> pts)
     {
-        GameObject ret = null;
+        GameObject ret = pts[0];
         float minDist = Vector2.Distance(enemy.transform.position, pts[0].transform.position);
         foreach (GameObject pt in pts)
         {

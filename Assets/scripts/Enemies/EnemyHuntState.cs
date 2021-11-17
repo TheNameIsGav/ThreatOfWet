@@ -5,11 +5,35 @@ using UnityEngine;
 public class EnemyHuntState : StateMachineBehaviour
 {
     GameObject pathingTo;
+    GameObject player;
+    List<GameObject> navs = new List<GameObject>();
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.SetBool("ShouldCombat", false);
-        animator.gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.green;
+        player = GameObject.Find("player");
+        navs = GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>().navPoints;
+        (GameObject target, int retType) = animator.gameObject.GetComponent<NavMeshCapableAgent>().AStar(animator.gameObject, player, navs);
+
+        if (retType == 1)
+        {
+            Debug.Log("How did we get here in enemy hunt state");
+        }
+        else if (retType == 2)
+        {
+            pathingTo = GameObject.Find("player");
+        }
+        else if (retType == 3)
+        {
+            Debug.Log("Returned 3 in Hunt State.... somehow");
+        }
+        else if (retType == 0)
+        {
+            pathingTo = target;
+        }
+
+        Debug.Log(retType);
+
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -26,27 +50,8 @@ public class EnemyHuntState : StateMachineBehaviour
             animator.SetBool("ShouldDie", true);
         }
 
-
-        (GameObject target, int retType) = animator.gameObject.GetComponent<NavMeshCapableAgent>().AStar(animator.gameObject,
-                                                                                                            GameObject.Find("player"),
-                                                                                                            GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>().navPoints);
-        if (retType == 1)
-        {
-            Debug.Log("How did we get here in enemy hunt state");
-        } else if (retType == 2)
-        {
-            pathingTo = GameObject.Find("player");
-        } else if (retType == 3)
-        {
-            Debug.Log("Returned 3 in Hunt State.... somehow");
-        } else if (retType == 0)
-        {
-            pathingTo = target;
-        }
-        
-
         animator.gameObject.transform.position = Vector2.MoveTowards(animator.gameObject.transform.position, pathingTo.transform.position, .001f);
-        
+
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

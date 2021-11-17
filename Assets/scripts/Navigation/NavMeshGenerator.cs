@@ -15,6 +15,7 @@ public class NavMeshGenerator : MonoBehaviour
     void Start()
     {
         navPoints = new List<GameObject>(GameObject.FindGameObjectsWithTag("NavPoint"));
+        Debug.Log(navPoints.Count);
         //navPoints.AddRange(new List<GameObject>(GameObject.FindGameObjectsWithTag("JumpPoint")));
 
         //Debug.Log(Vector2.Distance(navPoints[0].transform.position, navPoints[1].transform.position));
