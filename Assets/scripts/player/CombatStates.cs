@@ -537,7 +537,8 @@ public class MenuState : State
     }
     public override void StateUpdate()
     {
-
+        playerController.instance.invuln = true;
+        playerController.instance.invulCount = 1;
     }
     public override void JumpTrigger()
     {

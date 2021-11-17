@@ -31,6 +31,7 @@ public class playerController : MonoBehaviour
     private int dashBuffer = -1;
     private float absMax = 45f;
     public State state;
+    public State oldState;
     public int universalBufferTime = 4;
     public bool jumpRelease = false;
     public bool jump = false;
@@ -318,7 +319,14 @@ public class playerController : MonoBehaviour
 
     public void ChangeState(State newState)
     {
-        state.OnExit();
+        if (newState != menu)
+        {
+            state.OnExit();
+        }
+        else
+        {
+            oldState = state;
+        }
         state = newState;
         state.OnEnter();
     }
