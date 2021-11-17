@@ -13,8 +13,7 @@ public class EnemySpawnState : StateMachineBehaviour
                                                                                                             GameObject.Find("player"), 
                                                                                                             GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>().navPoints);
         if( retType == 1 ) animator.gameObject.transform.position = target.transform.position;
-        (target, retType) = animator.gameObject.GetComponent<NavMeshCapableAgent>().AStar(animator.gameObject,GameObject.Find("player"),GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>().navPoints);
-        Debug.Log(target);
+        
 
     }
 

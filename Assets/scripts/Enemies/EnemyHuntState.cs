@@ -13,27 +13,9 @@ public class EnemyHuntState : StateMachineBehaviour
         animator.SetBool("ShouldCombat", false);
         player = GameObject.Find("player");
         navs = GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>().navPoints;
-        (GameObject target, int retType) = animator.gameObject.GetComponent<NavMeshCapableAgent>().AStar(animator.gameObject, player, navs);
-
-        if (retType == 1)
-        {
-            Debug.Log("How did we get here in enemy hunt state");
-        }
-        else if (retType == 2)
-        {
-            pathingTo = GameObject.Find("player");
-        }
-        else if (retType == 3)
-        {
-            Debug.Log("Returned 3 in Hunt State.... somehow");
-        }
-        else if (retType == 0)
-        {
-            pathingTo = target;
-        }
-
-        Debug.Log(retType);
-
+        (GameObject target, int retType) = animator.gameObject.GetComponent<NavMeshCapableAgent>().AStar(animator.gameObject, GameObject.Find("player"), GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>().navPoints);
+        Debug.Log(target);
+        pathingTo = target;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -50,7 +32,13 @@ public class EnemyHuntState : StateMachineBehaviour
             animator.SetBool("ShouldDie", true);
         }
 
-        animator.gameObject.transform.position = Vector2.MoveTowards(animator.gameObject.transform.position, pathingTo.transform.position, .001f);
+        
+        if(animator.gameObject.transform.position == pathingTo.transform.position) {
+            int retType = 0;
+            (pathingTo, retType) = animator.gameObject.GetComponent<NavMeshCapableAgent>().AStar(animator.gameObject, GameObject.Find("player"), GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>().navPoints); 
+        }
+
+        animator.gameObject.transform.position = Vector2.MoveTowards(animator.gameObject.transform.position, pathingTo.transform.position, .01f);
 
     }
 
@@ -61,7 +49,7 @@ public class EnemyHuntState : StateMachineBehaviour
     //}
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
-    override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    /*override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //TODO Change Navmesh accessors to be the game manager reference
         (Vector2 move, bool jump) = (Vector2.zero, false); //GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>().FindNextPointAlongPath(animator.gameObject.transform.position, animator.gameObject.GetComponent<EnemyDefault>().PathR);
@@ -77,7 +65,7 @@ public class EnemyHuntState : StateMachineBehaviour
             animator.gameObject.transform.position = Vector3.MoveTowards(animator.gameObject.transform.position, new Vector3(move.x, animator.gameObject.transform.position.y), .01f);
             //Debug.Log(animator.gameObject.transform.position);
         }
-    }
+    }*/
 
     // OnStateIK is called right after Animator.OnAnimatorIK()
     //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

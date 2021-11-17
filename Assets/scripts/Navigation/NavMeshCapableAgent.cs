@@ -17,8 +17,8 @@ public class NavMeshCapableAgent : MonoBehaviour{
         GameObject start = FindNearestMovePoint(s, nodes);
         GameObject goal = FindNearestMovePoint(g, nodes);
 
-        Debug.Log("start: " + start);
-        Debug.Log("Goal: " + goal);
+        //Debug.Log("start: " + start);
+        //Debug.Log("Goal: " + goal);
         rawGoal = g.transform.position;
 
         if (!onMesh)
@@ -30,13 +30,24 @@ public class NavMeshCapableAgent : MonoBehaviour{
         List<GameObject> openSet = new List<GameObject>();
         openSet.Add(start);
 
-        List<GameObject> cameFrom = new List<GameObject>();
+        Dictionary<GameObject, GameObject> cameFrom = new Dictionary<GameObject, GameObject>();
+        foreach (GameObject obj in nodes)
+        {
+            cameFrom.Add(obj, null);
+        }
 
         Dictionary<GameObject, float> gScore = new Dictionary<GameObject, float>();
-        gScore.Add(start, 0);
+        foreach(GameObject obj in nodes){
+            gScore.Add(obj, int.MaxValue);
+        }
+        gScore[start] = 0;
 
         Dictionary<GameObject, float> fScore = new Dictionary<GameObject, float>();
-        fScore.Add(start, H(start));
+        foreach (GameObject obj in nodes)
+        {
+            fScore.Add(obj, int.MaxValue);
+        }
+        fScore[start] = H(start);
 
         while(openSet.Count > 0)
         {
@@ -48,10 +59,20 @@ public class NavMeshCapableAgent : MonoBehaviour{
                     current = test;
                 }
             }
+            
 
             if(current == goal)
             {
-                return (cameFrom[0], 0);
+                while (cameFrom[current] != start) {
+                    Debug.Log(current);
+                    if(cameFrom[current] == null)
+                    {
+                        cameFrom[current] = start;
+                    }
+                    current = cameFrom[current];
+                }
+                
+                return (current, 0);
             }
 
             openSet.Remove(current);
@@ -60,11 +81,11 @@ public class NavMeshCapableAgent : MonoBehaviour{
             for(int i = 0; i < adjs.Count; i++)
             {
                 float tentativeGScore = gScore[current] + 1;
-                if(!gScore.ContainsKey(adjs[i]) || tentativeGScore < gScore[adjs[i]])
+                if(tentativeGScore < gScore[adjs[i]])
                 {
-                    cameFrom[i] = current;
-                    gScore.Add(adjs[i], tentativeGScore);
-                    fScore.Add(adjs[i], gScore[adjs[i]] + H(adjs[i]));
+                    cameFrom[adjs[i]] = current;
+                    gScore[adjs[i]] = tentativeGScore;
+                    fScore[adjs[i]] = gScore[adjs[i]] + H(adjs[i]);
 
                     if (!openSet.Contains(adjs[i]))
                     {
