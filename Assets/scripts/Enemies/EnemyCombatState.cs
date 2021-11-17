@@ -8,7 +8,7 @@ public class EnemyCombatState : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.red;
+        //animator.gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.red;
         animator.SetBool("ShouldHunt", false);
         animator.gameObject.GetComponent<EnemyDefault>().triggerDamage(true);
     }
