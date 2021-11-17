@@ -14599,7 +14599,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'Difficulty: Whack Me Baby!'
+  m_Text: 'Difficulty: lol'
 --- !u!222 &1572297752
 CanvasRenderer:
   m_ObjectHideFlags: 0
