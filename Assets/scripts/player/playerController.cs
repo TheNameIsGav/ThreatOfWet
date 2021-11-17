@@ -48,6 +48,9 @@ public class playerController : MonoBehaviour
     public LineRenderer lineRender;
     public DistanceJoint2D distJoint;
     public KeyCode[] inputs;
+    public int invulCount = 0;
+    public bool item = false;
+    public GameObject items;
     //Debug.Log(meleeWeapon.lightActive);
        // meleeWeapon.lightActive;
        
@@ -101,7 +104,7 @@ public class playerController : MonoBehaviour
         }
         if(Input.GetAxis("Vertical") != 0)
         {
-            pVert = Input.GetAxis("Vertical");
+            pVert = -1*Input.GetAxis("Vertical");
         }
 
         //pHori = Input.GetAxis("Horizontal");
@@ -232,6 +235,14 @@ public class playerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(invulCount > 0)
+        {
+            invulCount--;
+        }
+        else
+        {
+            invuln = false;
+        }
         //Debug.Log(Mathf.Atan2(playerController.instance.rbs.velocity.y, playerController.instance.rbs.velocity.x));
         if (coyote == universalBufferTime)
         {
@@ -352,7 +363,12 @@ public class playerController : MonoBehaviour
     }
     public void ChangeHealth(float change)
     {
-        if(!combo && !invuln)
-        health += change;
+        if (!combo && !invuln)
+        {
+            health += change;
+            invuln = true;
+            invulCount = 25;
+        }
+        
     }
 }

@@ -426,7 +426,7 @@ public class AttackState : State
             ended = 1;
         }
         /*
-        if(activeWeapon.element == enemy.getElement)
+        if(activeWeapon.element == enemy.getElement && activeWeapon.element != Element.Default)
         {
             ended = 6;
         }
@@ -483,7 +483,37 @@ public class AttackState : State
 }
 
 public class MenuState : State
-{
+{/*
+  * what items should be done? like if I'm doing em
+  * crit chance up
+  * crit dmg up?
+  * dmg up
+  * hp up
+  * armor?
+  * lifesteal?
+  * attackspeed
+  * having zany items isn't the goal,
+  * want intresting builds -Force intresting desisions.
+  * 
+  * like defence / health up with thorns
+  * attackspeed high crit
+  * attack damage high lifesteal?
+  * 
+  * crit works like IE?
+  * 
+  * so AS, AD, CRIT, OMNI, HP, DEF === KEY 6, Easy to implement, FORCE people to pick, ala dead cells
+  * dash dist? ms? jump height? - each chest give one of each? 3 categories, pick one??
+  * 
+  * every item class has one "rare" / gimicky upgrade?
+  * Def = thorns?
+  * Attack = poison / bleed (DOT)
+  * Speed = rolling dash / grapple hook? how do you increase (can increase thorns and status, rolling but w/ normal dash?)
+  * will maybe talk about in standup?
+  * like rare drop will have all 3 and upgrade them?
+  * time will tell.
+  * each boss drops rare upgrade. multiple jumps / dashes as rare upgrade? multple dashes ??? rolling first, then multiple?
+  * this is hard. will talk
+  * */
     // Start is called before the first frame update
     public MenuState()
     {
@@ -491,7 +521,10 @@ public class MenuState : State
     }
     public override void OnEnter()
     {
+        if (playerController.instance.item)
+        {
 
+        }
     }
     public override void OnExit()
     {
