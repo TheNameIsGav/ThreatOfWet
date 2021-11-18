@@ -26,7 +26,9 @@ public class EnemyDefault : MonoBehaviour
     float aggroRange = 2.5f;
     public float Range { get { return aggroRange; } set { aggroRange = value; } }
 
-    Element Element; //Singular Integer Identifier of the element type of this enemy
+    Element element; //Singular Integer Identifier of the element type of this enemy
+    public Element Element { get { return element; } set { element = value; } }
+
     List<int> Enhancements; //List of Integer Identifiers of enhancements
 
     public void triggerDamage(bool b)
