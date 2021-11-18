@@ -7,6 +7,7 @@ TagManager:
   - Second Collider
   - Hostile
   - NavPoint
+  - Item
   layers:
   - Default
   - TransparentFX

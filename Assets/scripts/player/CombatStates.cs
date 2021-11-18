@@ -86,7 +86,7 @@ public class AttackState : State
             buttons.Enqueue(currVal);
             if(lastVal != currVal)
             {
-                scale += .02f;
+                scale += .02f + playerController.instance.itemVals[2];
             }
             lastVal = currVal;
         }
@@ -100,6 +100,12 @@ public class AttackState : State
         //this is so player doesn't get dropped combo for killing enemy
         if(playerController.instance.combo && enemy == null)
         {
+            float rand = Random.Range(0, 100);
+            Debug.Log(rand.ToString() + "  " + playerController.instance.itemVals[8] + "  " + (playerController.instance.transform.position.x + 2f * playerController.instance.dir).ToString() + " " + playerController.instance.transform.position.y.ToString());
+            if(playerController.instance.itemVals[8] > rand)
+            {
+                playerController.Instantiate(playerController.instance.items, new Vector3 (playerController.instance.transform.position.x + 2f*playerController.instance.dir, playerController.instance.transform.position.y + 1f, 0f), Quaternion.identity);
+            }
             playerController.instance.ChangeState(playerController.instance.idle);
         }
         //this is the code for the enders
@@ -108,7 +114,7 @@ public class AttackState : State
             //this is for the ground element
             if(ended == 1)
             {
-                if(count >= resetVal)
+                if(count >= Mathf.Max(3,Mathf.Floor(resetVal - playerController.instance.itemVals[0])))
                 {
                     playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
                     playerController.instance.ChangeState(playerController.instance.idle);
@@ -425,12 +431,11 @@ public class AttackState : State
         {
             ended = 1;
         }
-        /*
-        if(activeWeapon.element == enemy.getElement && activeWeapon.element != Element.Default)
+        
+        if(activeWeapon.element == enemy.GetComponent<EnemyDefault>().Element && activeWeapon.element != Element.DEFAULT)
         {
             ended = 6;
         }
-        */
 
         lastVal = 0;
     }
@@ -525,6 +530,10 @@ public class MenuState : State
     State future;
     float oldX = 0f;
     float oldY = 0f;
+    bool move = false;
+    bool itemEx = false;
+    bool enter;
+    int index = 1;
     public string[] descrip = new string[] 
     { "Attack Speed", "Attack Damage", "Combo Damage", "Life Steal", "HP Up", "Defence Up", "Crit Chance", "Dodge Chance", "Drop Chance"};
 // Start is called before the first frame update
@@ -534,19 +543,25 @@ public class MenuState : State
     }
     public override void OnEnter()
     {
-
+        index = 1;
         future = playerController.instance.oldState;
-        if (playerController.instance.item || true)
+        if (playerController.instance.item)
         {
             att = Random.Range(0, 3);
             def = Random.Range(0, 3) + 3;
             luck = Random.Range(0, 3) + 6;
+            itemEx = true;
             Debug.Log(descrip[att] + ", " + descrip[def] + ", " + descrip[luck]);
+        }
+        else
+        {
+            itemEx = false;
         }
         oldX = playerController.instance.rbs.velocity.x;
         oldY = playerController.instance.rbs.velocity.y;
         playerController.instance.rbs.velocity = new Vector2(0, 0);
         playerController.instance.rbs.gravityScale = 0;
+        playerController.Destroy(playerController.instance.activeItem);
         timer = 50;
     }
     public override void OnExit()
@@ -557,19 +572,93 @@ public class MenuState : State
     // Update is called once per frame
     public override void Update()
     {
-
+        hori = playerController.instance.pHori;
+        vert = playerController.instance.pVert;
+        enter = (Input.GetButtonDown("Interact") || Input.GetKeyDown(playerController.instance.inputs[6]));
     }
     public override void StateUpdate()
     {
         playerController.instance.invuln = true;
         playerController.instance.invulCount = 1;
+
         if (timer == 0)
         {
             playerController.instance.ChangeState(future);
         }
-        else
+        else if (!itemEx)
         {
             timer--;
+        }
+        else
+        {
+            if(!move && hori == 0)
+            {
+                move = true;
+            }
+            else if(move && hori != 0)
+            {
+                index += (int)hori;
+                if(index < 0)
+                {
+                    index = 2;
+                }
+                else if(index > 2)
+                {
+                    index = 0;
+                }
+                Debug.Log(index);
+                move = false;
+            }
+
+            if(enter)
+            {
+                if (index == 0)
+                {
+                    if (att == 0)
+                    {
+                        playerController.instance.itemVals[att] += 0.25f;
+                    }
+                    else if(att == 1)
+                    {
+                        playerController.instance.itemVals[att] += 1f;
+                    }
+                    else
+                    {
+                        playerController.instance.itemVals[att] += 0.02f;
+                    }
+                }
+                else if(index == 1)
+                {
+                    if(def == 0+3)
+                    {
+                        playerController.instance.itemVals[def] += 1f;
+                    }
+                    else if(def == 1+3)
+                    {
+                        playerController.instance.itemVals[def] += 5f;
+                    }
+                    else
+                    {
+                        playerController.instance.itemVals[def] += 2f;
+                    }
+                }
+                else
+                {
+                    if(luck == 0+6)
+                    {
+                        playerController.instance.itemVals[luck] += 1f;
+                    }
+                    else if(luck == 1+6)
+                    {
+                        playerController.instance.itemVals[luck] += 1f;
+                    }
+                    else
+                    {
+                        playerController.instance.itemVals[luck] += 1f;
+                    }
+                }
+                timer = 0;
+            }
         }
     }
     public override void JumpTrigger()

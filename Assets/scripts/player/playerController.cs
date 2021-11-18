@@ -11,6 +11,7 @@ public class playerController : MonoBehaviour
     public float pHori;
     public float flatten = -4;
     public float health = 100f;
+    public float maxHealth = 100f;
     public  DashState dash = new DashState();
     public  IdleState idle = new IdleState();
     public MenuState menu = new MenuState();
@@ -52,9 +53,24 @@ public class playerController : MonoBehaviour
     public int invulCount = 0;
     public bool item = false;
     public GameObject items;
+    public GameObject activeItem;
+    public float[] itemVals;
+    // attack speed, attack damage, scaling, lifesteal, hp, def, crit, dodge, drop
     //Debug.Log(meleeWeapon.lightActive);
-       // meleeWeapon.lightActive;
-       
+    // meleeWeapon.lightActive;
+    private void Awake()
+    {
+        if (GameObject.Find("ControlSaver") != null)
+        {
+            //Debug.Log("helsinki");
+            inputs = customControls.instance.inputLst;
+        }
+        else
+        {
+            inputs = new KeyCode[] { KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Space, KeyCode.I, KeyCode.E, KeyCode.O, KeyCode.P, KeyCode.L, KeyCode.Semicolon };
+            // (up , down, left, right, jump, dash, interact, light melee, heavy melee, light range, heavy range)
+        }
+    }
     void Start()
     {
         instance = this;
@@ -75,7 +91,8 @@ public class playerController : MonoBehaviour
             inputs = new KeyCode[] { KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Space, KeyCode.I, KeyCode.E, KeyCode.O, KeyCode.P, KeyCode.L, KeyCode.Semicolon };
             // (up , down, left, right, jump, dash, interact, light melee, heavy melee, light range, heavy range)
         }
-    }
+    itemVals = new float[] { 0f,          0f,            0f,         0f,    0f,  0f,  10f,  0f,    35f };
+}
 
     // Update is called once per frame
     void Update()
@@ -226,7 +243,7 @@ public class playerController : MonoBehaviour
             }
     }
         // this is also the button to pick up
-        if (Input.GetButtonDown("Interact") || Input.GetKeyDown(inputs[6]))
+        if ((Input.GetButtonDown("Interact") || Input.GetKeyDown(inputs[6]) ) && state != menu)
         {
             Debug.Log("we interact with world");
             ChangeState(menu);
@@ -372,12 +389,26 @@ public class playerController : MonoBehaviour
     }
     public void ChangeHealth(float change)
     {
-        if (!combo && !invuln)
+        float rand = Random.Range(1, 101);
+        if (itemVals[7] <= rand)
         {
-            health += change;
-            invuln = true;
-            invulCount = 25;
+            if (!combo && !invuln)
+            {
+                if (change < 1)
+                {
+                    health += Mathf.Max(change + itemVals[5], 0f);
+                    invuln = true;
+                    invulCount = 25;
+                }
+                else
+                {
+                    health += change;
+                }
+            }
         }
-        
+        if(health > (maxHealth + itemVals[4]))
+        {
+            health = (maxHealth + itemVals[4]);
+        }
     }
 }
