@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Enhacnements
+public enum Enhancements
 {
-    ARMORED,
-    SPIKY,
-    SHIELDED,
-    PIERCING,
-    SERRATED,
-    NECROTIC,
-    BIG
+    ARMORED, //Done
+    SPIKY, //Done
+    SHIELDED, //Done
+    PIERCING, //Done
+    SERRATED, //Done
+    NECROTIC, //Done
+    BIG //Done
 }

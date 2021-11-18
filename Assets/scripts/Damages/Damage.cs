@@ -28,6 +28,9 @@ public class Damage
     float critPercent;
     public float CritPercent { get { return critPercent; } set { critPercent = value; } }
 
+    bool ranged;
+    public bool Ranged { get { return ranged; } set { ranged = value; } }
+
     /// <summary>
     /// Constructor for a damage
     /// </summary>
@@ -81,7 +84,9 @@ public class Damage
     {
         if (canCrit)
         {
-            return val + (val * critDamage);
+            if(Random.Range(0, 100) > critPercent) { return val + (val * critDamage); }
+            else { return val; }
+
         } else
         {
             return val;

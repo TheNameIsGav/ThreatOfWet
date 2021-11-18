@@ -10,7 +10,7 @@ public class EnemyCombatState : StateMachineBehaviour
     {
         //animator.gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.red;
         animator.SetBool("ShouldHunt", false);
-        animator.gameObject.GetComponent<EnemyDefault>().triggerDamage(true);
+        
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -31,7 +31,7 @@ public class EnemyCombatState : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.gameObject.GetComponent<EnemyDefault>().triggerDamage(false);
+        
     }
     
 
