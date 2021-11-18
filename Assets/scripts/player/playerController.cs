@@ -226,9 +226,10 @@ public class playerController : MonoBehaviour
             }
     }
         // this is also the button to pick up
-        if (Input.GetButtonDown("Interact"))
+        if (Input.GetButtonDown("Interact") || Input.GetKeyDown(inputs[6]))
         {
-
+            Debug.Log("we interact with world");
+            ChangeState(menu);
         }
         //Debug.Log(state);
         state.Update();
@@ -323,12 +324,12 @@ public class playerController : MonoBehaviour
         {
             state.OnExit();
         }
-        else
-        {
-            oldState = state;
-        }
+        oldState = state;
         state = newState;
-        state.OnEnter();
+        if (oldState != menu)
+        {
+            state.OnEnter();
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

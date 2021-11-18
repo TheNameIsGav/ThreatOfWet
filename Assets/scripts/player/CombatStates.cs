@@ -501,7 +501,7 @@ public class MenuState : State
   * 
   * crit works like IE?
   * 
-  * so AS, AD, CRIT, OMNI, HP, DEF === KEY 6, Easy to implement, FORCE people to pick, ala dead cells
+  * so AS, AD, combo scale increase,, OMNI, HP, DEF === KEY 6, Easy to implement, FORCE people to pick, ala dead cells
   * dash dist? ms? jump height? - each chest give one of each? 3 categories, pick one??
   * 
   * every item class has one "rare" / gimicky upgrade?
@@ -513,22 +513,46 @@ public class MenuState : State
   * time will tell.
   * each boss drops rare upgrade. multiple jumps / dashes as rare upgrade? multple dashes ??? rolling first, then multiple?
   * this is hard. will talk
+  * 
+  * 
+  * 
+  * AS, AD, RAMP, OMNI, HP, DEF, CRIT, DODGE, DROP
   * */
-    // Start is called before the first frame update
+    int att = 0;
+    int def = 0;
+    int luck = 0;
+    int timer = 10;
+    State future;
+    float oldX = 0f;
+    float oldY = 0f;
+    public string[] descrip = new string[] 
+    { "Attack Speed", "Attack Damage", "Combo Damage", "Life Steal", "HP Up", "Defence Up", "Crit Chance", "Dodge Chance", "Drop Chance"};
+// Start is called before the first frame update
     public MenuState()
     {
 
     }
     public override void OnEnter()
     {
-        if (playerController.instance.item)
-        {
 
+        future = playerController.instance.oldState;
+        if (playerController.instance.item || true)
+        {
+            att = Random.Range(0, 3);
+            def = Random.Range(0, 3) + 3;
+            luck = Random.Range(0, 3) + 6;
+            Debug.Log(descrip[att] + ", " + descrip[def] + ", " + descrip[luck]);
         }
+        oldX = playerController.instance.rbs.velocity.x;
+        oldY = playerController.instance.rbs.velocity.y;
+        playerController.instance.rbs.velocity = new Vector2(0, 0);
+        playerController.instance.rbs.gravityScale = 0;
+        timer = 50;
     }
     public override void OnExit()
     {
-
+        playerController.instance.rbs.velocity = new Vector2(oldX, oldY);
+        playerController.instance.rbs.gravityScale = playerController.instance.grav;
     }
     // Update is called once per frame
     public override void Update()
@@ -539,6 +563,14 @@ public class MenuState : State
     {
         playerController.instance.invuln = true;
         playerController.instance.invulCount = 1;
+        if (timer == 0)
+        {
+            playerController.instance.ChangeState(future);
+        }
+        else
+        {
+            timer--;
+        }
     }
     public override void JumpTrigger()
     {
