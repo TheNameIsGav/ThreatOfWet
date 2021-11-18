@@ -51,20 +51,7 @@ public class EnemyHuntState : StateMachineBehaviour
     // OnStateMove is called right after Animator.OnAnimatorMove()
     /*override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        //TODO Change Navmesh accessors to be the game manager reference
-        (Vector2 move, bool jump) = GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>().FindNextPointAlongPath(animator.gameObject.transform.position, /*animator.gameObject.GetComponent<EnemyDefault>().PathR*/ 20f);
-        if (jump)
-        {
-            //Debug.Log("Jumping to " + move);
-            animator.gameObject.transform.position = new Vector3(move.x, move.y + 1);
-        }
-        else
-        {
-            //Debug.Log("walking towards " + move);
-            //Debug.Log(animator.gameObject.transform.position);
-            animator.gameObject.transform.position = Vector3.MoveTowards(animator.gameObject.transform.position, new Vector3(move.x, animator.gameObject.transform.position.y), .01f);
-            //Debug.Log(animator.gameObject.transform.position);
-        }
+        
     }*/
 
     // OnStateIK is called right after Animator.OnAnimatorIK()
