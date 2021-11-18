@@ -344,7 +344,7 @@ public class DashState : State
                 playerController.instance.shortHop = 0;
                 
             }
-            Debug.Log("why grapps here");
+            //Debug.Log("why grapps here");
             playerController.instance.rbs.velocity = new Vector2(playerController.instance.rbs.velocity.x + Mathf.Sign(dashx)*Mathf.Max(Mathf.Abs(dashx) - speedCap,0f), playerController.instance.rbs.velocity.y);
             //playerController.instance.shortHop = 1;
             //playerController.instance.flatten = -4f;

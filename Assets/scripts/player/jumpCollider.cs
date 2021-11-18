@@ -22,15 +22,23 @@ public class jumpCollider : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.transform.position.y - ((collision.gameObject.transform.localScale.y / 2) /* * Mathf.Sign(collision.gameObject.transform.position.y)*/) < (playerController.instance.transform.position.y + ((playerController.instance.transform.localScale.y / 2) /* * Mathf.Sign(playerController.instance.transform.position.y)*/)))
+        if (collision.gameObject.CompareTag("Item"))
         {
-            playerController.instance.grounded = true;
-            playerController.instance.coyote = playerController.instance.universalBufferTime + 1;
-            //playerController.instance.state.shortHop = 0;
-            if (playerController.instance.state != playerController.instance.dash && playerController.instance.rbs.velocity.y < 1f && !(((playerController.instance.transform.position.x /*+ (playerController.instance.transform.localScale.x / 2)*/) <= (collision.gameObject.transform.position.x - (Mathf.Sign(collision.gameObject.transform.position.x)*collision.gameObject.transform.localScale.x / 2))) || ((playerController.instance.transform.position.x /*- (playerController.instance.transform.localScale.x / 2)*/) >= (collision.gameObject.transform.position.x + (collision.gameObject.transform.localScale.x / 2)))))
+            playerController.instance.item = true;
+            playerController.instance.items = collision.gameObject;
+        }
+        else
+        {
+            if (collision.gameObject.transform.position.y - ((collision.gameObject.transform.localScale.y / 2) /* * Mathf.Sign(collision.gameObject.transform.position.y)*/) < (playerController.instance.transform.position.y + ((playerController.instance.transform.localScale.y / 2) /* * Mathf.Sign(playerController.instance.transform.position.y)*/)))
             {
-                //Debug.Log("fucking aasdasdasd");
-                playerController.instance.canDash = true;
+                playerController.instance.grounded = true;
+                playerController.instance.coyote = playerController.instance.universalBufferTime + 1;
+                //playerController.instance.state.shortHop = 0;
+                if (playerController.instance.state != playerController.instance.dash && playerController.instance.rbs.velocity.y < 1f && !(((playerController.instance.transform.position.x /*+ (playerController.instance.transform.localScale.x / 2)*/) <= (collision.gameObject.transform.position.x - (Mathf.Sign(collision.gameObject.transform.position.x) * collision.gameObject.transform.localScale.x / 2))) || ((playerController.instance.transform.position.x /*- (playerController.instance.transform.localScale.x / 2)*/) >= (collision.gameObject.transform.position.x + (collision.gameObject.transform.localScale.x / 2)))))
+                {
+                    //Debug.Log("fucking aasdasdasd");
+                    playerController.instance.canDash = true;
+                }
             }
         }
     }
@@ -44,6 +52,11 @@ public class jumpCollider : MonoBehaviour
         else
         {
             playerController.instance.coyote = playerController.instance.universalBufferTime;
+        }
+        if (collision.gameObject.CompareTag("Item"))
+        {
+            playerController.instance.item = false;
+            playerController.instance.items = null;
         }
     }
 

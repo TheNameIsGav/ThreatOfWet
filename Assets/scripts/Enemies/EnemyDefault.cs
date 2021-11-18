@@ -48,9 +48,16 @@ public class EnemyDefault : MonoBehaviour
     /// Takes in a positive float and subtracts that value from the enemies health
     /// </summary>
     /// <param name="inc"></param>
-    public void TakeDamage(Damage inc)
+    public void TakeDamage(Damage dam)
     {
+        health -= dam.getDamage();
+        //Debug.Log("Took damage from somewhere, now at " + health + " hp");
+        transform.GetChild(2).GetComponent<ParticleSystem>().Play();
 
+        if(health <= 0)
+        {
+            shouldDie = true;
+        }
     }
 
     /// <summary>
@@ -58,8 +65,6 @@ public class EnemyDefault : MonoBehaviour
     /// </summary>
     /// <param name="position"></param>
     /// <param name="difficulty"></param>
-    public void Spawn(Vector2 position, float difficulty)
-    {
+    public void Spawn(Vector2 position, float difficulty) { }
 
-    }
 }

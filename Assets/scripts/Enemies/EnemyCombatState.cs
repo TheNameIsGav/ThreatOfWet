@@ -16,7 +16,7 @@ public class EnemyCombatState : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (Vector2.Distance(animator.gameObject.transform.position, GameObject.Find("player").transform.position) > animator.gameObject.GetComponent<EnemyDefault>().Range)
+        if (Vector2.Distance(animator.gameObject.transform.position, GameObject.Find("player").transform.position) > 20)
         {
             animator.SetBool("ShouldHunt", true);
             //Debug.Log("Transitioning to Hunt State");

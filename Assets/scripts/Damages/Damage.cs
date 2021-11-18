@@ -17,13 +17,16 @@ public class Damage
     public bool Crit { get { return canCrit; } set { canCrit = value; } }
 
     float critDamage;
-    public float critDam { get { return critDamage; } set { critDamage = value; } }
+    public float CritDam { get { return critDamage; } set { critDamage = value; } }
 
     bool onFire;
     public bool Fire { get { return onFire; } set { onFire = value; } }
 
     bool isNecrotic;
     public bool Necrotic { get { return isNecrotic; } set { isNecrotic = value; } }
+
+    float critPercent;
+    public float CritPercent { get { return critPercent; } set { critPercent = value; } }
 
     /// <summary>
     /// Constructor for a damage
@@ -37,7 +40,7 @@ public class Damage
     /// <param name="value"></param>
     /// <param name="cC"></param>
     /// <param name="cD"></param>
-    public Damage(float value, bool cC, float cD) { val = value; canCrit = cC; critDamage = cD; }
+    public Damage(float value, bool cC, float cD, float cP) { val = value; canCrit = cC; critDamage = cD; }
 
     /// <summary>
     /// Constructor for a damage that has one or more status effects with it
@@ -63,7 +66,7 @@ public class Damage
     /// <param name="bleed"></param>
     /// <param name="fire"></param>
     /// <param name="necro"></param>
-    public Damage(float value, bool cC, float cD, bool bleed, bool fire, bool necro)
+    public Damage(float value, bool cC, float cD, float cP, bool bleed, bool fire, bool necro)
     {
         val = value;
         isBleed = bleed;
@@ -71,6 +74,7 @@ public class Damage
         isNecrotic = necro;
         canCrit = cC;
         critDamage = cD;
+        critPercent = cP;
     }
 
     public float getDamage()

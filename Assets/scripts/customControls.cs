@@ -5,7 +5,15 @@ using UnityEngine;
 public class customControls : MonoBehaviour
 {
     // Start is called before the first frame update
-    public KeyCode[] inputLst = new KeyCode[] { KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Space, KeyCode.I, KeyCode.E, KeyCode.O, KeyCode.P, KeyCode.L, KeyCode.Semicolon };
+    /*
+    public KeyCode[,] inputLst = new KeyCode[,] {
+        { KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Space, KeyCode.I, KeyCode.E, KeyCode.O, KeyCode.P, KeyCode.L, KeyCode.Semicolon },
+        {KeyCode.Joystick5Button6, KeyCode.Joystick5Button6, KeyCode.Joystick5Button6, KeyCode.Joystick5Button6, KeyCode.Joystick1Button0, KeyCode.Joystick1Button2,KeyCode.Joystick1Button1,KeyCode.Joystick1Button5, KeyCode.Joystick5Button6, KeyCode.Joystick1Button4, KeyCode.Joystick5Button6 }
+    };
+    */
+    public KeyCode[] inputLst = new KeyCode[]
+        {KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Space, KeyCode.I, KeyCode.E, KeyCode.O, KeyCode.P, KeyCode.L, KeyCode.Semicolon };
+    //float hjj = Input.GetAxis("Joystick1Axis1");
     /*
     public string up = "w";
     public string down = "s";
