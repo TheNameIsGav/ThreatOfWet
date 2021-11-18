@@ -32,7 +32,7 @@ public class enemyContact : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Hostile"))
         {
-            collision.gameObject.GetComponent<EnemyDefault>().TakeDamage(new Damage(4f));
+            collision.gameObject.GetComponent<EnemyDefault>().TakeDamage(new Damage(20f));
         }
     }
 }
