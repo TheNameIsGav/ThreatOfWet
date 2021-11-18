@@ -37,10 +37,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         instance = this;
-        difficultyText = GameObject.Find("Difficulty").GetComponent<Text>();
-        scoreText = GameObject.Find("Score").GetComponent<Text>();
-        goldText = GameObject.Find("Gold").GetComponent<Text>();
-        levelText = GameObject.Find("Level").GetComponent<Text>();
 
         /*
         backgroundSquare = GameObject.Find("Background Square");
@@ -51,15 +47,29 @@ public class GameManager : MonoBehaviour
         difficulty = 1;
         score = 0;
         gold = 0;
-        difficultyText.text = "Difficulty: " + difficulty;
-        scoreText.text = "Score: " + score;
-        goldText.text = "Gold: " + gold;
-        levelText.text = "Level: " + SceneManager.GetActiveScene().name;
         enemiesKilled = 0;
         Player = GameObject.Find("player");
         NavMesh = GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>();
         combos = new int[5+1];
         DontDestroyOnLoad(this);
+
+        // GABRIEL:: UI Stuff Spawned Here
+        difficultyText = GameObject.Find("Difficulty").GetComponent<Text>();
+        scoreText = GameObject.Find("Score").GetComponent<Text>();
+        goldText = GameObject.Find("Gold").GetComponent<Text>();
+        levelText = GameObject.Find("Level").GetComponent<Text>();
+
+        difficultyText.text = "Difficulty: " + difficulty;
+        scoreText.text = "Score: " + score;
+        goldText.text = "Gold: " + gold;
+        levelText.text = "Level: " + SceneManager.GetActiveScene().name;
+    }
+
+    private void FixedUpdate()
+    {
+        // GABRIEL:: UI Stuff Updated Here
+        scoreText.text = "Score: " + score;
+        difficultyText.text = "Difficulty: " + difficulty;
     }
 
     void successfulCombo(int mag)
@@ -71,19 +81,16 @@ public class GameManager : MonoBehaviour
     {
         enemiesKilled++;
         score += value;
-        scoreText.text = "Score: " + score;
     }
 
     void scorePoints(int value)
     {
         score += value;
-        scoreText.text = "Score: " + score;
     }
 
     void setDifficulty(int challenge)
     {
         difficulty = challenge;
-        difficultyText.text = "Difficulty: " + difficulty;
     }
 
     int EnemiesKilled()
