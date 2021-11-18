@@ -26,6 +26,7 @@ public class LockedDoorTile : BasicTile
             triggerCollider.enabled = false;
             locked = false;
             gameObject.GetComponent<SpriteRenderer>().color = new Color(219f, 172f, 148f);
+            col.gameObject.GetComponent<TileTriggerInstruct>().useKey();
         }
     }
     // 161, 93, 59 is the rgb 

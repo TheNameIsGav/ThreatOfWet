@@ -123,8 +123,18 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &39367560
-PrefabInstance:
+--- !u!1 &163978798 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1134846961498847865, guid: 86ae3d2bbdddc5a4c9b298e87438b9c0, type: 3}
+  m_PrefabInstance: {fileID: 2845900223528263642}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &163978799 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5535917179306420359, guid: 86ae3d2bbdddc5a4c9b298e87438b9c0, type: 3}
+  m_PrefabInstance: {fileID: 2845900223528263642}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &163978800
+MonoBehaviour:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
@@ -457,6 +467,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3beea02d93e587e42a6e71d4fd126392, type: 3}
+--- !u!212 &667834763 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 569787578420807823, guid: 86ae3d2bbdddc5a4c9b298e87438b9c0, type: 3}
+  m_PrefabInstance: {fileID: 2845900223528263642}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &683665582
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,7 +508,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215688, g: 0.44480458, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

@@ -10,6 +10,7 @@ public class BackAndForthTile : BasicTile
     public float secondsBetween;
     float t;
     bool goingToTwo;
+    public bool sticky;
 
     protected override void Start()
     {
@@ -42,6 +43,28 @@ public class BackAndForthTile : BasicTile
         {
             goingToTwo = !goingToTwo;
             t = 0;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (sticky)
+        {
+            if (collision.gameObject.Equals(GameManager.instance.Player))
+            {
+                collision.gameObject.transform.SetParent(transform);
+            }
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (sticky)
+        {
+            if (collision.gameObject.Equals(GameManager.instance.Player))
+            {
+                collision.gameObject.transform.SetParent(null);
+            }
         }
     }
 }

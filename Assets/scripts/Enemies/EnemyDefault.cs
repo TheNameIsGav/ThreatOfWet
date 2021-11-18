@@ -7,6 +7,9 @@ public class EnemyDefault : MonoBehaviour
     float health = 100;
     public float Health { get { return health; } set { health = value; } }
 
+    GameObject gm;
+    public GameObject GM { get {return gm; } set { gm = value; } }
+
     bool shouldDie = false;
     public bool Die { get { return shouldDie; } set { shouldDie = value; } }
 
@@ -23,25 +26,24 @@ public class EnemyDefault : MonoBehaviour
     float aggroRange = 2.5f;
     public float Range { get { return aggroRange; } set { aggroRange = value; } }
 
-    int Element; //Singular Integer Identifier of the element type of this enemy
+    Element element; //Singular Integer Identifier of the element type of this enemy
+    public Element Element { get { return element; } set { element = value; } }
+
     List<int> Enhancements; //List of Integer Identifiers of enhancements
 
     public void triggerDamage(bool b)
     {
-        if (b)
-        {
-            InvokeRepeating("DealDamage", .01f, 2f);
-        } else
-        {
-            CancelInvoke();
-        }
+
     }
 
-    private void DealDamage()
+    public void DealDamage()
     {
-        //TODO Get player and scaled damage component from Game Manager
-        GameObject.Find("player").GetComponent<playerController>().ChangeHealth(-baseDamage);
-        transform.GetChild(1).GetComponent<ParticleSystem>().Play();
+
+    }
+
+    public void Start()
+    {
+        gm = GameObject.Find("Game Manager");
     }
 
     /// <summary>
@@ -66,4 +68,5 @@ public class EnemyDefault : MonoBehaviour
     /// <param name="position"></param>
     /// <param name="difficulty"></param>
     public void Spawn(Vector2 position, float difficulty) { }
+
 }
