@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     // I don't know
-    private int difficulty;
+    private float difficulty;
     private Text difficultyText;
     // I don't know
     private long score;
