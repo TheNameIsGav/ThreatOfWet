@@ -20,7 +20,7 @@ public class EnemyDefault : MonoBehaviour
     float aggroRange = 2.5f;
     public float Range { get { return aggroRange; } set { aggroRange = value; } }
 
-    Element element; //Singular Integer Identifier of the element type of this enemy
+    Element element = Element.DEFAULT; //Singular Integer Identifier of the element type of this enemy
     public Element Element { get { return element; } set { element = value; } }
 
     List<Enhancements> enhance = new List<Enhancements>();
@@ -32,31 +32,32 @@ public class EnemyDefault : MonoBehaviour
     /// <param name="inc"></param>
     public void TakeDamage(Damage dam)
     {
-        if(enhance.Contains(Enhancements.SHIELDED))
+        float val = dam.getDamage();
+        if (enhance.Contains(Enhancements.SHIELDED) && dam.Ranged)
         {
-            if (!dam.Ranged)
-            {
-                health -= dam.getDamage();
-            }
+            return;
+        }
 
-        } else if(enhance.Contains(Enhancements.SPIKY))
+        if (enhance.Contains(Enhancements.SPIKY))
         {
-            health -= dam.getDamage();
             GameObject p = GameObject.Find("player");
             if (p != null)
             {
-                p.GetComponent<playerController>().ChangeHealth(dam.getDamage() * .25f);
+                p.GetComponent<playerController>().ChangeHealth(val * .25f);
             }
+        }
 
-        } else if (enhance.Contains(Enhancements.ARMORED))
+        if (enhance.Contains(Enhancements.ARMORED))
         {
-            health -= dam.getDamage() * .5f;
+            health -= val * .5f;
+            Debug.Log("Took damage from somewhere, now at " + health + " hp");
         } else
         {
-            health -= dam.getDamage();
+            health -= val;
+            Debug.Log("Took damage from somewhere, now at " + health + " hp");
         }
         
-        //Debug.Log("Took damage from somewhere, now at " + health + " hp");
+        
         if(health <= 0)
         {
             shouldDie = true;
