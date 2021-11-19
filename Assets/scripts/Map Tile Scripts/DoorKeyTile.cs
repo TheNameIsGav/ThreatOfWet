@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class DoorKeyTile : BasicTile
 {
-
+    // Public set for door, set it to a door and it handles the rest
+    public GameObject door;
     protected override void Start()
     {
         base.Start();
@@ -15,10 +16,16 @@ public class DoorKeyTile : BasicTile
     // But I call my mom every week to say hi
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.GetComponent<TileTriggerInstruct>() != null)
+        if (col.gameObject == GameManager.instance.Player && door != null)
         {
-            col.gameObject.GetComponent<TileTriggerInstruct>().getKey();
+            door.GetComponent<LockedDoorTile>().Unlock();
             gameObject.SetActive(false);
+        } else
+        {
+            if (door == null)
+            {
+                throw new System.Exception("Door Not Defined for Key {"+name+"}");
+            }
         }
     }
 }

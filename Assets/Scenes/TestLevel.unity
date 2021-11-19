@@ -5071,6 +5071,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Key
       objectReference: {fileID: 0}
+    - target: {fileID: 7783607112918389049, guid: b3e49572196562746b1c8636cfc2c104, type: 3}
+      propertyPath: door
+      value: 
+      objectReference: {fileID: 1576943561}
     - target: {fileID: 7783607112918389051, guid: b3e49572196562746b1c8636cfc2c104, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -14267,6 +14271,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 7783607112918389051, guid: b3e49572196562746b1c8636cfc2c104, type: 3}
   m_PrefabInstance: {fileID: 1709573504}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1576943561 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7573003659822994112, guid: d74e1af40dbeb7742aa61dba12a9d7b2, type: 3}
+  m_PrefabInstance: {fileID: 505763904}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1585010616 stripped
 Transform:
