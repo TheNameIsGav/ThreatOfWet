@@ -5,7 +5,6 @@ using UnityEngine;
 public class BasicTile : MonoBehaviour
 {
     // Start is called before the first frame update
-    public Sprite sprite;
     protected Collider2D hitbox;
 
     protected virtual void Start()

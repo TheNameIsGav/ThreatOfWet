@@ -11,7 +11,6 @@ public class Chest : BasicTile
     {
         base.Start();
         // loot is either predefined or grab method will be grabbed or it will be generated upon retrieval
-        gameObject.GetComponent<SpriteRenderer>().sprite = sprite;
         hitbox.isTrigger = true;
     }
 

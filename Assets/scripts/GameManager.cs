@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     // I don't know
     private float difficulty;
+    private float diffTimer;
     // I don't know
     private long score;
     // I don't know where Imma gonna go when the volcano blows
@@ -30,11 +31,15 @@ public class GameManager : MonoBehaviour
 
     private int[] numbers;
 
+    private void Awake()
+    {
+        instance = this;
+    }
+
     // Jack and Jill are talking with each other. Jack says "I met a man with a wooden leg named Smith." Jill asks "What's the name of his other leg?"
     void Start()
     {
-        instance = this;
-        difficulty = 1;
+        difficulty = diffTimer = 0;
         score = 0;
         enemiesKilled = 0;
         Player = GameObject.Find("player");
@@ -100,11 +105,20 @@ public class GameManager : MonoBehaviour
     public void Update()
     {
         timeToSpawn -= Time.deltaTime;
+        diffTimer += Time.deltaTime;
         if (timeToSpawn <= 0)
         {
             timeToSpawn = 1f + (Random.Range(0f,3f) / difficulty);
             Debug.Log(timeToSpawn);
-            spawner.SpawnStuff(difficulty, Player);
+            if (spawner == null)
+                spawner = SpawnHandler.instance;
+            else 
+                spawner.SpawnStuff(difficulty, Player);
+        }
+        if (diffTimer > 8.5)
+        {
+            diffTimer -= 8.5f;
+            difficulty++;
         }
     }
 }

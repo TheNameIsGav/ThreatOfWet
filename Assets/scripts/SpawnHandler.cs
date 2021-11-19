@@ -12,11 +12,15 @@ public class SpawnHandler : MonoBehaviour
     public GameObject[] level3EnemyPrefabs;
     int enemySpawnCap;
 
-    public SpawnHandler()
+    private void Awake()
+    {
+        instance = this;
+    }
+
+    void Start()
     {
         enemiesSpawned = 0;
         enemySpawnCap = Mathf.FloorToInt(50 + (50 * GameManager.instance.Difficulty()));
-        instance = this;
     }
 
     public void SpawnStuff(float diff, GameObject player)
