@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour
     void setDifficulty(int challenge)
     {
         difficulty = challenge;
-        difficultyText.text = "Difficulty: " + difficulty;
+        // difficultyText.text = "Difficulty: " + difficulty;
     }
 
     int EnemiesKilled()
