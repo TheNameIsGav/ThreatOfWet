@@ -25,7 +25,8 @@ public class jumpCollider : MonoBehaviour
         if (collision.gameObject.CompareTag("Item"))
         {
             playerController.instance.item = true;
-            playerController.instance.items = collision.gameObject;
+            //playerController.instance.items = collision.gameObject;
+            playerController.instance.activeItem = collision.gameObject;
         }
         else
         {
@@ -56,7 +57,8 @@ public class jumpCollider : MonoBehaviour
         if (collision.gameObject.CompareTag("Item"))
         {
             playerController.instance.item = false;
-            playerController.instance.items = null;
+            //playerController.instance.items = null;
+            playerController.instance.activeItem = null;
         }
     }
 
