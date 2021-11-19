@@ -51,7 +51,7 @@ public class EnemyDefault : MonoBehaviour
     public void TakeDamage(float inc)
     {
         health -= inc;
-        Debug.Log("Took damage from somewhere, now at " + health + " hp");
+        //Debug.Log("Took damage from somewhere, now at " + health + " hp");
         transform.GetChild(2).GetComponent<ParticleSystem>().Play();
 
         if(health <= 0)
@@ -59,4 +59,11 @@ public class EnemyDefault : MonoBehaviour
             shouldDie = true;
         }
     }
+
+    /// <summary>
+    /// Called to spawn an enemy with the arguments Position and Difficulty
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="difficulty"></param>
+    public void Spawn(Vector2 position, float difficulty) { }
 }

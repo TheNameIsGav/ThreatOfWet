@@ -15,8 +15,8 @@ public class NavMeshGenerator : MonoBehaviour
         //navPoints.AddRange(new List<GameObject>(GameObject.FindGameObjectsWithTag("JumpPoint")));
         player = GameObject.Find("player");
 
-        Debug.Log(Vector2.Distance(navPoints[0].transform.position, navPoints[1].transform.position));
-        //Debug.Log(FindNextPointAlongPath(GameObject.Find("EnemyBase").transform.position, 20f));
+        // Debug.Log(Vector2.Distance(navPoints[0].transform.position, navPoints[1].transform.position));
+        // Debug.Log(FindNextPointAlongPath(GameObject.Find("EnemyBase").transform.position, 20f));
     }
 
     /// <summary>

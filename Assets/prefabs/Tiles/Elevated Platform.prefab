@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4714649466628182128}
   - component: {fileID: 4714649466628182135}
   - component: {fileID: 4714649466628182134}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Elevated Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}

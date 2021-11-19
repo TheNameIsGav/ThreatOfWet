@@ -44,12 +44,15 @@ public class playerController : MonoBehaviour
     public LineRenderer lineRender;
     public DistanceJoint2D distJoint;
     public KeyCode[] inputs;
+
+    public Transform SpawnCheck;
     //Debug.Log(meleeWeapon.lightActive);
        // meleeWeapon.lightActive;
        
     void Start()
     {
         instance = this;
+        SpawnCheck = GameObject.Find("SpawnCheck").GetComponent<Transform>();
         Debug.Log(meleeWeapon.lightActive);
         distJoint.enabled = false;
         lineRender.enabled = false;

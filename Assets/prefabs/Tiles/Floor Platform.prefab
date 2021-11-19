@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 5062307553646633594}
   - component: {fileID: 5062307553646633589}
   - component: {fileID: 5062307553646633588}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Floor Platform
-  m_TagString: Untagged
+  m_TagString: Spawnable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
