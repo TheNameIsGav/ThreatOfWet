@@ -8,6 +8,7 @@ TagManager:
   - Hostile
   - NavPoint
   - Item
+  - Slippery
   layers:
   - Default
   - TransparentFX

@@ -245,7 +245,9 @@ public class playerController : MonoBehaviour
         // this is also the button to pick up
         if ((Input.GetButtonDown("Interact") || Input.GetKeyDown(inputs[6]) ) && state != menu)
         {
-            Debug.Log("we interact with world");
+            Debug.Log(itemVals[0].ToString() + " " + itemVals[1].ToString() + " " + itemVals[2].ToString());
+            Debug.Log(itemVals[3].ToString() + " " + itemVals[4].ToString() + " " + itemVals[5].ToString());
+            Debug.Log(itemVals[6].ToString() + " " + itemVals[7].ToString() + " " + itemVals[8].ToString());
             ChangeState(menu);
         }
         //Debug.Log(state);

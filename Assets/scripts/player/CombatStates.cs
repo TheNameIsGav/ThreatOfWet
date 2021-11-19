@@ -28,6 +28,8 @@ public class AttackState : State
     private Queue buttons = new Queue();
     private Queue oldButtons = new Queue();
     public GameObject enemy;
+    int dropCount = 0;
+    bool shouldDrop = false;
     public AttackState()
     {
 
@@ -102,9 +104,20 @@ public class AttackState : State
         {
             float rand = Random.Range(0, 100);
             Debug.Log(rand.ToString() + "  " + playerController.instance.itemVals[8] + "  " + (playerController.instance.transform.position.x + 2f * playerController.instance.dir).ToString() + " " + playerController.instance.transform.position.y.ToString());
-            if(playerController.instance.itemVals[8] > rand)
+            if(playerController.instance.itemVals[8] > rand || shouldDrop)
             {
+                dropCount = 0;
+                shouldDrop = false;
                 playerController.Instantiate(playerController.instance.items, new Vector3 (playerController.instance.transform.position.x + 2f*playerController.instance.dir, playerController.instance.transform.position.y + 1f, 0f), Quaternion.identity);
+            }
+            else
+            {
+                dropCount++;
+                if(dropCount >= Mathf.Ceil(100f / playerController.instance.itemVals[8]) - 1)
+                {
+                    dropCount = 0;
+                    shouldDrop = true;
+                }
             }
             playerController.instance.ChangeState(playerController.instance.idle);
         }
@@ -534,6 +547,9 @@ public class MenuState : State
     bool itemEx = false;
     bool enter;
     int index = 1;
+    int delay = 0;
+    int startDelay = 0;
+
     public string[] descrip = new string[] 
     { "Attack Speed", "Attack Damage", "Combo Damage", "Life Steal", "HP Up", "Defence Up", "Crit Chance", "Dodge Chance", "Drop Chance"};
 // Start is called before the first frame update
@@ -544,6 +560,7 @@ public class MenuState : State
     public override void OnEnter()
     {
         index = 1;
+        startDelay = 5;
         future = playerController.instance.oldState;
         if (playerController.instance.item)
         {
@@ -562,10 +579,13 @@ public class MenuState : State
         playerController.instance.rbs.velocity = new Vector2(0, 0);
         playerController.instance.rbs.gravityScale = 0;
         playerController.Destroy(playerController.instance.activeItem);
+        enter = false;
         timer = 50;
     }
     public override void OnExit()
     {
+        itemEx = false;
+        enter = false;
         playerController.instance.rbs.velocity = new Vector2(oldX, oldY);
         playerController.instance.rbs.gravityScale = playerController.instance.grav;
     }
@@ -574,35 +594,67 @@ public class MenuState : State
     {
         hori = playerController.instance.pHori;
         vert = playerController.instance.pVert;
-        enter = (Input.GetButtonDown("Interact") || Input.GetKeyDown(playerController.instance.inputs[6]));
+
+        if (enter)
+        {
+            if (delay <= 0)
+            {
+                enter = false;
+            }
+        }
+        else
+        {
+            enter = (Input.GetButtonDown("Interact") || Input.GetKeyDown(playerController.instance.inputs[6]));
+            if (enter)
+            {
+                delay = 3;
+            }
+        }
+        if(startDelay > 0)
+        {
+            enter = false;
+        }
+        
+        //Debug.Log(enter);
     }
     public override void StateUpdate()
     {
+        if(delay > 0)
+        {
+            delay--;
+        }
+        if(startDelay > 0)
+        {
+            startDelay--;
+        }
         playerController.instance.invuln = true;
         playerController.instance.invulCount = 1;
 
         if (timer == 0)
         {
+            Debug.Log("we got here");
             playerController.instance.ChangeState(future);
         }
         else if (!itemEx)
         {
+            //Debug.Log("no item");
             timer--;
         }
         else
         {
-            if(!move && hori == 0)
+           
+            if (!move && hori == 0)
             {
                 move = true;
             }
-            else if(move && hori != 0)
+            else if (move && hori != 0)
             {
                 index += (int)hori;
-                if(index < 0)
+                if (index < 0)
                 {
                     index = 2;
                 }
-                else if(index > 2)
+                else if (index > 2)
                 {
                     index = 0;
                 }
@@ -610,15 +662,16 @@ public class MenuState : State
                 move = false;
             }
 
-            if(enter)
+            if (enter)
             {
+                Debug.Log("key has been pressed");
                 if (index == 0)
                 {
                     if (att == 0)
                     {
                         playerController.instance.itemVals[att] += 0.25f;
                     }
-                    else if(att == 1)
+                    else if (att == 1)
                     {
                         playerController.instance.itemVals[att] += 1f;
                     }
@@ -627,13 +680,13 @@ public class MenuState : State
                         playerController.instance.itemVals[att] += 0.02f;
                     }
                 }
-                else if(index == 1)
+                else if (index == 1)
                 {
-                    if(def == 0+3)
+                    if (def == 0 + 3)
                     {
                         playerController.instance.itemVals[def] += 1f;
                     }
-                    else if(def == 1+3)
+                    else if (def == 1 + 3)
                     {
                         playerController.instance.itemVals[def] += 5f;
                     }
@@ -644,11 +697,11 @@ public class MenuState : State
                 }
                 else
                 {
-                    if(luck == 0+6)
+                    if (luck == 0 + 6)
                     {
                         playerController.instance.itemVals[luck] += 1f;
                     }
-                    else if(luck == 1+6)
+                    else if (luck == 1 + 6)
                     {
                         playerController.instance.itemVals[luck] += 1f;
                     }
