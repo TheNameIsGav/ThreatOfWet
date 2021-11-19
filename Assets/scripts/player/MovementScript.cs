@@ -90,7 +90,13 @@ public class IdleState : State
                 //playerController.instance.rbs.velocity = new Vector2(playerController.instance.rbs.velocity.x, Mathf.Max(playerController.instance.rbs.velocity.y, 0f) + jumpHeight);
                 playerController.instance.jump = false;
                 //jumpBuffer = -1;
-                playerController.instance.transform.localScale = (new Vector3(.9f, 1.1f, 1f));
+
+                if (playerController.instance.transform.parent == null)
+                    playerController.instance.transform.localScale = (new Vector3(.9f, 1.1f, 1f));
+                else
+                    playerController.instance.transform.localScale = (new Vector3(.9f / (playerController.instance.transform.parent.transform.localScale.x),
+                        1.1f / (playerController.instance.transform.parent.transform.localScale.y), 1f));
+                
                 playerController.instance.coyote = playerController.instance.universalBufferTime + 1;
             }
 
@@ -98,8 +104,12 @@ public class IdleState : State
         //this is essentially part 2 of the grounded check
         else if (playerController.instance.grounded && playerController.instance.rbs.velocity.y < 1f && playerController.instance.flatten == -4f)
         {
-            playerController.instance.transform.localScale = (new Vector3(1f, 1f, 1f));
-            
+            if (playerController.instance.transform.parent == null)
+                playerController.instance.transform.localScale = (new Vector3(1f, 1f, 1f));
+            else
+                playerController.instance.transform.localScale = (new Vector3(1f / (playerController.instance.transform.parent.transform.localScale.x),
+                    1f / (playerController.instance.transform.parent.transform.localScale.y), 1f));
+
             //playerController.instance.shortHop = 0;
         }
 
@@ -177,7 +187,12 @@ public class IdleState : State
         ////Debug.Log.Log("WHO WANT S TO WATHC ME SCREAM");
         jumpSquat = jumpSquatVal;
         jumpRelease = false;
-        playerController.instance.transform.localScale = (new Vector3(1.4f, 0.8f, 1f));
+        if (playerController.instance.transform.parent == null)
+            playerController.instance.transform.localScale = (new Vector3(1.4f, 0.8f, 1f));
+        else
+            playerController.instance.transform.localScale = (new Vector3(1.4f / (playerController.instance.transform.parent.transform.localScale.x),
+                0.8f / (playerController.instance.transform.parent.transform.localScale.y), 1f));
+        
         //jumpRelease = false;
         //playerController.instance.jump = true;
     }
@@ -228,7 +243,14 @@ public class DashState : State
         playerController.instance.rbs.gravityScale = 0;
         ////Debug.Log.Log("no fucking way");
         playerController.instance.rbs.velocity = new Vector2(0f, 0f);
-        playerController.instance.transform.localScale = new Vector3(1f, 0.5f, 1f);
+
+        // playerController.instance.transform.localScale = new Vector3(1f, 0.5f, 1f);
+        if (playerController.instance.transform.parent == null)
+            playerController.instance.transform.localScale = (new Vector3(1f, 0.5f, 1f));
+        else
+            playerController.instance.transform.localScale = (new Vector3(1f / (playerController.instance.transform.parent.transform.localScale.x),
+                0.5f / (playerController.instance.transform.parent.transform.localScale.y), 1f));
+
         playerController.instance.coyote = playerController.instance.universalBufferTime;
         playerController.instance.superJump = true;
     }
@@ -296,7 +318,15 @@ public class DashState : State
             playerController.instance.jumpRelease = false;
             //playerController.instance.jump = false;
             dashTimer = -1;
-            playerController.instance.transform.localScale = new Vector3(0.9f, 1.1f, 1f);
+            
+            // playerController.instance.transform.localScale = new Vector3(0.9f, 1.1f, 1f);
+
+            if (playerController.instance.transform.parent == null)
+                playerController.instance.transform.localScale = (new Vector3(.9f, 1.1f, 1f));
+            else
+                playerController.instance.transform.localScale = (new Vector3(.9f / (playerController.instance.transform.parent.transform.localScale.x),
+                    1.1f / (playerController.instance.transform.parent.transform.localScale.y), 1f));
+            
             //this is for if the player is wavedashing rather than superjumping, also sorry not sorry
             if (playerController.instance.rbs.velocity.y <= 0)
             {
@@ -415,8 +445,15 @@ public class DashState : State
             playerController.instance.superJump = false;
             playerController.instance.ChangeState(playerController.instance.idle);
             dashTimer = -1;
-            playerController.instance.transform.localScale = new Vector3(0.9f, 1.1f, 1f);
-            
+
+            // playerController.instance.transform.localScale = new Vector3(0.9f, 1.1f, 1f);
+
+            if (playerController.instance.transform.parent == null)
+                playerController.instance.transform.localScale = (new Vector3(.9f, 1.1f, 1f));
+            else
+                playerController.instance.transform.localScale = (new Vector3(.9f / (playerController.instance.transform.parent.transform.localScale.x),
+                    1.1f / (playerController.instance.transform.parent.transform.localScale.y), 1f));
+
             if (hori == 0)
             {
                 //stops momentum if no direction

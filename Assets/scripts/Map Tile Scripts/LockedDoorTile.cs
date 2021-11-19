@@ -26,6 +26,13 @@ public class LockedDoorTile : BasicTile
     {
         if (!locked && elevate <= 5.5)
         {
+  /*
+            hitbox.enabled = false;
+            triggerCollider.enabled = false;
+            locked = false;
+            gameObject.GetComponent<SpriteRenderer>().color = new Color(219f, 172f, 148f);
+            col.gameObject.GetComponent<TileTriggerInstruct>().useKey();
+
             elevate += Time.fixedDeltaTime;
             if (elevate < 1)
             {
@@ -44,6 +51,7 @@ public class LockedDoorTile : BasicTile
                 GameManager.instance.ResetCameraToPlayer();
                 elevate = 5;
             }
+            */
         }
     }
 
