@@ -24,20 +24,25 @@ public class LockedDoorTile : BasicTile
 
     void FixedUpdate()
     {
-        if (!locked && elevate <= 2.5)
+        if (!locked && elevate <= 5.5)
         {
             elevate += Time.fixedDeltaTime;
-            if (elevate < .5)
+            if (elevate < 1)
             {
                 // Do nothing, delay for half a second
-            } else if (elevate < 2)
+            }
+            else if (elevate < 3)
             {
-                transform.position = origPos + new Vector3(0, (elevate - .5f) / 2 * height, 0);
-            } else
+                transform.position = origPos + new Vector3(0, (elevate - 1f) / 2f * height, 0);
+            }
+            else if (elevate < 4)
             {
                 transform.position = origPos + new Vector3(0, height, 0);
+            } // One More Delay for fun :)
+            else
+            {
                 GameManager.instance.ResetCameraToPlayer();
-                elevate = 3;
+                elevate = 5;
             }
         }
     }

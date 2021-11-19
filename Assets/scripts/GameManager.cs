@@ -50,14 +50,14 @@ public class GameManager : MonoBehaviour
     {
         GameObject cam = GameObject.Find("Main Camera");
         cam.transform.SetParent(Player.transform);
-        //transform.position = new Vector3(0, 0, -10);
+        cam.transform.position = Player.transform.position + new Vector3(0, 0, -10);
     }
 
     public void ChangeCameraParent(GameObject go)
     {
         GameObject cam = GameObject.Find("Main Camera");
         cam.transform.SetParent(go.transform);
-        //transform.position = new Vector3(0,0,-10);
+        cam.transform.position = go.transform.position + new Vector3(0, 0, -10);
     }
 
     void successfulCombo(int mag)
