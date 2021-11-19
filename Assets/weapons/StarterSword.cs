@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class StarterSword : Weapon
 {
+    //enum Elements { Default, Fire, Eletric, Water, Earth }
+    //Elements element = Elements.Default;
     //these are in unity units, if the weapon is ranged then the height is the range of the weapon, and the width is how wide the beam is 
     //public float hitboxWidth = 2f;
     //public float hitboxHeight = 2f;
@@ -21,12 +23,14 @@ public class StarterSword : Weapon
     //heavyActive = 60;
     //heavyEndlag = 30;
     //these store the sprite and animations for the weapon (if specific animations end up being used)
+    new public Animation lightSwing;
+    new public Animation heavySwing;
+    new public Sprite weaponSprite;
 
     public StarterSword()
     {
         name = "Starter Sword";
         desciption = "The sword that you start out with, i donno seems pretty basic";
-        element = Element.DEFAULT;
         ranged = false;
         rhythm = false;
 
@@ -37,6 +41,7 @@ public class StarterSword : Weapon
         heavyStartup = 20;
         heavyActive = 8;
         heavyEndlag = 20;
+        element = Element.DEFAULT;
     }
 
     // Update is called once per frame

@@ -19,6 +19,8 @@ public class SniperRifle : Weapon
         heavyStartup = 26;
         heavyActive = 10;
         heavyEndlag = 24;
+
+        damageBase = 75f;
     }
 
     // Update is called once per frame

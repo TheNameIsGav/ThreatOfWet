@@ -19,6 +19,8 @@ public class LaserPistol : Weapon
         heavyStartup = 18;
         heavyActive = 6;
         heavyEndlag = 14;
+
+        damageBase = 15f;
     }
 
     // Update is called once per frame

@@ -19,6 +19,8 @@ public class LaserAssault : Weapon
         heavyStartup = 14;
         heavyActive = 3;
         heavyEndlag = 12;
+
+        damageBase = 20f;
     }
 
     // Update is called once per frame

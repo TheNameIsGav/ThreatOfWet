@@ -19,6 +19,8 @@ public class GatlingGun : Weapon
         heavyStartup = 14;
         heavyActive = 20;
         heavyEndlag = 14;
+
+        damageBase = 8f;
     }
 
     // Update is called once per frame

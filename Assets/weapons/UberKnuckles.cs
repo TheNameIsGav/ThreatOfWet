@@ -19,6 +19,8 @@ public class UberKnuckles : Weapon
         heavyStartup = 8;
         heavyActive = 8;
         heavyEndlag = 8;
+
+        damageBase = 25f;
     }
 
     // Update is called once per frame

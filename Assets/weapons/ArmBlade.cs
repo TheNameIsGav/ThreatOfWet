@@ -19,6 +19,8 @@ public class ArmBlade : Weapon
         heavyStartup = 16;
         heavyActive = 12;
         heavyEndlag = 12;
+
+        damageBase = 30f;
     }
 
     // Update is called once per frame

@@ -19,6 +19,8 @@ public class EnergySword : Weapon
         heavyStartup = 20;
         heavyActive = 24;
         heavyEndlag = 18;
+
+        damageBase = 35f;
     }
 
     // Update is called once per frame

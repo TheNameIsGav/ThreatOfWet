@@ -19,6 +19,8 @@ public class Shotgun : Weapon
         heavyStartup = 24;
         heavyActive = 8;
         heavyEndlag = 20;
+
+        damageBase = 70f;
     }
 
     // Update is called once per frame

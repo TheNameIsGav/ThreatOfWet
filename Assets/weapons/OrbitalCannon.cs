@@ -19,6 +19,8 @@ public class OrbitalCannon : Weapon
         heavyStartup = 100;
         heavyActive = 40;
         heavyEndlag = 60;
+
+        damageBase = 150f;
     }
 
     // Update is called once per frame

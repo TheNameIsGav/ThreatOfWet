@@ -19,6 +19,8 @@ public class Revolver : Weapon
         heavyStartup = 18;
         heavyActive = 6;
         heavyEndlag = 10;
+
+        damageBase = 40f
     }
 
     // Update is called once per frame

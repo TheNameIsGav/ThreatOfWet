@@ -19,6 +19,8 @@ public class Staff : Weapon
         heavyStartup = 20;
         heavyActive = 24;
         heavyEndlag = 20;
+
+        damageBase = 35f;
     }
 
     // Update is called once per frame

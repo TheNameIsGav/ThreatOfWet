@@ -19,6 +19,8 @@ public class BFG : Weapon
         heavyStartup = 80;
         heavyActive = 60;
         heavyEndlag = 60;
+
+        damageBase = 200f;
     }
 
     // Update is called once per frame

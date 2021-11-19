@@ -19,6 +19,8 @@ public class WarHammer : Weapon
         heavyStartup = 28;
         heavyActive = 32;
         heavyEndlag = 28;
+
+        damageBase = 70f;
     }
 
     // Update is called once per frame

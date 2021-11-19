@@ -19,6 +19,8 @@ public class StarterGun : Weapon
         heavyStartup = 16;
         heavyActive = 4;
         heavyEndlag = 12;
+
+        damageBase = 10f;
     }
 
     // Update is called once per frame
