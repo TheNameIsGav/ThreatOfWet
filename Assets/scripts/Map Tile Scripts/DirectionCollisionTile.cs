@@ -19,21 +19,21 @@ public class DirectionCollisionTile : BasicTile
         extraHitbox = gameObject.AddComponent<BoxCollider2D>();
         if (Up())
         {
-            extraHitbox.offset = new Vector2(extraHitbox.offset.x, extraHitbox.offset.y-.5f);
+            extraHitbox.offset = new Vector2(extraHitbox.offset.x, extraHitbox.offset.y - .3f);
             // extraHitbox.size = new Vector2(1.2f, 1);
         } else if (Right())
         {
-            extraHitbox.offset = new Vector2(extraHitbox.offset.x - .5f, extraHitbox.offset.y);
+            extraHitbox.offset = new Vector2(extraHitbox.offset.x - .3f, extraHitbox.offset.y);
             // extraHitbox.size = new Vector2(1, 1.2f);
         }
         else if (Down())
         {
-            extraHitbox.offset = new Vector2(extraHitbox.offset.x, extraHitbox.offset.y + .5f);
+            extraHitbox.offset = new Vector2(extraHitbox.offset.x, extraHitbox.offset.y + .3f);
             // extraHitbox.size = new Vector2(1.2f, 1);
         }
         else // if (Left()) 
         {
-            extraHitbox.offset = new Vector2(extraHitbox.offset.x + .5f, extraHitbox.offset.y);
+            extraHitbox.offset = new Vector2(extraHitbox.offset.x + .3f, extraHitbox.offset.y);
             // extraHitbox.size = new Vector2(1, 1.2f);
         }
         extraHitbox.isTrigger = true;

@@ -9,6 +9,7 @@ TagManager:
   - JumpPoint
   - Hostile
   - Spawnable
+  - Chest
   layers:
   - Default
   - TransparentFX
