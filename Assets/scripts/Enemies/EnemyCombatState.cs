@@ -8,15 +8,15 @@ public class EnemyCombatState : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.red;
+        //animator.gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().color = Color.red;
         animator.SetBool("ShouldHunt", false);
-        animator.gameObject.GetComponent<EnemyDefault>().triggerDamage(true);
+        
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (Vector2.Distance(animator.gameObject.transform.position, GameObject.Find("player").transform.position) > animator.gameObject.GetComponent<EnemyDefault>().Range)
+        if (Vector2.Distance(animator.gameObject.transform.position, GameObject.Find("player").transform.position) > 20)
         {
             animator.SetBool("ShouldHunt", true);
             //Debug.Log("Transitioning to Hunt State");
@@ -31,7 +31,7 @@ public class EnemyCombatState : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.gameObject.GetComponent<EnemyDefault>().triggerDamage(false);
+        
     }
     
 
