@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class AttackState : State
 {
     // Start is called before the first frame update
@@ -536,22 +536,31 @@ public class MenuState : State
   * 
   * AS, AD, RAMP, OMNI, HP, DEF, CRIT, DODGE, DROP
   * */
-    int att = 0;
-    int def = 0;
-    int luck = 0;
+    public int att = 0;
+    public int def = 0;
+    public int luck = 0;
     int timer = 10;
     State future;
     float oldX = 0f;
     float oldY = 0f;
     bool move = false;
+    int weaponPos = 0;
     bool itemEx = false;
+    bool weaponEx = false;
     bool enter;
-    int index = 1;
+    public int index = 1;
     int delay = 0;
     int startDelay = 0;
 
     public string[] descrip = new string[] 
     { "Attack Speed", "Attack Damage", "Combo Damage", "Life Steal", "HP Up", "Defence Up", "Crit Chance", "Dodge Chance", "Drop Chance"};
+
+    public Weapon[] weaponList = new Weapon[]
+    {
+        new ArmBlade(), new BFG(), new EnergySword(), new GatlingGun(), new LaserAssault(), new LaserPistol(), new LongSword(), new OrbitalCannon(),
+        new Revolver(), new ShortSword(), new Shotgun(), new SniperRifle(), new Staff(), new StarterGun(), new StarterSword(), new UberKnuckles(),
+        new WarHammer() 
+    };
 // Start is called before the first frame update
     public MenuState()
     {
@@ -568,7 +577,38 @@ public class MenuState : State
             def = Random.Range(0, 3) + 3;
             luck = Random.Range(0, 3) + 6;
             itemEx = true;
-            Debug.Log(descrip[att] + ", " + descrip[def] + ", " + descrip[luck]);
+            weaponEx = false;
+            //Debug.Log(descrip[att] + ", " + descrip[def] + ", " + descrip[luck]);
+            SceneManager.LoadScene("itemScene", LoadSceneMode.Additive);
+        }
+        else if (playerController.instance.weapon)
+        {
+            itemEx = false;
+            SceneManager.LoadScene("weaponScene", LoadSceneMode.Additive);
+            index = 1;
+            weaponPos = Random.Range(0, weaponList.Length);
+            int elem = Random.Range(0, 5);
+            if(elem == 0)
+            {
+                weaponList[weaponPos].element = Element.DEFAULT;
+            }
+            else if(elem == 1)
+            {
+                weaponList[weaponPos].element = Element.ELECTRIC;
+            }
+            else if (elem == 2)
+            {
+                weaponList[weaponPos].element = Element.WATER;
+            }
+            else if (elem == 3)
+            {
+                weaponList[weaponPos].element = Element.FIRE;
+            }
+            else if (elem == 4)
+            {
+                weaponList[weaponPos].element = Element.GROUND;
+            }
+
         }
         else
         {
@@ -633,9 +673,17 @@ public class MenuState : State
         if (timer == 0)
         {
             Debug.Log("we got here");
+            if (itemEx)
+            {
+                SceneManager.UnloadSceneAsync("itemScene");
+            }
+            else if (weaponEx)
+            {
+                SceneManager.UnloadSceneAsync("weaponScene");
+            }
             playerController.instance.ChangeState(future);
         }
-        else if (!itemEx)
+        else if (!itemEx && !weaponEx)
         {
             //Debug.Log("no item");
             timer--;
@@ -650,13 +698,27 @@ public class MenuState : State
             else if (move && hori != 0)
             {
                 index += (int)hori;
-                if (index < 0)
+                if (itemEx)
                 {
-                    index = 2;
+                    if (index < 0)
+                    {
+                        index = 2;
+                    }
+                    else if (index > 2)
+                    {
+                        index = 0;
+                    }
                 }
-                else if (index > 2)
+                else
                 {
-                    index = 0;
+                    if (index < 0)
+                    {
+                        index = 1;
+                    }
+                    else if (index > 0)
+                    {
+                        index = 0;
+                    }
                 }
                 Debug.Log(index);
                 move = false;
@@ -664,50 +726,72 @@ public class MenuState : State
 
             if (enter)
             {
-                Debug.Log("key has been pressed");
-                if (index == 0)
+                if (itemEx)
                 {
-                    if (att == 0)
+                    Debug.Log("key has been pressed");
+                    if (index == 0)
                     {
-                        playerController.instance.itemVals[att] += 0.25f;
+                        if (att == 0)
+                        {
+                            playerController.instance.itemVals[att] += 0.25f;
+                        }
+                        else if (att == 1)
+                        {
+                            playerController.instance.itemVals[att] += 1f;
+                        }
+                        else
+                        {
+                            playerController.instance.itemVals[att] += 0.02f;
+                        }
                     }
-                    else if (att == 1)
+                    else if (index == 1)
                     {
-                        playerController.instance.itemVals[att] += 1f;
+                        if (def == 0 + 3)
+                        {
+                            playerController.instance.itemVals[def] += 1f;
+                        }
+                        else if (def == 1 + 3)
+                        {
+                            playerController.instance.itemVals[def] += 5f;
+                            playerController.instance.ChangeHealth(5);
+                        }
+                        else
+                        {
+                            playerController.instance.itemVals[def] += 2f;
+                        }
                     }
                     else
                     {
-                        playerController.instance.itemVals[att] += 0.02f;
-                    }
-                }
-                else if (index == 1)
-                {
-                    if (def == 0 + 3)
-                    {
-                        playerController.instance.itemVals[def] += 1f;
-                    }
-                    else if (def == 1 + 3)
-                    {
-                        playerController.instance.itemVals[def] += 5f;
-                    }
-                    else
-                    {
-                        playerController.instance.itemVals[def] += 2f;
+                        if (luck == 0 + 6)
+                        {
+                            playerController.instance.itemVals[luck] += 1f;
+                        }
+                        else if (luck == 1 + 6)
+                        {
+                            playerController.instance.itemVals[luck] += 1f;
+                        }
+                        else
+                        {
+                            playerController.instance.itemVals[luck] += 1f;
+                        }
                     }
                 }
                 else
                 {
-                    if (luck == 0 + 6)
+                    if(index == 0)
                     {
-                        playerController.instance.itemVals[luck] += 1f;
-                    }
-                    else if (luck == 1 + 6)
-                    {
-                        playerController.instance.itemVals[luck] += 1f;
+
                     }
                     else
                     {
-                        playerController.instance.itemVals[luck] += 1f;
+                        if (weaponList[weaponPos].ranged)
+                        {
+                            playerController.instance.rangedWeapon = weaponList[weaponPos];
+                        }
+                        else
+                        {
+                            playerController.instance.meleeWeapon = weaponList[weaponPos];
+                        }
                     }
                 }
                 timer = 0;

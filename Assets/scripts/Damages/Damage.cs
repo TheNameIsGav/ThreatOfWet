@@ -84,9 +84,9 @@ public class Damage
     {
         if (canCrit)
         {
-            if(Random.Range(0, 100) > critPercent) { return val + (val * critDamage); }
+            float cDam = critPercent > 100 ? critDamage + ((critPercent - 100)/100) : critDamage;
+            if(Random.Range(0, 100) < critPercent) { return val * cDam; }
             else { return val; }
-
         } else
         {
             return val;

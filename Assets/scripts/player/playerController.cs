@@ -55,6 +55,7 @@ public class playerController : MonoBehaviour
     public GameObject items;
     public GameObject activeItem;
     public float[] itemVals;
+    public bool weapon;
     // attack speed, attack damage, scaling, lifesteal, hp, def, crit, dodge, drop
     //Debug.Log(meleeWeapon.lightActive);
     // meleeWeapon.lightActive;
