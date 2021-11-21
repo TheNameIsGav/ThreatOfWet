@@ -10,8 +10,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     // I don't know
-    private int difficulty;
-    private Text difficultyText;
+    private float difficulty;
+    private float diffTimer;
     // I don't know
     private long score;
     private Text scoreText;
@@ -33,25 +33,27 @@ public class GameManager : MonoBehaviour
     // Public NavMesh reference
     public NavMeshGenerator NavMesh;
 
+    private SpawnHandler spawner;
+    private float timeToSpawn;
+
+    private int[] numbers;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
     // Jack and Jill are talking with each other. Jack says "I met a man with a wooden leg named Smith." Jill asks "What's the name of his other leg?"
     void Start()
     {
         instance = this;
-        difficultyText = GameObject.Find("Difficulty").GetComponent<Text>();
         scoreText = GameObject.Find("Score").GetComponent<Text>();
         goldText = GameObject.Find("Gold").GetComponent<Text>();
         levelText = GameObject.Find("Level").GetComponent<Text>();
 
-        /*
-        backgroundSquare = GameObject.Find("Background Square");
-        backgroundSquare.transform.localScale = new Vector3(300, 270, 45);
-        backgroundSquare.transform.position = new Vector3(-810, 402, -4050);
-        */
-
-        difficulty = 1;
+        difficulty = diffTimer = 0;
         score = 0;
         gold = 0;
-        difficultyText.text = "Difficulty: " + difficulty;
         scoreText.text = "Score: " + score;
         goldText.text = "Gold: " + gold;
         levelText.text = "Level: " + SceneManager.GetActiveScene().name;
@@ -60,6 +62,23 @@ public class GameManager : MonoBehaviour
         NavMesh = GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>();
         combos = new int[5+1];
         DontDestroyOnLoad(this);
+        spawner = SpawnHandler.instance;
+        timeToSpawn = .1f;
+        numbers = new int[10];
+    }
+
+    public void ResetCameraToPlayer()
+    {
+        GameObject cam = GameObject.Find("Main Camera");
+        cam.transform.SetParent(Player.transform);
+        cam.transform.position = Player.transform.position + new Vector3(0, 0, -10);
+    }
+
+    public void ChangeCameraParent(GameObject go)
+    {
+        GameObject cam = GameObject.Find("Main Camera");
+        cam.transform.SetParent(go.transform);
+        cam.transform.position = go.transform.position + new Vector3(0, 0, -10);
     }
 
     void successfulCombo(int mag)
@@ -72,6 +91,7 @@ public class GameManager : MonoBehaviour
         enemiesKilled++;
         score += value;
         scoreText.text = "Score: " + score;
+        timeToSpawn -= 2;
     }
 
     void scorePoints(int value)
@@ -83,7 +103,7 @@ public class GameManager : MonoBehaviour
     void setDifficulty(int challenge)
     {
         difficulty = challenge;
-        difficultyText.text = "Difficulty: " + difficulty;
+        // difficultyText.text = "Difficulty: " + difficulty;
     }
 
     int EnemiesKilled()
@@ -91,7 +111,7 @@ public class GameManager : MonoBehaviour
         return enemiesKilled;
     }
 
-    int Difficulty()
+    public float Difficulty()
     {
         return difficulty;
     }
@@ -99,5 +119,25 @@ public class GameManager : MonoBehaviour
     long Score()
     {
         return score;
+    }
+
+    public void Update()
+    {
+        timeToSpawn -= Time.deltaTime;
+        diffTimer += Time.deltaTime;
+        if (timeToSpawn <= 0)
+        {
+            timeToSpawn = 1f + (Random.Range(0f,3f) / difficulty);
+            Debug.Log(timeToSpawn);
+            if (spawner == null)
+                spawner = SpawnHandler.instance;
+            else 
+                spawner.SpawnStuff(difficulty, Player);
+        }
+        if (diffTimer > 8.5)
+        {
+            diffTimer -= 8.5f;
+            difficulty++;
+        }
     }
 }

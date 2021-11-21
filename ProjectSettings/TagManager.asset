@@ -5,11 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - Second Collider
+  - WalkPoint
+  - JumpPoint
   - Hostile
-  - NavPoint
-  - Item
-  - Death
-  - Death2
+  - Spawnable
+  - Chest
   layers:
   - Default
   - TransparentFX
@@ -17,8 +17,8 @@ TagManager:
   - 
   - Water
   - UI
-  - NavMesh
-  - 
+  - Tile
+  - Spawnable Tile
   - 
   - 
   - 

@@ -13,7 +13,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7785612071807955985, guid: dea06f60d0305974f809f24b309b5a3f, type: 3}
       propertyPath: m_Name
-      value: Sticky Moving Platform
+      value: Sticky Moving Platform Variant
       objectReference: {fileID: 0}
     - target: {fileID: 7785612071807955990, guid: dea06f60d0305974f809f24b309b5a3f, type: 3}
       propertyPath: m_RootOrder
@@ -60,8 +60,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7785612071807955991, guid: dea06f60d0305974f809f24b309b5a3f, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7785612071807955991, guid: dea06f60d0305974f809f24b309b5a3f, type: 3}
       propertyPath: m_Color.g
-      value: 0.31764707
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7785612071807955991, guid: dea06f60d0305974f809f24b309b5a3f, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dea06f60d0305974f809f24b309b5a3f, type: 3}

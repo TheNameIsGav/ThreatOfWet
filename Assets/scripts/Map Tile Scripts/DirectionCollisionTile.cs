@@ -19,11 +19,11 @@ public class DirectionCollisionTile : BasicTile
         extraHitbox = gameObject.AddComponent<BoxCollider2D>();
         if (Up())
         {
-            extraHitbox.offset = new Vector2(extraHitbox.offset.x, extraHitbox.offset.y-.5f);
+            extraHitbox.offset = new Vector2(extraHitbox.offset.x, extraHitbox.offset.y - .3f);
             // extraHitbox.size = new Vector2(1.2f, 1);
         } else if (Right())
         {
-            extraHitbox.offset = new Vector2(extraHitbox.offset.x - .5f, extraHitbox.offset.y);
+            extraHitbox.offset = new Vector2(extraHitbox.offset.x - .3f, extraHitbox.offset.y);
             // extraHitbox.size = new Vector2(1, 1.2f);
         }
         else if (Down())
@@ -33,7 +33,7 @@ public class DirectionCollisionTile : BasicTile
         }
         else // if (Left()) 
         {
-            extraHitbox.offset = new Vector2(extraHitbox.offset.x + .5f, extraHitbox.offset.y);
+            extraHitbox.offset = new Vector2(extraHitbox.offset.x + .3f, extraHitbox.offset.y);
             // extraHitbox.size = new Vector2(1, 1.2f);
         }
         extraHitbox.isTrigger = true;
@@ -72,21 +72,37 @@ public class DirectionCollisionTile : BasicTile
         }
     }
 
+
+
     protected override void updateExitBehavior(Collider2D col)
     {
         BoxCollider2D colBox = (BoxCollider2D) col;
-        if (colBox == extraHitbox)
+        if (colBox == extraHitbox || Down())
         {
-            hitbox.enabled = true;
+            if (Down())
+            {
+                hitbox.isTrigger = false;
+                extraHitbox.enabled = true;
+            } else
+            {
+                hitbox.enabled = true;
+            }
             Debug.Log("Leaving block");
         }
     }
 
     protected override void updateEnterBehavior(Collider2D col)
     {
-        if (col == extraHitbox)
+        if (col == extraHitbox || true)
         {
-            hitbox.enabled = false;
+            if (Down())
+            {
+                hitbox.isTrigger = true;
+                extraHitbox.enabled = false;
+            } else
+            {
+                hitbox.enabled = false;
+            }
             Debug.Log("Entering block");
         }
     }

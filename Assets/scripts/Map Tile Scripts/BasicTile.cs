@@ -5,7 +5,6 @@ using UnityEngine;
 public class BasicTile : MonoBehaviour
 {
     // Start is called before the first frame update
-    public Sprite sprite;
     protected Collider2D hitbox;
 
     protected virtual void Start()
@@ -31,5 +30,15 @@ public class BasicTile : MonoBehaviour
     protected virtual void updateEnterBehavior(Collider2D col)
     {
         // Does nothing, unless common behavior is required
+    }
+
+    public bool CanSpawnEnemy()
+    {
+        // Physics2D.OverlapBoxAll(transform.position - new Vector3(.5f, 0, 0), new Vector2(1, 2), LayerMask.GetMask("Spawnable Tile"));
+        Collider2D[] regularTiles = Physics2D.OverlapBoxAll(transform.position - new Vector3(.5f, 0, 0), 
+            new Vector2(1, 2), LayerMask.GetMask("Tile"));
+        Collider2D[] spawnableTiles = Physics2D.OverlapBoxAll(transform.position - new Vector3(.5f, 0, 0), 
+            new Vector2(1, 2), LayerMask.GetMask("Spawnable Tile"));
+        return regularTiles.Length <= 1 && spawnableTiles.Length <= 1;
     }
 }
