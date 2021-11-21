@@ -21,16 +21,16 @@ public class SpawnHandler : MonoBehaviour
 
     public void SpawnStuff(float diff, GameObject player)
     {
-        Debug.Log("Spawn Called!");
+        // Debug.Log("Spawn Called!");
         GameObject[] platforms = GetSpawnablePlatforms(player);
-        Debug.Log("Spawnable Platforms Found! (" + platforms.Length + ")");
+        // Debug.Log("Spawnable Platforms Found! (" + platforms.Length + ")");
         GameObject[] chosenPlatforms = ChoosePlatforms(platforms, diff);
-        Debug.Log("Spawn Platforms Chosen! (" + chosenPlatforms.Length + ")");
+        // Debug.Log("Spawn Platforms Chosen! (" + chosenPlatforms.Length + ")");
         foreach (GameObject platform in chosenPlatforms)
         {
             SpawnEnemyOnPlatform(platform, diff);
         }
-        Debug.Log("Spawn Complete!");
+        // Debug.Log("Spawn Complete!");
     }
 
     private GameObject[] GetSpawnablePlatforms(GameObject player)
@@ -56,6 +56,7 @@ public class SpawnHandler : MonoBehaviour
                 && collidedObjects[i].GetComponent<BasicTile>().CanSpawnEnemy())
             {
                 finalCollidedObjectList[j] = collidedObjects[i];
+                // Debug.Log(finalCollidedObjectList[j].name);
                 j++;
             }
         }
@@ -89,7 +90,7 @@ public class SpawnHandler : MonoBehaviour
         GameObject enemy;
         enemy = GetEnemy();
         Vector2 spawnpos = platform.transform.position;
-        Debug.Log(spawnpos);
+        // Debug.Log(spawnpos);
         enemy.GetComponent<EnemyDefault>().Spawn(spawnpos, diff);
         enemiesSpawned++;
 
@@ -98,7 +99,7 @@ public class SpawnHandler : MonoBehaviour
             enemy = GetEnemy();
             spawnpos = platform.transform.position;
             enemy.GetComponent<EnemyDefault>().Spawn(spawnpos, diff);
-            Debug.Log(spawnpos);
+            // Debug.Log(spawnpos);
             enemiesSpawned++;
         }
     }
