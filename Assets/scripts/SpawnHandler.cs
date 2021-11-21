@@ -10,49 +10,50 @@ public class SpawnHandler : MonoBehaviour
     public GameObject[] level1EnemyPrefabs;
     public GameObject[] level2EnemyPrefabs;
     public GameObject[] level3EnemyPrefabs;
-    int enemySpawnCap;
-
-    private void Awake()
-    {
-        instance = this;
-    }
+    public float spawnRadius = 5;
+    int maxEnemySpawn;
 
     void Start()
     {
         enemiesSpawned = 0;
-        enemySpawnCap = Mathf.FloorToInt(50 + (50 * GameManager.instance.Difficulty()));
+        instance = this;
     }
 
     public void SpawnStuff(float diff, GameObject player)
     {
-        Debug.Log("Spawn works!");
+        Debug.Log("Spawn Called!");
         GameObject[] platforms = GetSpawnablePlatforms(player);
+        Debug.Log("Spawnable Platforms Found! (" + platforms.Length + ")");
         GameObject[] chosenPlatforms = ChoosePlatforms(platforms, diff);
+        Debug.Log("Spawn Platforms Chosen! (" + chosenPlatforms.Length + ")");
         foreach (GameObject platform in chosenPlatforms)
         {
-            if (enemiesSpawned < enemySpawnCap) 
-                SpawnEnemyOnPlatform(platform, diff);
+            SpawnEnemyOnPlatform(platform, diff);
         }
+        Debug.Log("Spawn Complete!");
     }
 
     private GameObject[] GetSpawnablePlatforms(GameObject player)
     {
-        Collider2D[] collide = Physics2D.OverlapCircleAll(player.GetComponent<playerController>().SpawnCheck.position,  5f, LayerMask.GetMask("Spawnable Tile"));
+        Collider2D[] collide = Physics2D.OverlapCircleAll(
+            player.transform.position + new Vector3(spawnRadius, 0, 0), spawnRadius, LayerMask.GetMask("Spawnable Tile"));
         GameObject[] collidedObjects = new GameObject[collide.Length];
         int spawnableSize = 0;
         for (int i = 0; i < collide.Length; i++)
         {
             collidedObjects[i] = collide[i].gameObject;
-            if (collidedObjects[i].GetComponent<BasicTile>().CanSpawnEnemy())
+            if (collidedObjects[i].GetComponent<BasicTile>() != null 
+                && collidedObjects[i].GetComponent<BasicTile>().CanSpawnEnemy())
             {
                 spawnableSize++;
-            }
+            } 
         }
         GameObject[] finalCollidedObjectList = new GameObject[spawnableSize];
         int j = 0;
         for (int i = 0; i < collidedObjects.Length; i++)
         {
-            if (collidedObjects[i].GetComponent<BasicTile>().CanSpawnEnemy())
+            if (collidedObjects[i].GetComponent<BasicTile>() != null
+                && collidedObjects[i].GetComponent<BasicTile>().CanSpawnEnemy())
             {
                 finalCollidedObjectList[j] = collidedObjects[i];
                 j++;
@@ -63,35 +64,52 @@ public class SpawnHandler : MonoBehaviour
 
     private GameObject[] ChoosePlatforms(GameObject[] platforms, float diff)
     {
-        // Do once spawn area and ideal level map is made
-        return platforms;
+        maxEnemySpawn = Mathf.FloorToInt(Mathf.Min(
+            Mathf.Ceil(diff / 5f),
+            (float) platforms.Length));
+        if (maxEnemySpawn <= 0)
+        {
+            maxEnemySpawn = 1;
+        }
+        GameObject[] selectedPlatforms = new GameObject[maxEnemySpawn];
+        for (int i = 0; i < maxEnemySpawn; i++)
+        {
+            int selection = UnityEngine.Random.Range(i, platforms.Length);
+            GameObject selectedGameObject = platforms[selection];
+            GameObject temp = platforms[i];
+            platforms[i] = platforms[selection];
+            platforms[selection] = temp;
+            selectedPlatforms[i] = selectedGameObject;
+        }
+        return selectedPlatforms;
     }
 
     private void SpawnEnemyOnPlatform(GameObject platform, float diff)
     {
         GameObject enemy;
-        if (UnityEngine.Random.Range(0f, 1f) < 0.4f + .6 / diff)
-            enemy = GetEnemy(diff);
-        else
-            enemy = GetEnemy(diff, false);
+        enemy = GetEnemy();
         Vector2 spawnpos = platform.transform.position;
+        Debug.Log(spawnpos);
         enemy.GetComponent<EnemyDefault>().Spawn(spawnpos, diff);
         enemiesSpawned++;
 
-        if (UnityEngine.Random.Range(0f, 1f) > 0.4f + .6/diff && enemiesSpawned < enemySpawnCap)
+        if (UnityEngine.Random.Range(0f, 1f) > 0.4f + .6/(diff/10f))
         {
-            enemy = GetEnemy(diff, true);
+            enemy = GetEnemy();
             spawnpos = platform.transform.position;
             enemy.GetComponent<EnemyDefault>().Spawn(spawnpos, diff);
+            Debug.Log(spawnpos);
             enemiesSpawned++;
         }
     }
 
-    private GameObject GetEnemy(float diff)
+    private GameObject GetEnemy()
     {
         return Instantiate(level1EnemyPrefabs[UnityEngine.Random.Range(0, level1EnemyPrefabs.Length)]);
     }
 
+    /*
+     * Made when I thought the difficulty would range [1, 3]
     private GameObject GetEnemy(float diff, bool makeHard)
     {
         if (makeHard)
@@ -99,4 +117,5 @@ public class SpawnHandler : MonoBehaviour
         else
             return Instantiate(level1EnemyPrefabs[UnityEngine.Random.Range(0, level1EnemyPrefabs.Length - (Mathf.FloorToInt(diff * (level1EnemyPrefabs.Length * 0.2f))))]);
     }
+    */
 }

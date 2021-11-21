@@ -39,6 +39,7 @@ public class BasicTile : MonoBehaviour
             new Vector2(1, 2), LayerMask.GetMask("Tile"));
         Collider2D[] spawnableTiles = Physics2D.OverlapBoxAll(transform.position - new Vector3(.5f, 0, 0), 
             new Vector2(1, 2), LayerMask.GetMask("Spawnable Tile"));
-        return regularTiles.Length <= 1 && spawnableTiles.Length <= 1;
+        return true;
+        // return regularTiles.Length <= 1 && spawnableTiles.Length <= 1;
     }
 }
