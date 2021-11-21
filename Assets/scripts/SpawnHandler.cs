@@ -8,8 +8,8 @@ public class SpawnHandler : MonoBehaviour
     public static SpawnHandler instance;
     int enemiesSpawned;
     public GameObject[] level1EnemyPrefabs;
-    public GameObject[] level2EnemyPrefabs;
-    public GameObject[] level3EnemyPrefabs;
+    // public GameObject[] level2EnemyPrefabs;
+    // public GameObject[] level3EnemyPrefabs;
     public float spawnRadius = 5;
     int maxEnemySpawn;
 
