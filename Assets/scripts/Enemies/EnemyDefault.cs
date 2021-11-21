@@ -7,6 +7,9 @@ public class EnemyDefault : MonoBehaviour
     float health = 100;
     public float Health { get { return health; } set { health = value; } }
 
+    float maxHealth = 100;
+    public float MaxHealth { get { return maxHealth; } set { maxHealth = value; } }
+
     bool shouldDie = false;
     public bool Die { get { return shouldDie; } set { shouldDie = value; } }
 
@@ -25,6 +28,9 @@ public class EnemyDefault : MonoBehaviour
 
     List<Enhancements> enhance = new List<Enhancements>();
     public List<Enhancements> Enhance { get { return enhance; } set { enhance = value; } }
+
+    public string eName = "";
+    public string EName { get { return name; } set { name = value; } }
 
     /// <summary>
     /// Takes in a positive float and subtracts that value from the enemies health
@@ -50,13 +56,15 @@ public class EnemyDefault : MonoBehaviour
         if (enhance.Contains(Enhancements.ARMORED))
         {
             health -= val * .5f;
+            transform.GetChild(0).GetComponent<EnemyNameGenerator>().UpdateEnemyHealthBar(health, maxHealth);
+
             //Debug.Log("Took damage from somewhere, now at " + health + " hp");
         } else
         {
             health -= val;
+            transform.GetChild(0).GetComponent<EnemyNameGenerator>().UpdateEnemyHealthBar(health, maxHealth);
             //Debug.Log("Took damage from somewhere, now at " + health + " hp");
         }
-        
         
         if(health <= 0)
         {
@@ -95,10 +103,43 @@ public class EnemyDefault : MonoBehaviour
         //2.56 is the offset so that we can never have a negative number of enhancements
         difficulty = Mathf.Max(2.56f, difficulty);
         int num = Mathf.Min(Mathf.RoundToInt(Mathf.Log(difficulty, 1.6f) - 2), 7);
+        List<Enhancements> t = new List<Enhancements>();
+        for (int i = 0; i < 7; i++)
+        {
+            t.Add((Enhancements)i);
+        }
+
         for(int i = 0; i < num; i++)
         {
-            int index = Random.Range(0, 7 - i);
-            enhance.Add((Enhancements)index);
+            int index = Random.Range(0, t.Count);
+            Enhancements e = t[index];
+            enhance.Add(e);
+            t.Remove(e);
+
+            switch (e)
+            {
+                case Enhancements.ARMORED:
+                    eName = "Armored " + eName;
+                    break;
+                case Enhancements.SPIKY:
+                    eName = "Pointy " + eName;
+                    break;
+                case Enhancements.SHIELDED:
+                    eName = "Shielded " + eName;
+                    break;
+                case Enhancements.PIERCING:
+                    eName = "Piercing " + eName;
+                    break;
+                case Enhancements.SERRATED:
+                    eName = "Cutting " + eName;
+                    break;
+                case Enhancements.NECROTIC:
+                    eName = "Diseased " + eName;
+                    break;
+                case Enhancements.BIG:
+                    eName = "Large " + eName;
+                    break;
+            }
         }
     }
 
@@ -114,6 +155,8 @@ public class EnemyDefault : MonoBehaviour
         {
             gameObject.transform.localScale = new Vector3(2, 2);
         }
+
+        transform.GetChild(0).GetComponent<EnemyNameGenerator>().GenerateEnemyName(eName);
 
 
     }

@@ -647,7 +647,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8489472190424531239, guid: 505a34b22309e584ba479d0c03c7a6d8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.04
+      value: 14.37
       objectReference: {fileID: 0}
     - target: {fileID: 8489472190424531239, guid: 505a34b22309e584ba479d0c03c7a6d8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -687,38 +687,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 505a34b22309e584ba479d0c03c7a6d8, type: 3}
---- !u!1 &968800643 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8489472190424531237, guid: 505a34b22309e584ba479d0c03c7a6d8, type: 3}
-  m_PrefabInstance: {fileID: 968800642}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &968800644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 968800643}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d53171ab5390d841ada5cc447a871e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onMesh: 0
-  path: []
-  rawGoal: {x: 0, y: 0}
---- !u!114 &968800645
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 968800643}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dea0f7c2dcd8b594580cecebdb5684f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1129394340
 PrefabInstance:
   m_ObjectHideFlags: 0
