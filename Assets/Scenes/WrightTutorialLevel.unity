@@ -542,7 +542,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 11
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -667,8 +667,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2124, y: 116.59}
-  m_SizeDelta: {x: 349.68, y: 50.79}
+  m_AnchoredPosition: {x: 2034, y: 127.29}
+  m_SizeDelta: {x: 397.48, y: 122.54}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &858043786
 MonoBehaviour:
@@ -692,7 +692,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 20
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
@@ -703,9 +703,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Hold D and repeatedly tap space bar
-
-    to jump up the wall'
+  m_Text: Hold D and repeatedly tap space bar to jump up the wall
 --- !u!222 &858043787
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -945,6 +943,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5c71fa2317d6de449f0401f0a014521, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  respawnPosition: {x: 112, y: 9}
 --- !u!61 &1006483321
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1080,8 +1079,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1322, y: 116.59}
-  m_SizeDelta: {x: 297.46, y: 30}
+  m_AnchoredPosition: {x: 1327, y: 141.18}
+  m_SizeDelta: {x: 224.93, y: 79.175}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1179058626
 MonoBehaviour:
@@ -1105,7 +1104,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 20
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
@@ -1522,8 +1521,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 5921, y: 765}
-  m_SizeDelta: {x: 349.68, y: 50.79}
+  m_AnchoredPosition: {x: 6019, y: 759.88}
+  m_SizeDelta: {x: 421.99, y: 109.02}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1640846620
 MonoBehaviour:
@@ -1547,7 +1546,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 20
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
@@ -1751,6 +1750,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5c71fa2317d6de449f0401f0a014521, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  respawnPosition: {x: 65, y: 9}
 --- !u!1 &1763546712
 GameObject:
   m_ObjectHideFlags: 0
@@ -1785,8 +1785,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4469, y: 556.94}
-  m_SizeDelta: {x: 434.36, y: 123.98}
+  m_AnchoredPosition: {x: 4741, y: 651}
+  m_SizeDelta: {x: 668.49, y: 145.07}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1763546714
 MonoBehaviour:
@@ -1810,7 +1810,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 20
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
@@ -1897,7 +1897,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 20
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -2017,8 +2017,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 718, y: 116.59}
-  m_SizeDelta: {x: 211.5, y: 30}
+  m_AnchoredPosition: {x: 722, y: 141.18}
+  m_SizeDelta: {x: 166.99, y: 79.175}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1947199866
 MonoBehaviour:
@@ -2042,7 +2042,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 20
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
@@ -2125,7 +2125,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 229.55232, y: 57.277447}
+  m_Size: {x: 229.74207, y: 62.590733}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -2139,7 +2139,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1962030889}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 93.1724, y: 21.0797, z: 0}
+  m_LocalPosition: {x: 92, y: 15.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2286,8 +2286,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2735.8267, y: 567.57}
-  m_SizeDelta: {x: 349.68, y: 102.73}
+  m_AnchoredPosition: {x: 3166.76, y: 604.17}
+  m_SizeDelta: {x: 501.18, y: 154.38}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2116749220
 MonoBehaviour:
@@ -2311,7 +2311,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 20
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
@@ -2327,9 +2327,7 @@ MonoBehaviour:
     then tap ''I'' to dash over the gap.
 
     If
-    you fail, you will be
-
-    respawned back here'
+    you fail, you will be respawned back here'
 --- !u!222 &2116749221
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -47,23 +47,23 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         instance = this;
-        scoreText = GameObject.Find("Score").GetComponent<Text>();
-        goldText = GameObject.Find("Gold").GetComponent<Text>();
-        levelText = GameObject.Find("Level").GetComponent<Text>();
+        // scoreText = GameObject.Find("Score").GetComponent<Text>();
+        // goldText = GameObject.Find("Gold").GetComponent<Text>();
+        // levelText = GameObject.Find("Level").GetComponent<Text>();
 
         difficulty = diffTimer = 0;
         score = 0;
         gold = 0;
-        scoreText.text = "Score: " + score;
-        goldText.text = "Gold: " + gold;
-        levelText.text = "Level: " + SceneManager.GetActiveScene().name;
+        // scoreText.text = "Score: " + score;
+        // goldText.text = "Gold: " + gold;
+        // levelText.text = "Level: " + SceneManager.GetActiveScene().name;
         enemiesKilled = 0;
         Player = GameObject.Find("player");
         NavMesh = GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>();
         combos = new int[5+1];
         DontDestroyOnLoad(this);
         spawner = SpawnHandler.instance;
-        timeToSpawn = .1f;
+        timeToSpawn = 1f;
         numbers = new int[10];
     }
 
@@ -121,23 +121,29 @@ public class GameManager : MonoBehaviour
         return score;
     }
 
-    public void Update()
+    public void FixedUpdate()
     {
-        timeToSpawn -= Time.deltaTime;
-        diffTimer += Time.deltaTime;
-        if (timeToSpawn <= 0)
-        {
-            timeToSpawn = 1f + (Random.Range(0f,3f) / difficulty);
-            Debug.Log(timeToSpawn);
-            if (spawner == null)
-                spawner = SpawnHandler.instance;
-            else 
-                spawner.SpawnStuff(difficulty, Player);
-        }
+        diffTimer += Time.fixedDeltaTime;
         if (diffTimer > 8.5)
         {
             diffTimer -= 8.5f;
             difficulty++;
+        }
+    }
+
+    public void Update()
+    {
+        timeToSpawn -= Time.deltaTime;
+        if (timeToSpawn > 10 && GameObject.FindGameObjectsWithTag("Hostile").Length == 0 )
+        {
+            timeToSpawn -= Time.deltaTime;
+        }
+        if (timeToSpawn <= 0)
+        {
+            timeToSpawn = 10f + (20f * Mathf.Log10((difficulty + 5) / 4f));
+            Debug.Log("Time till Next Spawn: "+timeToSpawn);
+            // Debug.Log();
+            SpawnHandler.instance.SpawnStuff(difficulty, Player);
         }
     }
 }
