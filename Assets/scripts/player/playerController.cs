@@ -74,7 +74,7 @@ public class playerController : MonoBehaviour
     void Start()
     {
         instance = this;
-        Debug.Log(meleeWeapon.lightActive);
+        //Debug.Log(meleeWeapon.lightActive);
         distJoint.enabled = false;
         lineRender.enabled = false;
         state = idle;

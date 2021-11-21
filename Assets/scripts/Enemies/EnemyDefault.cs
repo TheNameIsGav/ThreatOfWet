@@ -50,11 +50,11 @@ public class EnemyDefault : MonoBehaviour
         if (enhance.Contains(Enhancements.ARMORED))
         {
             health -= val * .5f;
-            Debug.Log("Took damage from somewhere, now at " + health + " hp");
+            //Debug.Log("Took damage from somewhere, now at " + health + " hp");
         } else
         {
             health -= val;
-            Debug.Log("Took damage from somewhere, now at " + health + " hp");
+            //Debug.Log("Took damage from somewhere, now at " + health + " hp");
         }
         
         
@@ -114,6 +114,8 @@ public class EnemyDefault : MonoBehaviour
         {
             gameObject.transform.localScale = new Vector3(2, 2);
         }
+
+
     }
 
 }
