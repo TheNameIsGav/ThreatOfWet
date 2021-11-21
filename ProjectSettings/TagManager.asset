@@ -9,6 +9,7 @@ TagManager:
   - NavPoint
   - Item
   - Slippery
+  - Spawnable
   layers:
   - Default
   - TransparentFX
@@ -17,8 +18,8 @@ TagManager:
   - Water
   - UI
   - NavMesh
-  - 
-  - 
+  - Tile
+  - SpawnableTile
   - 
   - 
   - 

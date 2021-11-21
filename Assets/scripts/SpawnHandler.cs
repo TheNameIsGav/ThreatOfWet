@@ -25,18 +25,21 @@ public class SpawnHandler : MonoBehaviour
         GameObject[] platforms = GetSpawnablePlatforms(player);
         // Debug.Log("Spawnable Platforms Found! (" + platforms.Length + ")");
         GameObject[] chosenPlatforms = ChoosePlatforms(platforms, diff);
-        // Debug.Log("Spawn Platforms Chosen! (" + chosenPlatforms.Length + ")");
-        foreach (GameObject platform in chosenPlatforms)
+		// Debug.Log("Spawn Platforms Chosen! (" + chosenPlatforms.Length + ")");
+          foreach (GameObject platform in chosenPlatforms)
         {
             SpawnEnemyOnPlatform(platform, diff);
         }
+    
         // Debug.Log("Spawn Complete!");
     }
 
     private GameObject[] GetSpawnablePlatforms(GameObject player)
     {
         Collider2D[] collide = Physics2D.OverlapCircleAll(
-            player.transform.position + new Vector3(spawnRadius, 0, 0), spawnRadius, LayerMask.GetMask("Spawnable Tile"));
+            player.transform.position + new Vector3(spawnRadius, 0, 0), spawnRadius, LayerMask.GetMask("SpawnableTile"));
+        
+        
         GameObject[] collidedObjects = new GameObject[collide.Length];
         int spawnableSize = 0;
         for (int i = 0; i < collide.Length; i++)
@@ -68,20 +71,24 @@ public class SpawnHandler : MonoBehaviour
         maxEnemySpawn = Mathf.FloorToInt(Mathf.Min(
             Mathf.Ceil(diff / 5f),
             (float) platforms.Length));
-        if (maxEnemySpawn <= 0)
+/*        if (maxEnemySpawn <= 0)
         {
             maxEnemySpawn = 1;
-        }
+        }*/
         GameObject[] selectedPlatforms = new GameObject[maxEnemySpawn];
         for (int i = 0; i < maxEnemySpawn; i++)
         {
             int selection = UnityEngine.Random.Range(i, platforms.Length);
+
+            //Debug.Log("Platforms.length: " + platforms.Length);
+            //Debug.Log("Selection: " + selection);
+
             GameObject selectedGameObject = platforms[selection];
             GameObject temp = platforms[i];
             platforms[i] = platforms[selection];
             platforms[selection] = temp;
             selectedPlatforms[i] = selectedGameObject;
-        }
+    }
         return selectedPlatforms;
     }
 
@@ -90,7 +97,8 @@ public class SpawnHandler : MonoBehaviour
         GameObject enemy;
         enemy = GetEnemy();
         Vector2 spawnpos = platform.transform.position;
-        // Debug.Log(spawnpos);
+        Debug.Log("Spawnpos: " + spawnpos);
+        Debug.Log("diff: " + diff);
         enemy.GetComponent<EnemyDefault>().Spawn(spawnpos, diff);
         enemiesSpawned++;
 

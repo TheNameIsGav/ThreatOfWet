@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9198014881531049101}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -20.636425}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -47,6 +47,4 @@ MonoBehaviour:
   - {fileID: 8489472190424531237, guid: 505a34b22309e584ba479d0c03c7a6d8, type: 3}
   - {fileID: 8489472190424531237, guid: 505a34b22309e584ba479d0c03c7a6d8, type: 3}
   - {fileID: 8489472190424531237, guid: 505a34b22309e584ba479d0c03c7a6d8, type: 3}
-  level2EnemyPrefabs: []
-  level3EnemyPrefabs: []
   spawnRadius: 5

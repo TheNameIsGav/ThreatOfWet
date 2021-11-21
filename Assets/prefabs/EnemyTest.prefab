@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 8489472190424531238}
   - component: {fileID: 6794087071118360293}
   - component: {fileID: 2448774349998714926}
+  - component: {fileID: 1079906949114057826}
+  - component: {fileID: 3598066971542671162}
   m_Layer: 0
   m_Name: EnemyTest
   m_TagString: Hostile
@@ -151,3 +153,30 @@ PolygonCollider2D:
       - {x: 0.40234375, y: 0.79296875}
       - {x: 0.29296875, y: 0.90234375}
       - {x: 0.15234375, y: 0.97265625}
+--- !u!114 &1079906949114057826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8489472190424531237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d53171ab5390d841ada5cc447a871e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onMesh: 0
+  path: []
+  rawGoal: {x: 0, y: 0}
+--- !u!114 &3598066971542671162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8489472190424531237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dea0f7c2dcd8b594580cecebdb5684f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
