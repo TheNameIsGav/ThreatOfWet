@@ -8,8 +8,7 @@ TagManager:
   - Hostile
   - NavPoint
   - Item
-  - Death
-  - Death2
+  - Slippery
   layers:
   - Default
   - TransparentFX

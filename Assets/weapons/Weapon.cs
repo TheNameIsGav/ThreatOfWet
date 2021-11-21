@@ -31,6 +31,8 @@ public abstract class Weapon
     public Animation heavySwing;
     public Sprite weaponSprite;
 
+    public float damageBase;
+
 
 
     // Update is called once per frame

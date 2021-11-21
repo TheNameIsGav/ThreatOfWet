@@ -16,21 +16,14 @@ public class DeathPlane : MonoBehaviour
         
     }
 
+    [SerializeField]
+    Vector2 respawnPosition;
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (this.tag == "Death")
-        {
             if (collision.collider.gameObject.name == "player")
             {
-                collision.transform.position = new Vector2(55, 9);
+                collision.transform.position = respawnPosition;
             }
-        }
-        else if (this.tag == "Death2")
-        {
-            if (collision.collider.gameObject.name == "player")
-            {
-                collision.transform.position = new Vector2(99, 9);
-            }
-        }
     }
 }

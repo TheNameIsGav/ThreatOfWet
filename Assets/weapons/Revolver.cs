@@ -20,7 +20,7 @@ public class Revolver : Weapon
         heavyActive = 6;
         heavyEndlag = 10;
 
-        damageBase = 40f
+        damageBase = 40f;
     }
 
     // Update is called once per frame
