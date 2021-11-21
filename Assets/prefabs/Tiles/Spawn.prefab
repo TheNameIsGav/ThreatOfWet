@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2563642186433917453}
   - component: {fileID: 2563642186433917454}
   - component: {fileID: 2563642186433917455}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Spawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.7169812, g: 0.6944346, b: 0.6944346, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -96,5 +96,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 384c72b00c80c524a837bba9fd57b0ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
   progression: 0

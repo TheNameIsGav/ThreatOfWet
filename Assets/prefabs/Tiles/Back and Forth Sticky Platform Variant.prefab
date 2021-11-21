@@ -9,11 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5927603635577990356, guid: 413956838ebfa134ba711309d1d98868, type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5927603635577990356, guid: 413956838ebfa134ba711309d1d98868, type: 3}
       propertyPath: m_Color.g
-      value: 0.31764707
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5927603635577990356, guid: 413956838ebfa134ba711309d1d98868, type: 3}
       propertyPath: m_Color.r
@@ -65,7 +65,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5927603635577990358, guid: 413956838ebfa134ba711309d1d98868, type: 3}
       propertyPath: m_Name
-      value: Back and Forth Sticky Platform
+      value: Back and Forth Sticky Platform Variant
       objectReference: {fileID: 0}
     - target: {fileID: 5927603635577990359, guid: 413956838ebfa134ba711309d1d98868, type: 3}
       propertyPath: sticky
