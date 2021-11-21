@@ -11148,6 +11148,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1702721024854677778, guid: 3681982c8e5a01444b6051764482e1a5, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 970053276}
     - target: {fileID: 1702721024854677779, guid: 3681982c8e5a01444b6051764482e1a5, type: 3}
       propertyPath: m_Name
       value: NavMesh
@@ -16414,6 +16418,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4618196347232887353, guid: 729bfd5c9cccd7645af285f271435293, type: 3}
   m_PrefabInstance: {fileID: 1670093553}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1670308118 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1702721024854677778, guid: 3681982c8e5a01444b6051764482e1a5, type: 3}
+  m_PrefabInstance: {fileID: 1040789325}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0397a8b6d60d38449f84ca371a63530, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1671376920 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4618196347232887353, guid: 729bfd5c9cccd7645af285f271435293, type: 3}
@@ -18254,7 +18269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 970053276}
-  NavMesh: {fileID: 0}
+  NavMesh: {fileID: 1670308118}
 --- !u!4 &1782820068
 Transform:
   m_ObjectHideFlags: 0
@@ -18518,7 +18533,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2563642186433917453, guid: dea5b1cf9ba92604aa5dff3c7d3839e6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 56.4
+      value: 173.5
       objectReference: {fileID: 0}
     - target: {fileID: 2563642186433917453, guid: dea5b1cf9ba92604aa5dff3c7d3839e6, type: 3}
       propertyPath: m_LocalPosition.z
