@@ -14,7 +14,7 @@ public class EnemyHuntState : StateMachineBehaviour
         player = GameObject.Find("player");
         navs = GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>().navPoints;
         (GameObject target, int retType) = animator.gameObject.GetComponent<NavMeshCapableAgent>().AStar(animator.gameObject, GameObject.Find("player"), GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>().navPoints);
-        Debug.Log(target);
+        //Debug.Log(target);
         pathingTo = target;
     }
 

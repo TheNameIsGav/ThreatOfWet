@@ -64,7 +64,7 @@ public class NavMeshCapableAgent : MonoBehaviour{
             if(current == goal)
             {
                 while (cameFrom[current] != start) {
-                    Debug.Log(current);
+                    //Debug.Log(current);
                     if(cameFrom[current] == null)
                     {
                         cameFrom[current] = start;
