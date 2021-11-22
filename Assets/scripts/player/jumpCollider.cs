@@ -33,7 +33,8 @@ public class jumpCollider : MonoBehaviour
             playerController.instance.weapon = true;
             playerController.instance.activeChest = collision.gameObject;
         }
-            if (!collision.gameObject.CompareTag("Slippery"))
+        Debug.Log(collision.GetType().ToString());
+            if (!collision.gameObject.CompareTag("Slippery") && collision.GetType().ToString() == "UnityEngine.BoxCollider2D")
             {
                 if (collision.gameObject.transform.position.y - ((collision.gameObject.GetComponent<BoxCollider2D>().size.y / 2) /* * Mathf.Sign(collision.gameObject.transform.position.y)*/) < (playerController.instance.transform.position.y + ((playerController.instance.transform.localScale.y / 2) /* * Mathf.Sign(playerController.instance.transform.position.y)*/)))
                 {
@@ -87,7 +88,7 @@ public class jumpCollider : MonoBehaviour
             playerController.instance.activeChest = collision.gameObject;
         }
 
-            if (!collision.gameObject.CompareTag("Slippery"))
+            if (!collision.gameObject.CompareTag("Slippery") && collision.GetType().ToString() == "UnityEngine.BoxCollider2D")
             {
                 if (collision.gameObject.transform.position.y - ((collision.gameObject.GetComponent<BoxCollider2D>().size.y / 2) /* *Mathf.Sign(collision.gameObject.transform.position.y)*/) < (playerController.instance.transform.position.y + ((playerController.instance.transform.localScale.y / 2)/* * Mathf.Sign(playerController.instance.transform.position.y)*/)))
                 {

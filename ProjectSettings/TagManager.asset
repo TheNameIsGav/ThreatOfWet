@@ -11,6 +11,8 @@ TagManager:
   - Slippery
   - Spawnable
   - Chest
+  - Death2
+  - Death
   layers:
   - Default
   - TransparentFX
@@ -19,8 +21,8 @@ TagManager:
   - Water
   - UI
   - NavMesh
-  - 
-  - 
+  - 'TIle '
+  - SpawnableTile
   - 
   - 
   - 
