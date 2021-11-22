@@ -135,11 +135,11 @@ public class AttackState : State
             {
                 if (guess == 1)
                 {
-                    playerController.instance.pSprite.color = Color.magenta;
+                    playerController.instance.pSprite.color = Color.yellow;
                 }
                 else
                 {
-                    playerController.instance.pSprite.color = Color.cyan;
+                    playerController.instance.pSprite.color = Color.magenta;
                 }
                 if (count >= Mathf.Max(3,Mathf.Floor(resetVal - playerController.instance.itemVals[0])))
                 {
