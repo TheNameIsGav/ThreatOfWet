@@ -20,8 +20,8 @@ public class playerController : MonoBehaviour
     public PhysicsMaterial2D stop;
     //public static AttackState attack;
     public static playerController instance;
-    public Weapon rangedWeapon = new StarterGun();
-    public Weapon meleeWeapon = new StarterSword();
+    public Weapon rangedWeapon;
+    public Weapon meleeWeapon;
     public Animator animator;
     public SpriteRenderer weaponHitbox;
     public int grav = 3;
@@ -67,10 +67,17 @@ public class playerController : MonoBehaviour
         {
             //Debug.Log("helsinki");
             inputs = customControls.instance.inputLst;
+            itemVals = customControls.instance.pItems;
+            meleeWeapon = customControls.instance.pMelee;
+            rangedWeapon = customControls.instance.pRange;
         }
         else
         {
             inputs = new KeyCode[] { KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Space, KeyCode.I, KeyCode.E, KeyCode.O, KeyCode.P, KeyCode.L, KeyCode.Semicolon };
+            itemVals = new float[] { 0f, 0f, 0f, 0f, 0f, 0f, 10f, 0f, 35f };
+            meleeWeapon = new StarterSword();
+            rangedWeapon = new StarterGun();
+
             // (up , down, left, right, jump, dash, interact, light melee, heavy melee, light range, heavy range)
         }
     }
@@ -94,7 +101,6 @@ public class playerController : MonoBehaviour
             inputs = new KeyCode[] { KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Space, KeyCode.I, KeyCode.E, KeyCode.O, KeyCode.P, KeyCode.L, KeyCode.Semicolon };
             // (up , down, left, right, jump, dash, interact, light melee, heavy melee, light range, heavy range)
         }
-    itemVals = new float[] { 0f,          0f,            0f,         0f,    0f,  0f,  10f,  0f,    35f };
 }
 
     // Update is called once per frame

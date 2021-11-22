@@ -817,6 +817,7 @@ public class MenuState : State
                             playerController.instance.itemVals[luck] += 1f;
                         }
                     }
+                    customControls.instance.pItems = playerController.instance.itemVals;
                 }
                 else
                 {
@@ -829,13 +830,16 @@ public class MenuState : State
                         if (weaponList[weaponPos].ranged)
                         {
                             playerController.instance.rangedWeapon = weaponList[weaponPos];
+                            customControls.instance.pRange = playerController.instance.rangedWeapon;
                         }
                         else
                         {
                             playerController.instance.meleeWeapon = weaponList[weaponPos];
+                            customControls.instance.pMelee = playerController.instance.meleeWeapon;
                         }
                     }
                 }
+                
                 timer = 0;
             }
         }
