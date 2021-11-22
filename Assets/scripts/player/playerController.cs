@@ -58,6 +58,8 @@ public class playerController : MonoBehaviour
     public bool weapon;
     public GameObject activeChest;
     public SpriteRenderer pSprite;
+    public Sprite meleeSp;
+    public Sprite rangedSp;
     // attack speed, attack damage, scaling, lifesteal, hp, def, crit, dodge, drop
     //Debug.Log(meleeWeapon.lightActive);
     // meleeWeapon.lightActive;

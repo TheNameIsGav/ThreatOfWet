@@ -209,6 +209,8 @@ MonoBehaviour:
   weapon: 0
   activeChest: {fileID: 0}
   pSprite: {fileID: 2845900223041345614}
+  meleeSp: {fileID: 21300000, guid: ab0fe498d9e83c940af8f0469d850ee3, type: 3}
+  rangedSp: {fileID: 21300000, guid: c3012daaffa31bd4f93fdfa20b9902eb, type: 3}
 --- !u!120 &5419697240797163335
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -325,7 +327,7 @@ DistanceJoint2D:
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: 0, y: 0}
   m_AutoConfigureDistance: 1
-  m_Distance: 4.821369
+  m_Distance: 0.005
   m_MaxDistanceOnly: 1
 --- !u!1 &2845900222651375959
 GameObject:

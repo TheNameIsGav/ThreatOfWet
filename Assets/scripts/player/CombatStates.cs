@@ -530,6 +530,14 @@ public class AttackState : State
             endlag = ranged.heavyEndlag;
             activeWeapon = ranged;
         }
+        if(playerController.instance.attackVal <= 2)
+        {
+            playerController.instance.weaponHitbox.sprite = playerController.instance.meleeSp;
+        }
+        else
+        {
+            playerController.instance.weaponHitbox.sprite = playerController.instance.rangedSp;
+        }
     }
     public void ComboDrop()
     {
