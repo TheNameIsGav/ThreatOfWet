@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class customControls : MonoBehaviour
 {
@@ -13,6 +14,11 @@ public class customControls : MonoBehaviour
     */
     public KeyCode[] inputLst = new KeyCode[]
         {KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Space, KeyCode.I, KeyCode.E, KeyCode.O, KeyCode.P, KeyCode.L, KeyCode.Semicolon };
+
+    public Weapon pMelee = new StarterSword();
+    public Weapon pRange = new StarterGun();
+
+    public float[] pItems = new float[] { 0f, 0f, 0f, 0f, 0f, 0f, 10f, 0f, 35f };
     //float hjj = Input.GetAxis("Joystick1Axis1");
     /*
     public string up = "w";
@@ -37,6 +43,11 @@ public class customControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(SceneManager.GetActiveScene().name == "MainMenu")
+        {
+            pItems = new float[] { 0f, 0f, 0f, 0f, 0f, 0f, 10f, 0f, 35f };
+            pMelee = new StarterSword();
+            pRange = new StarterGun();
+        }
     }
 }

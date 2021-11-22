@@ -28,23 +28,26 @@ public class jumpCollider : MonoBehaviour
             //playerController.instance.items = collision.gameObject;
             playerController.instance.activeItem = collision.gameObject;
         }
-        else
+        else if (collision.gameObject.CompareTag("Chest"))
         {
+            playerController.instance.weapon = true;
+            playerController.instance.activeChest = collision.gameObject;
+        }
             if (!collision.gameObject.CompareTag("Slippery"))
             {
-                if (collision.gameObject.transform.position.y - ((collision.gameObject.transform.localScale.y / 2) /* * Mathf.Sign(collision.gameObject.transform.position.y)*/) < (playerController.instance.transform.position.y + ((playerController.instance.transform.localScale.y / 2) /* * Mathf.Sign(playerController.instance.transform.position.y)*/)))
+                if (collision.gameObject.transform.position.y - ((collision.gameObject.GetComponent<BoxCollider2D>().size.y / 2) /* * Mathf.Sign(collision.gameObject.transform.position.y)*/) < (playerController.instance.transform.position.y + ((playerController.instance.transform.localScale.y / 2) /* * Mathf.Sign(playerController.instance.transform.position.y)*/)))
                 {
                     playerController.instance.grounded = true;
                     playerController.instance.coyote = playerController.instance.universalBufferTime + 1;
                     //playerController.instance.state.shortHop = 0;
-                    if (playerController.instance.state != playerController.instance.dash && playerController.instance.rbs.velocity.y < 1f && !(((playerController.instance.transform.position.x /*+ (playerController.instance.transform.localScale.x / 2)*/) <= (collision.gameObject.transform.position.x - (Mathf.Sign(collision.gameObject.transform.position.x) * collision.gameObject.transform.localScale.x / 2))) || ((playerController.instance.transform.position.x /*- (playerController.instance.transform.localScale.x / 2)*/) >= (collision.gameObject.transform.position.x + (collision.gameObject.transform.localScale.x / 2)))))
+                    if (playerController.instance.state != playerController.instance.dash && playerController.instance.rbs.velocity.y < 1f && !(((playerController.instance.transform.position.x /*+ (playerController.instance.transform.localScale.x / 2)*/) <= (collision.gameObject.transform.position.x - (Mathf.Sign(collision.gameObject.transform.position.x) * collision.gameObject.GetComponent<BoxCollider2D>().size.x / 2))) || ((playerController.instance.transform.position.x /*- (playerController.instance.transform.localScale.x / 2)*/) >= (collision.gameObject.transform.position.x + (collision.gameObject.GetComponent<BoxCollider2D>().size.x / 2)))))
                     {
                         //Debug.Log("fucking aasdasdasd");
                         playerController.instance.canDash = true;
                     }
                 }
             }
-        }
+        
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -63,6 +66,11 @@ public class jumpCollider : MonoBehaviour
             //playerController.instance.items = null;
             playerController.instance.activeItem = null;
         }
+        else if (collision.gameObject.CompareTag("Chest"))
+        {
+            playerController.instance.weapon = false;
+            playerController.instance.activeChest = null;
+        }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -73,18 +81,22 @@ public class jumpCollider : MonoBehaviour
             //playerController.instance.items = collision.gameObject;
             playerController.instance.activeItem = collision.gameObject;
         }
-        else
+        else if (collision.gameObject.CompareTag("Chest"))
         {
+            playerController.instance.weapon = true;
+            playerController.instance.activeChest = collision.gameObject;
+        }
+
             if (!collision.gameObject.CompareTag("Slippery"))
             {
-                if (collision.gameObject.transform.position.y - ((collision.gameObject.transform.localScale.y / 2) /* *Mathf.Sign(collision.gameObject.transform.position.y)*/) < (playerController.instance.transform.position.y + ((playerController.instance.transform.localScale.y / 2)/* * Mathf.Sign(playerController.instance.transform.position.y)*/)))
+                if (collision.gameObject.transform.position.y - ((collision.gameObject.GetComponent<BoxCollider2D>().size.y / 2) /* *Mathf.Sign(collision.gameObject.transform.position.y)*/) < (playerController.instance.transform.position.y + ((playerController.instance.transform.localScale.y / 2)/* * Mathf.Sign(playerController.instance.transform.position.y)*/)))
                 {
                     playerController.instance.grounded = true;
                     playerController.instance.coyote = playerController.instance.universalBufferTime + 1;
                     //playerController.instance.state.shortHop = 0;
                     //Debug.Log((playerController.instance.transform.position.x).ToString() + " lt " + (collision.gameObject.transform.position.x - (collision.gameObject.transform.localScale.x / 2)).ToString() + " " + (playerController.instance.transform.position.x).ToString() + " gt " + (collision.gameObject.transform.position.x + (collision.gameObject.transform.localScale.x / 2)).ToString());
                     //Debug.Log((!((playerController.instance.transform.position.x /*+ (playerController.instance.transform.localScale.x / 2)*/) <= (collision.gameObject.transform.position.x - (collision.gameObject.transform.localScale.x / 2))) || ((playerController.instance.transform.position.x /*- (playerController.instance.transform.localScale.x / 2)*/) >= (collision.gameObject.transform.position.x + (collision.gameObject.transform.localScale.x / 2)))));
-                    if (playerController.instance.state != playerController.instance.dash && playerController.instance.rbs.velocity.y < 1f && !(((playerController.instance.transform.position.x /*+ (playerController.instance.transform.localScale.x / 2)*/) <= (collision.gameObject.transform.position.x - (collision.gameObject.transform.localScale.x / 2))) || ((playerController.instance.transform.position.x /*- (playerController.instance.transform.localScale.x / 2)*/) >= (collision.gameObject.transform.position.x + (collision.gameObject.transform.localScale.x / 2)))))
+                    if (playerController.instance.state != playerController.instance.dash && playerController.instance.rbs.velocity.y < 1f && !(((playerController.instance.transform.position.x /*+ (playerController.instance.transform.localScale.x / 2)*/) <= (collision.gameObject.transform.position.x - (collision.gameObject.GetComponent<BoxCollider2D>().size.x / 2))) || ((playerController.instance.transform.position.x /*- (playerController.instance.transform.localScale.x / 2)*/) >= (collision.gameObject.transform.position.x + (collision.gameObject.GetComponent<BoxCollider2D>().size.x / 2)))))
                     {
                         //Debug.Log((playerController.instance.transform.position.x ).ToString() + " lt " + (collision.gameObject.transform.position.x - (collision.gameObject.transform.localScale.x / 2)).ToString() + " " + (playerController.instance.transform.position.x ).ToString() + " gt " + (collision.gameObject.transform.position.x + (collision.gameObject.transform.localScale.x / 2)).ToString());
                         //Debug.Log((!((playerController.instance.transform.position.x /*+ (playerController.instance.transform.localScale.x / 2)*/) <= (collision.gameObject.transform.position.x - (collision.gameObject.transform.localScale.x / 2))) || ((playerController.instance.transform.position.x /*- (playerController.instance.transform.localScale.x / 2)*/) >= (collision.gameObject.transform.position.x + (collision.gameObject.transform.localScale.x / 2)))));
@@ -93,6 +105,6 @@ public class jumpCollider : MonoBehaviour
                     }
                 }
             }
-        }
+        
     }
 }

@@ -31,7 +31,7 @@ public abstract class Weapon
     public Animation heavySwing;
     public Sprite weaponSprite;
 
-    public float damageBase;
+    public float damageBase = 4f;
 
 
 
