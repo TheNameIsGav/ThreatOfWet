@@ -15,7 +15,7 @@ public class AttackState : State
     private int count = 0;
     private int stun = 0;
     private float holdSpeed;
-    private bool light;
+    public bool light;
     private int guess = 0;
     private int ended = 0;
     private int currVal = 0;
@@ -30,6 +30,7 @@ public class AttackState : State
     public GameObject enemy;
     int dropCount = 0;
     bool shouldDrop = false;
+    public bool dropped = false;
     public AttackState()
     {
 
@@ -50,6 +51,7 @@ public class AttackState : State
         playerController.instance.rbs.gravityScale = playerController.instance.grav;
         playerController.instance.rbs.sharedMaterial = playerController.instance.stop;
         playerController.instance.transform.localScale = new Vector3(1f, 1f, 1f);
+        dropped = false;
         //playerController.instance.rbs.velocity = new Vector2(0f, 0f);
         //Debug.Log(startup);
         //Debug.Log(active);
@@ -69,6 +71,7 @@ public class AttackState : State
         phase = 0;
         count = 0;
         comboCount = 0;
+        //GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 0);
         ended = 0;
         guess = 0;
         buttons.Clear();
@@ -129,8 +132,7 @@ public class AttackState : State
             {
                 if(count >= Mathf.Max(3,Mathf.Floor(resetVal - playerController.instance.itemVals[0])))
                 {
-                    playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
-                    playerController.instance.ChangeState(playerController.instance.idle);
+                    ComboDrop();
                 }
                 else if(lastVal == guess)
                 {
@@ -140,6 +142,7 @@ public class AttackState : State
                     guess = 0;
                     scale *= 1.2f;
                     comboCount = 0;
+                    //GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 0);
                 }
                 else if (lastVal != 0)
                 {
@@ -150,8 +153,9 @@ public class AttackState : State
             else if(ended == 2)
             {
                 //enemy.transform.position = new Vector2(10f*  playerController.instance.dir + enemy.transform.position.x, 5f + enemy.transform.position.y);
-                playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
-                enemy.GetComponent<EnemyDefault>().TakeDamage(new Damage(4f,false,true,false));
+                playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 10f, 10f);
+                //enemy.GetComponent<EnemyDefault>().TakeDamage(new Damage(200f,false,true,false));
+                enemy.GetComponent<EnemyDefault>().TakeDamage(new Damage(15f* scale * (activeWeapon.damageBase + playerController.instance.itemVals[1]), true, 2f, playerController.instance.itemVals[6]));
                 playerController.instance.ChangeState(playerController.instance.idle);
             }
             //this is for water element
@@ -160,8 +164,7 @@ public class AttackState : State
                 if(count >= resetVal)
                 {
                     //have player take damage
-                    playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
-                    playerController.instance.ChangeState(playerController.instance.idle);
+                    ComboDrop();
                 }
                 Debug.Log(count);
                 if (lastVal != 0)
@@ -174,6 +177,7 @@ public class AttackState : State
                         count = 0;
                         guess = 0;
                         comboCount = 0;
+                        //GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 0);
                         water = true;
                         Debug.Log("parried");
                     }
@@ -188,14 +192,14 @@ public class AttackState : State
             {
                 if(count >= resetVal)
                 {
-                    playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
-                    playerController.instance.ChangeState(playerController.instance.idle);
+                    ComboDrop();
                 }
                 else if(lastVal != 0)
                 {
                     if(lastVal % 2 != 0)
                     {
                         comboCount = -3;
+                        //GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(-3, 2);
                         ended = 0;
                         phase = 0;
                         count = 0;
@@ -213,14 +217,14 @@ public class AttackState : State
                 //dropped combo
                 if (count >= resetVal)
                 {
-                    playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
-                    playerController.instance.ChangeState(playerController.instance.idle);
+                    ComboDrop();
                 }
                 else if (lastVal != 0)
                 {
                     if (lastVal % 2 != 0)
                     {
                         comboCount = 0;
+                        //GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 0);
                         ended = 0;
                         phase = 0;
                         count = 0;
@@ -235,8 +239,7 @@ public class AttackState : State
             //this is for when elem of ender == enemy elem
             else
             {
-                playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
-                playerController.instance.ChangeState(playerController.instance.idle);
+                ComboDrop();
             }
             count++;
             
@@ -294,8 +297,7 @@ public class AttackState : State
                         //when the combo ender is a light
                         if(comboCount >= 4 && light)
                         {
-                            playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
-                            playerController.instance.ChangeState(playerController.instance.idle);
+                            ComboDrop();
                         }
                         //when the combo ender is a heavy
                         else if(comboCount >= 4 || (!light && !water))
@@ -325,8 +327,7 @@ public class AttackState : State
                         //if combo ender is a light
                         if (light)
                         {
-                            playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
-                            playerController.instance.ChangeState(playerController.instance.idle);
+                            ComboDrop();
                         }
                         //if combo ender is a heavy
                         else
@@ -345,8 +346,7 @@ public class AttackState : State
                 //this is when the player drops the combo
                 if(count >= playerController.instance.hitstun)
                 {
-                    playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
-                    playerController.instance.ChangeState(playerController.instance.idle);
+                    ComboDrop();
                 }
                 else
                 {
@@ -498,6 +498,13 @@ public class AttackState : State
             activeWeapon = ranged;
         }
     }
+    public void ComboDrop()
+    {
+        playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
+        dropped = true;
+        //GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 1);
+        playerController.instance.ChangeState(playerController.instance.idle);
+    }
 }
 
 public class MenuState : State
@@ -544,7 +551,7 @@ public class MenuState : State
     float oldX = 0f;
     float oldY = 0f;
     bool move = false;
-    int weaponPos = 0;
+    public int weaponPos = 0;
     bool itemEx = false;
     bool weaponEx = false;
     bool enter;
@@ -580,10 +587,12 @@ public class MenuState : State
             weaponEx = false;
             //Debug.Log(descrip[att] + ", " + descrip[def] + ", " + descrip[luck]);
             SceneManager.LoadScene("itemScene", LoadSceneMode.Additive);
+            playerController.Destroy(playerController.instance.activeItem);
         }
         else if (playerController.instance.weapon)
         {
             itemEx = false;
+            weaponEx = true;
             SceneManager.LoadScene("weaponScene", LoadSceneMode.Additive);
             index = 1;
             weaponPos = Random.Range(0, weaponList.Length);
@@ -608,7 +617,7 @@ public class MenuState : State
             {
                 weaponList[weaponPos].element = Element.GROUND;
             }
-
+            playerController.Destroy(playerController.instance.activeChest);
         }
         else
         {
@@ -618,7 +627,6 @@ public class MenuState : State
         oldY = playerController.instance.rbs.velocity.y;
         playerController.instance.rbs.velocity = new Vector2(0, 0);
         playerController.instance.rbs.gravityScale = 0;
-        playerController.Destroy(playerController.instance.activeItem);
         enter = false;
         timer = 50;
     }
@@ -715,7 +723,7 @@ public class MenuState : State
                     {
                         index = 1;
                     }
-                    else if (index > 0)
+                    else if (index > 1)
                     {
                         index = 0;
                     }

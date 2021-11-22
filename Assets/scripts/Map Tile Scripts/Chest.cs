@@ -10,7 +10,7 @@ public class Chest : BasicTile
     {
         base.Start();
         // loot is either predefined or grab method will be grabbed or it will be generated upon retrieval
-        hitbox.isTrigger = true;
+        //hitbox.isTrigger = true;
     }
 
     bool isOpened()
@@ -28,8 +28,8 @@ public class Chest : BasicTile
     {
         if (collision.gameObject.name.Equals("Player"))
         {
-            gameObject.GetComponent<SpriteRenderer>().sprite = openedSprite;
-            hitbox.enabled = false;
+            //gameObject.GetComponent<SpriteRenderer>().sprite = openedSprite;
+            //hitbox.enabled = false;
         }
     }
 }

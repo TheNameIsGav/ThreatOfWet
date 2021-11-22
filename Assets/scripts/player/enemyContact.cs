@@ -20,8 +20,15 @@ public class enemyContact : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Hostile") && playerController.instance.attack.delay <= 0)
         {
-            collision.gameObject.GetComponent<EnemyDefault>().TakeDamage(new Damage(playerController.instance.attack.scale *(4f + playerController.instance.itemVals[1])));
-            playerController.instance.ChangeHealth(playerController.instance.itemVals[3]* (playerController.instance.attack.scale * (4f + playerController.instance.itemVals[1])));
+            if (!playerController.instance.attack.light) 
+            {
+                collision.gameObject.GetComponent<EnemyDefault>().TakeDamage(new Damage(1.5f * playerController.instance.attack.scale * (playerController.instance.attack.activeWeapon.damageBase + playerController.instance.itemVals[1]), true, 2f, playerController.instance.itemVals[6]));
+            }
+            else
+            {
+                collision.gameObject.GetComponent<EnemyDefault>().TakeDamage(new Damage(playerController.instance.attack.scale * (playerController.instance.attack.activeWeapon.damageBase + playerController.instance.itemVals[1]), true, 2f, playerController.instance.itemVals[6]));
+            }
+            playerController.instance.ChangeHealth(playerController.instance.itemVals[3]* (playerController.instance.attack.scale * (playerController.instance.attack.activeWeapon.damageBase + playerController.instance.itemVals[1])));
             playerController.instance.attack.delay = 5;
             if(true /*playerController.instance.combo && (playerController.instance.attack.activeWeapon.element != playerController.instance.attack.enemy.GetComponent<EnemyDefault>().Element || playerController.instance.attack.activeWeapon.element == Element.DEFAULT)*/)
             {
@@ -33,7 +40,7 @@ public class enemyContact : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Hostile"))
         {
-            collision.gameObject.GetComponent<EnemyDefault>().TakeDamage(new Damage(playerController.instance.attack.scale * (4f + playerController.instance.itemVals[1])));
+            collision.gameObject.GetComponent<EnemyDefault>().TakeDamage(new Damage(playerController.instance.attack.scale * (playerController.instance.attack.activeWeapon.damageBase + playerController.instance.itemVals[1]), true, 2f, playerController.instance.itemVals[6]));
         }
     }
 }

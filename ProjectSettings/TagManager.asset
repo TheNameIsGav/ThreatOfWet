@@ -9,6 +9,8 @@ TagManager:
   - NavPoint
   - Item
   - Slippery
+  - Spawnable
+  - Chest
   layers:
   - Default
   - TransparentFX
