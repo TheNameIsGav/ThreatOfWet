@@ -9,7 +9,7 @@ public class EnemySpawnState : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //Should be commented out once the spawn tiles are going to handle calling the spawn function
-        animator.gameObject.GetComponent<EnemyDefault>().Spawn(Vector2.zero, 4);
+        //animator.gameObject.GetComponent<EnemyDefault>().Spawn(Vector2.zero, 4);
         (GameObject target, int retType) = animator.gameObject.GetComponent<NavMeshCapableAgent>().AStar(animator.gameObject, 
                                                                                                             GameObject.Find("player"), 
                                                                                                             GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>().navPoints);
