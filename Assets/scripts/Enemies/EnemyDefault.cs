@@ -158,7 +158,7 @@ public class EnemyDefault : MonoBehaviour
 
         transform.GetChild(0).GetComponent<EnemyNameGenerator>().GenerateEnemyName(eName);
 
-
+        transform.position = position;
     }
 
 }

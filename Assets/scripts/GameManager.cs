@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
         combos = new int[5+1];
         DontDestroyOnLoad(this);
         spawner = SpawnHandler.instance;
-        timeToSpawn = 1f;
+        timeToSpawn = 10f;
         numbers = new int[10];
     }
 
