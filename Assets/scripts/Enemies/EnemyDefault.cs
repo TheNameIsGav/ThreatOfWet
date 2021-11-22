@@ -72,7 +72,7 @@ public class EnemyDefault : MonoBehaviour
         }
     }
 
-    public Damage shouldAttack()
+    public float shouldAttack()
     {
         Damage d = new Damage(baseDamage);
 
@@ -93,7 +93,7 @@ public class EnemyDefault : MonoBehaviour
             d.CritPercent = 75;
         }
 
-        return d;
+        return d.getDamage();
     }
 
     //y = log_{b}x - 2 //Plug this into desmos to play with it

@@ -59,6 +59,8 @@ public class AttackState : State
     }
     public override void OnExit()
     {
+        //playerController.instance.pSprite.color = new Color(1, 1, 1, 1);
+        playerController.instance.pSprite.color = Color.white;
         playerController.instance.rbs.gravityScale = playerController.instance.grav;
         playerController.instance.rbs.sharedMaterial = playerController.instance.go;
         playerController.instance.weaponHitbox.enabled = false;
@@ -71,7 +73,7 @@ public class AttackState : State
         phase = 0;
         count = 0;
         comboCount = 0;
-        //GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 0);
+        GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 0);
         ended = 0;
         guess = 0;
         buttons.Clear();
@@ -127,22 +129,33 @@ public class AttackState : State
         //this is the code for the enders
         if (ended != 0)
         {
+            
             //this is for the ground element
             if(ended == 1)
             {
-                if(count >= Mathf.Max(3,Mathf.Floor(resetVal - playerController.instance.itemVals[0])))
+                if (guess == 1)
                 {
+                    playerController.instance.pSprite.color = Color.magenta;
+                }
+                else
+                {
+                    playerController.instance.pSprite.color = Color.cyan;
+                }
+                if (count >= Mathf.Max(3,Mathf.Floor(resetVal - playerController.instance.itemVals[0])))
+                {
+                    playerController.instance.pSprite.color = new Color(1, 1, 1, 1);
                     ComboDrop();
                 }
                 else if(lastVal == guess)
                 {
+                    playerController.instance.pSprite.color = new Color(1, 1, 1, 1);
                     ended = 0;
                     phase = 0;
                     count = 0;
                     guess = 0;
                     scale *= 1.2f;
                     comboCount = 0;
-                    //GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 0);
+                    GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 0);
                 }
                 else if (lastVal != 0)
                 {
@@ -154,6 +167,7 @@ public class AttackState : State
             {
                 //enemy.transform.position = new Vector2(10f*  playerController.instance.dir + enemy.transform.position.x, 5f + enemy.transform.position.y);
                 playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 10f, 10f);
+                GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 0);
                 //enemy.GetComponent<EnemyDefault>().TakeDamage(new Damage(200f,false,true,false));
                 enemy.GetComponent<EnemyDefault>().TakeDamage(new Damage(15f* scale * (activeWeapon.damageBase + playerController.instance.itemVals[1]), true, 2f, playerController.instance.itemVals[6]));
                 playerController.instance.ChangeState(playerController.instance.idle);
@@ -161,9 +175,11 @@ public class AttackState : State
             //this is for water element
             else if(ended == 3)
             {
+                Debug.Log("water and water ");
                 if(count >= resetVal)
                 {
                     //have player take damage
+                    playerController.instance.pSprite.color = Color.white;
                     ComboDrop();
                 }
                 Debug.Log(count);
@@ -177,13 +193,29 @@ public class AttackState : State
                         count = 0;
                         guess = 0;
                         comboCount = 0;
-                        //GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 0);
+                        playerController.instance.pSprite.color = Color.white;
+                        GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 0);
                         water = true;
                         Debug.Log("parried");
                     }
                     else
                     {
+                        playerController.instance.pSprite.color = Color.white;
                         count = resetVal;
+                    }
+                }
+                else
+                {
+                    //Debug.Log("what how it should be else");
+                    if (count > 15 && count < 45)
+                    {
+                        Debug.Log("green");
+                        playerController.instance.pSprite.color = new Color(0, 0, 1, 1);
+                    }
+                    else
+                    {
+                        Debug.Log("white");
+                        playerController.instance.pSprite.color = Color.white;
                     }
                 }
             }
@@ -199,7 +231,7 @@ public class AttackState : State
                     if(lastVal % 2 != 0)
                     {
                         comboCount = -3;
-                        //GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(-3, 2);
+                        GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(-3, 2);
                         ended = 0;
                         phase = 0;
                         count = 0;
@@ -224,7 +256,7 @@ public class AttackState : State
                     if (lastVal % 2 != 0)
                     {
                         comboCount = 0;
-                        //GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 0);
+                        GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 0);
                         ended = 0;
                         phase = 0;
                         count = 0;
@@ -434,6 +466,7 @@ public class AttackState : State
         }
         else if (activeWeapon.element == Element.WATER)
         {
+            Debug.Log("what the fuck is it not water");
             ended = 3;
         }
         else if (activeWeapon.element == Element.ELECTRIC)
@@ -502,7 +535,8 @@ public class AttackState : State
     {
         playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
         dropped = true;
-        //GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 1);
+        GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 1);
+        playerController.instance.ChangeHealth(-1f * enemy.GetComponent<EnemyDefault>().shouldAttack());
         playerController.instance.ChangeState(playerController.instance.idle);
     }
 }

@@ -203,7 +203,11 @@ MonoBehaviour:
   invulCount: 0
   item: 0
   items: {fileID: 7661142561416598593, guid: 6c710b543cdf18048be720fcbf412d37, type: 3}
+  activeItem: {fileID: 0}
   itemVals: []
+  weapon: 0
+  activeChest: {fileID: 0}
+  pSprite: {fileID: 2845900223041345614}
 --- !u!120 &5419697240797163335
 LineRenderer:
   m_ObjectHideFlags: 0

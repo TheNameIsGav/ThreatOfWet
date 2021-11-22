@@ -52,6 +52,7 @@ public class ComboCounter : MonoBehaviour
 
     public void AdjustComboCounter(int currentCount, int comboType)
     {
+        Debug.Log(currentCount);
         switch (currentCount){
             case -3: //3 electric unfilled, 1 normal unfilled
                 comboPeices[0].sprite = comboTiles[2];

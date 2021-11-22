@@ -20,8 +20,8 @@ public class playerController : MonoBehaviour
     public PhysicsMaterial2D stop;
     //public static AttackState attack;
     public static playerController instance;
-    public Weapon rangedWeapon = new StarterSword();
-    public Weapon meleeWeapon = new StarterGun();
+    public Weapon rangedWeapon = new StarterGun();
+    public Weapon meleeWeapon = new StarterSword();
     public Animator animator;
     public SpriteRenderer weaponHitbox;
     public int grav = 3;
@@ -57,6 +57,7 @@ public class playerController : MonoBehaviour
     public float[] itemVals;
     public bool weapon;
     public GameObject activeChest;
+    public SpriteRenderer pSprite;
     // attack speed, attack damage, scaling, lifesteal, hp, def, crit, dodge, drop
     //Debug.Log(meleeWeapon.lightActive);
     // meleeWeapon.lightActive;
