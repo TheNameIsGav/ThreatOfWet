@@ -76,10 +76,27 @@ public class IdleState : State
                 //this sets the actual jump
                 jumpSquat = 0f;
                 //Debug.Log.Log("up");
-                playerController.instance.rbs.velocity = new Vector2(playerController.instance.rbs.velocity.x, Mathf.Max(playerController.instance.rbs.velocity.y, 0f) + jumpHeight);
+                if (playerController.instance.superJump)
+                {
+                    playerController.instance.rbs.velocity = new Vector2(playerController.instance.rbs.velocity.x, Mathf.Max(playerController.instance.rbs.velocity.y, 0f) + jumpHeight);
+                }
+                else
+                {
+                    playerController.instance.rbs.velocity = new Vector2(playerController.instance.rbs.velocity.x, 0f + jumpHeight);
+                    //playerController.instance.rbs.velocity = new Vector2(playerController.instance.rbs.velocity.x, Mathf.Max(playerController.instance.rbs.velocity.y, 0f) + jumpHeight);
+                }
+            
+                playerController.instance.superJump = false;
+                //playerController.instance.rbs.velocity = new Vector2(playerController.instance.rbs.velocity.x, Mathf.Max(playerController.instance.rbs.velocity.y, 0f) + jumpHeight);
                 playerController.instance.jump = false;
                 //jumpBuffer = -1;
-                playerController.instance.transform.localScale = (new Vector3(.9f, 1.1f, 1f));
+
+                if (playerController.instance.transform.parent == null)
+                    playerController.instance.transform.localScale = (new Vector3(.9f, 1.1f, 1f));
+                else
+                    playerController.instance.transform.localScale = (new Vector3(.9f / (playerController.instance.transform.parent.transform.localScale.x),
+                        1.1f / (playerController.instance.transform.parent.transform.localScale.y), 1f));
+                
                 playerController.instance.coyote = playerController.instance.universalBufferTime + 1;
             }
 
@@ -87,8 +104,12 @@ public class IdleState : State
         //this is essentially part 2 of the grounded check
         else if (playerController.instance.grounded && playerController.instance.rbs.velocity.y < 1f && playerController.instance.flatten == -4f)
         {
-            playerController.instance.transform.localScale = (new Vector3(1f, 1f, 1f));
-            
+            if (playerController.instance.transform.parent == null)
+                playerController.instance.transform.localScale = (new Vector3(1f, 1f, 1f));
+            else
+                playerController.instance.transform.localScale = (new Vector3(1f / (playerController.instance.transform.parent.transform.localScale.x),
+                    1f / (playerController.instance.transform.parent.transform.localScale.y), 1f));
+
             //playerController.instance.shortHop = 0;
         }
 
@@ -166,7 +187,12 @@ public class IdleState : State
         ////Debug.Log.Log("WHO WANT S TO WATHC ME SCREAM");
         jumpSquat = jumpSquatVal;
         jumpRelease = false;
-        playerController.instance.transform.localScale = (new Vector3(1.4f, 0.8f, 1f));
+        if (playerController.instance.transform.parent == null)
+            playerController.instance.transform.localScale = (new Vector3(1.4f, 0.8f, 1f));
+        else
+            playerController.instance.transform.localScale = (new Vector3(1.4f / (playerController.instance.transform.parent.transform.localScale.x),
+                0.8f / (playerController.instance.transform.parent.transform.localScale.y), 1f));
+        
         //jumpRelease = false;
         //playerController.instance.jump = true;
     }
@@ -189,7 +215,9 @@ public class DashState : State
     private int holdxTime = 0;
     private float holdy = 0f;
     private int holdyTime = 0;
-    private bool rolling = false;
+    private bool swinging = false;
+    private bool swingRelease = false;
+    //private bool rolling = false;
     //public Rigidbody2D rb;
     //private Rigidbody2D rb;
 
@@ -208,17 +236,30 @@ public class DashState : State
 
     public override void OnEnter()
     {
+        swingRelease = false;
         dashx = playerController.instance.rbs.velocity.x;
         dashy = playerController.instance.rbs.velocity.y;
         dashBuffer = 4;
         playerController.instance.rbs.gravityScale = 0;
         ////Debug.Log.Log("no fucking way");
         playerController.instance.rbs.velocity = new Vector2(0f, 0f);
-        playerController.instance.transform.localScale = new Vector3(1f, 0.5f, 1f);
+
+        // playerController.instance.transform.localScale = new Vector3(1f, 0.5f, 1f);
+        if (playerController.instance.transform.parent == null)
+            playerController.instance.transform.localScale = (new Vector3(1f, 0.5f, 1f));
+        else
+            playerController.instance.transform.localScale = (new Vector3(1f / (playerController.instance.transform.parent.transform.localScale.x),
+                0.5f / (playerController.instance.transform.parent.transform.localScale.y), 1f));
+
         playerController.instance.coyote = playerController.instance.universalBufferTime;
+        playerController.instance.superJump = true;
     }
     public override void OnExit()
     {
+        swinging = false;
+        swingRelease = false;
+        playerController.instance.distJoint.enabled = false;
+        playerController.instance.lineRender.enabled = false;
         //playerController.instance.canDash = false;
     }
     // Update is called once per frame
@@ -256,6 +297,14 @@ public class DashState : State
             holdy = 0f;
             holdyTime = 0;
         }
+        if (!Input.GetButton("Dash"))
+        {
+            swingRelease = true;
+        }
+        if (playerController.instance.lineRender.enabled)
+        {
+            playerController.instance.lineRender.SetPosition(1, playerController.instance.transform.position);
+        }
 
     }
 
@@ -269,7 +318,15 @@ public class DashState : State
             playerController.instance.jumpRelease = false;
             //playerController.instance.jump = false;
             dashTimer = -1;
-            playerController.instance.transform.localScale = new Vector3(0.9f, 1.1f, 1f);
+            
+            // playerController.instance.transform.localScale = new Vector3(0.9f, 1.1f, 1f);
+
+            if (playerController.instance.transform.parent == null)
+                playerController.instance.transform.localScale = (new Vector3(.9f, 1.1f, 1f));
+            else
+                playerController.instance.transform.localScale = (new Vector3(.9f / (playerController.instance.transform.parent.transform.localScale.x),
+                    1.1f / (playerController.instance.transform.parent.transform.localScale.y), 1f));
+            
             //this is for if the player is wavedashing rather than superjumping, also sorry not sorry
             if (playerController.instance.rbs.velocity.y <= 0)
             {
@@ -287,6 +344,7 @@ public class DashState : State
                 playerController.instance.shortHop = 0;
                 
             }
+            //Debug.Log("why grapps here");
             playerController.instance.rbs.velocity = new Vector2(playerController.instance.rbs.velocity.x + Mathf.Sign(dashx)*Mathf.Max(Mathf.Abs(dashx) - speedCap,0f), playerController.instance.rbs.velocity.y);
             //playerController.instance.shortHop = 1;
             //playerController.instance.flatten = -4f;
@@ -301,12 +359,15 @@ public class DashState : State
         }
         else if (dashBuffer == 0)
         {
-            if (rolling)
-            {
-                playerController.instance.rbs.gravityScale = playerController.instance.grav * 3;
-            }
+           
             dashBuffer = -1;
-            if (holdx != 0)
+            dashTimer = 10;
+            if (playerController.instance.nDash) {
+                if (playerController.instance.rolling)
+                {
+                    playerController.instance.rbs.gravityScale = playerController.instance.grav * 3;
+                }
+                if (holdx != 0)
             {
                 if (holdy != 0)
                 {
@@ -336,14 +397,38 @@ public class DashState : State
                 else
                 {
                     //dashing in place
-                    dashDirx = 0f;
+                    dashDirx = playerController.instance.dir;
                     dashDiry = 0f;
                     ////Debug.Log.Log("HOW HOW HOW");
-                    playerController.instance.rbs.velocity = new Vector2(0, 0);
+                    playerController.instance.rbs.velocity = new Vector2(playerController.instance.dir * dashDist, 0);
+                }
+            }
+        }
+            else
+            {
+                //Debug.Log(Mathf.Cos(Mathf.Atan2(playerController.instance.rbs.velocity.y, playerController.instance.rbs.velocity.x)).ToString() + "  " + Mathf.Sin(Mathf.Atan2(playerController.instance.rbs.velocity.y, playerController.instance.rbs.velocity.x)));
+                if (playerController.instance.grapple)
+                {
+                    dashTimer = -1;
+                    swinging = true;
+                    playerController.instance.rbs.velocity = new Vector2(dashx, dashy);
+                    playerController.instance.rbs.gravityScale =4* playerController.instance.grav;
+                    playerController.instance.distJoint.connectedAnchor =new Vector2 (playerController.instance.transform.position.x + ((dashDist / 4) * playerController.instance.dir * (1f / Mathf.Sqrt(2))), playerController.instance.transform.position.y + ((dashDist / 4)* (1f / Mathf.Sqrt(2))));
+                    playerController.instance.lineRender.SetPosition(0, playerController.instance.distJoint.connectedAnchor);
+                    playerController.instance.lineRender.SetPosition(1, playerController.instance.transform.position);
+                    playerController.instance.distJoint.enabled = true;
+                    playerController.instance.lineRender.enabled = true;
+                }
+                else
+                {
+                    dashDirx = Mathf.Sign(holdx);
+                    dashDiry = Mathf.Sign(holdy);
+                    //Debug.Log(Mathf.Atan2(playerController.instance.rbs.velocity.y, playerController.instance.rbs.velocity.x));
+                    playerController.instance.rbs.velocity = new Vector2(dashDist * Mathf.Cos(Mathf.Atan2(dashy, dashx)), dashDist * Mathf.Sin(Mathf.Atan2(dashy, dashx)));
                 }
             }
 
-            dashTimer = 10;
+            
         }
         //this is how long the player dashes (moves with the set dash velocity)
         if (dashTimer > 0)
@@ -357,20 +442,51 @@ public class DashState : State
             //Debug.Log.Log(playerController.instance.rbs.velocity.x.ToString() + "  " + playerController.instance.rbs.velocity.y.ToString() + "  " + dashTimer.ToString());
             playerController.instance.rbs.gravityScale = playerController.instance.grav;
             playerController.instance.canDash = false;
+            playerController.instance.superJump = false;
             playerController.instance.ChangeState(playerController.instance.idle);
             dashTimer = -1;
-            playerController.instance.transform.localScale = new Vector3(0.9f, 1.1f, 1f);
+
+            // playerController.instance.transform.localScale = new Vector3(0.9f, 1.1f, 1f);
+
+            if (playerController.instance.transform.parent == null)
+                playerController.instance.transform.localScale = (new Vector3(.9f, 1.1f, 1f));
+            else
+                playerController.instance.transform.localScale = (new Vector3(.9f / (playerController.instance.transform.parent.transform.localScale.x),
+                    1.1f / (playerController.instance.transform.parent.transform.localScale.y), 1f));
+
             if (hori == 0)
             {
                 //stops momentum if no direction
                 ////Debug.Log.Log("FOE THR LOV E OF GOD");
                 playerController.instance.rbs.velocity = new Vector2(0f, 0f /*Mathf.Max(0f, dashy)*/);
             }
-            else
+            else if(!playerController.instance.grapple)
             {
                 ////Debug.Log.Log("HOW DID I EVEN GET HERE");
                 //keeps old pre-dash momentum
                 playerController.instance.rbs.velocity = new Vector2((Mathf.Sign(hori) * Mathf.Abs(dashx)), 0f /*Mathf.Max(0f, dashy)*/);
+            }
+            else
+            {
+
+            }
+        }
+        else if (swinging)
+        {
+            if(swingRelease)
+            {
+                dashTimer = 0;
+                swinging = false;
+                playerController.instance.rbs.gravityScale = playerController.instance.grav;
+                playerController.instance.distJoint.enabled = false;
+                playerController.instance.lineRender.enabled = false;
+            }
+            else
+            {
+                if(hori != 0)
+                {
+                    playerController.instance.rbs.velocity = new Vector2(playerController.instance.rbs.velocity.x + (.3f*hori), playerController.instance.rbs.velocity.y);
+                }
             }
         }
     }

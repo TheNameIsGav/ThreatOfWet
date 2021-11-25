@@ -8,9 +8,14 @@ public class SolidWallTile : BasicTile
     // Start is called before the first frame update
     protected override void Start()
     {
-        base.Start();
-        if (hitbox == null)
-            hitbox = this.gameObject.AddComponent<BoxCollider2D>();
-        // rgb = this.gameObject.AddComponent<Rigidbody2D>();
-    }
+      float xScale = transform.localScale.x;
+      float yScale = transform.localScale.y;
+
+      gameObject.transform.localScale = new Vector2(1,1);
+
+      gameObject.GetComponent<SpriteRenderer>().size = new Vector2(xScale, yScale);
+      
+      gameObject.GetComponent<BoxCollider2D>().size = new Vector2(xScale, yScale);
+
+  }
 }

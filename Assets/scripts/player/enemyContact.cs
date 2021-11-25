@@ -18,9 +18,24 @@ public class enemyContact : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Hostile"))
+        if (collision.gameObject.CompareTag("Hostile") && playerController.instance.attack.delay <= 0)
         {
-            collision.gameObject.GetComponent<EnemyDefault>().TakeDamage(4f);
+            collision.gameObject.GetComponent<EnemyDefault>().TakeDamage(new Damage(playerController.instance.attack.scale *(4f + playerController.instance.itemVals[1])));
+            playerController.instance.ChangeHealth(playerController.instance.itemVals[3]* (playerController.instance.attack.scale * (4f + playerController.instance.itemVals[1])));
+            playerController.instance.attack.delay = 5;
+            if(true || (playerController.instance.attack.activeWeapon.element != playerController.instance.attack.enemy.GetComponent<EnemyDefault>().Element || playerController.instance.attack.activeWeapon.element == Element.DEFAULT))
+            {
+                playerController.instance.combo = true;
+                playerController.instance.comboCount++;
+                playerController.instance.attack.comboCount++;
+                playerController.instance.attack.enemy = collision.gameObject;
+                //Debug.Log("Attempting to update combo counter with value " + playerController.instance.attack.comboCount);
+                GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(playerController.instance.attack.comboCount, 0);
+            }
+        }
+        else if (collision.gameObject.CompareTag("Hostile"))
+        {
+            collision.gameObject.GetComponent<EnemyDefault>().TakeDamage(new Damage(playerController.instance.attack.scale * (4f + playerController.instance.itemVals[1])));
         }
     }
 }

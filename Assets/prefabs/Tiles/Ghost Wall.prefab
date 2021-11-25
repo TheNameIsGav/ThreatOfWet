@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 726757193398757455}
   - component: {fileID: 726757193398757452}
   - component: {fileID: 726757193398757453}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ghost Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.7559036, g: 0.921016, b: 0.9245283, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -96,4 +96,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b5c2bb8d6edf6d4a8fa986dbaa8ed7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}

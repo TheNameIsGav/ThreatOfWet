@@ -5,9 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Second Collider
-  - WalkPoint
-  - JumpPoint
   - Hostile
+  - NavPoint
+  - Item
+  - Slippery
+  - Spawnable
+  - Chest
   layers:
   - Default
   - TransparentFX
@@ -15,6 +18,9 @@ TagManager:
   - 
   - Water
   - UI
+  - NavMesh
+  - Tile
+  - SpawnableTile
   - 
   - 
   - 
@@ -37,11 +43,11 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
+  - Game UI Whatnot
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: UI
+    uniqueID: 51594031
     locked: 0

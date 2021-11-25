@@ -6,8 +6,8 @@ public abstract class Weapon
 {
    
     //this gives the element of the weapon
-    enum Elements { Default, Fire, Eletric, Water, Earth}
-    Elements element = Elements.Default;
+    //enum Elements { Default, Fire, Eletric, Water, Earth}
+    public Element element = Element.DEFAULT;
     //these are in unity units, if the weapon is ranged then the width is the range of the weapon, and the height is how wide the beam is 
     public float hitboxWidth = 2f;
     public float hitboxHeight = 2f;
@@ -30,6 +30,8 @@ public abstract class Weapon
     public Animation lightSwing;
     public Animation heavySwing;
     public Sprite weaponSprite;
+
+    public float damageBase = 4f;
 
 
 
