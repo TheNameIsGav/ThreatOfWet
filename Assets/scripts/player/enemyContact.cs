@@ -30,7 +30,7 @@ public class enemyContact : MonoBehaviour
                 playerController.instance.attack.comboCount++;
                 playerController.instance.attack.enemy = collision.gameObject;
                 //Debug.Log("Attempting to update combo counter with value " + playerController.instance.attack.comboCount);
-                GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(playerController.instance.attack.comboCount, 0);
+                //GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(playerController.instance.attack.comboCount, 0);
             }
         }
         else if (collision.gameObject.CompareTag("Hostile"))

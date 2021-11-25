@@ -73,7 +73,7 @@ public class AttackState : State
         phase = 0;
         count = 0;
         comboCount = 0;
-        GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 0);
+        //GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 0);
         ended = 0;
         guess = 0;
         buttons.Clear();
@@ -155,7 +155,7 @@ public class AttackState : State
                     guess = 0;
                     scale *= 1.2f;
                     comboCount = 0;
-                    GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 0);
+                    
                 }
                 else if (lastVal != 0)
                 {
@@ -167,7 +167,7 @@ public class AttackState : State
             {
                 //enemy.transform.position = new Vector2(10f*  playerController.instance.dir + enemy.transform.position.x, 5f + enemy.transform.position.y);
                 playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 10f, 10f);
-                GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 0);
+                
                 //enemy.GetComponent<EnemyDefault>().TakeDamage(new Damage(200f,false,true,false));
                 enemy.GetComponent<EnemyDefault>().TakeDamage(new Damage(15f* scale * (activeWeapon.damageBase + playerController.instance.itemVals[1]), true, 2f, playerController.instance.itemVals[6]));
                 playerController.instance.ChangeState(playerController.instance.idle);
@@ -194,7 +194,7 @@ public class AttackState : State
                         guess = 0;
                         comboCount = 0;
                         playerController.instance.pSprite.color = Color.white;
-                        GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 0);
+                        //GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 0);
                         water = true;
                         Debug.Log("parried");
                     }
@@ -231,7 +231,7 @@ public class AttackState : State
                     if(lastVal % 2 != 0)
                     {
                         comboCount = -3;
-                        GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(-3, 2);
+                        //GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(-3, 2);
                         ended = 0;
                         phase = 0;
                         count = 0;
@@ -256,7 +256,7 @@ public class AttackState : State
                     if (lastVal % 2 != 0)
                     {
                         comboCount = 0;
-                        GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 0);
+                        //GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 0);
                         ended = 0;
                         phase = 0;
                         count = 0;
@@ -543,7 +543,7 @@ public class AttackState : State
     {
         playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
         dropped = true;
-        GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 1);
+        //GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 1);
         playerController.instance.ChangeHealth(-1f * enemy.GetComponent<EnemyDefault>().shouldAttack());
         playerController.instance.ChangeState(playerController.instance.idle);
     }
