@@ -405,7 +405,7 @@ public class playerController : MonoBehaviour
         float rand = Random.Range(1, 101);
         if (itemVals[7] <= rand)
         {
-            if (!combo && !invuln)
+            if (true || !combo && !invuln)
             {
                 if (change < 1)
                 {
@@ -423,5 +423,6 @@ public class playerController : MonoBehaviour
         {
             health = (maxHealth + itemVals[4]);
         }
+        GameObject.Find("PlayerUI").GetComponent<ComboCounter>().UpdatePlayerHealthBar(health, maxHealth + itemVals[4]);
     }
 }
