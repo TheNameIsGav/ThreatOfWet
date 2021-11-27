@@ -20,10 +20,27 @@ public class NavMeshGenerator : MonoBehaviour
         //Debug.Log(Vector2.Distance(navPoints[0].transform.position, navPoints[1].transform.position));
     }
 
-
-    // Update is called once per frame
-    void Update()
+    public GameObject FindNearestMovePoint(GameObject obj)
     {
-        
+        GameObject ret = navPoints[0];
+        float minDist = Vector2.Distance(obj.transform.position, navPoints[0].transform.position);
+        foreach (GameObject pt in navPoints)
+        {
+            float dist = Vector2.Distance(obj.transform.position, pt.transform.position);
+
+            if (minDist > dist)
+            {
+                ret = pt;
+                minDist = dist;
+            }
+        }
+
+        if (ret == null)
+        {
+            Debug.Log("OH SHIT WE FOUND A NULL SOMETHING IN NavMeshCapableAgent");
+            return null;
+        }
+
+        return ret;
     }
 }
