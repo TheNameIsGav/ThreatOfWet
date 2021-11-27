@@ -29,6 +29,8 @@ public class AttackState : State
     int dropCount = 0;
     bool shouldDrop = false;
     public bool dropped = false;
+    public int early = 0;
+    int lightFast = 0;
     public AttackState()
     {
 
@@ -37,19 +39,33 @@ public class AttackState : State
     {
         //Debug.Log("we got here");
         melee = playerController.instance.meleeWeapon;
+        
         //ranged = playerController.instance.rangedWeapon;
         phase = 0;
         count = 0;
         playerController.instance.weaponHitbox.enabled = false;
         playerController.instance.weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
         holdSpeed = playerController.instance.rbs.velocity.x;
+        if (playerController.instance.comboTime < 1)
+        {
+            buttons.Clear();
+            oldButtons.Clear();
+        }
         //playerController.instance.rbs.gravityScale = 0f;
         SetAttack();
+        if(activeWeapon.element == Element.WATER)
+        {
+            early = 10;
+            playerController.instance.block = true;
+            playerController.instance.blockTime = 10;
+
+        }
         currVal = playerController.instance.attackVal;
         lastVal = currVal;
         playerController.instance.rbs.gravityScale = playerController.instance.grav;
         playerController.instance.rbs.sharedMaterial = playerController.instance.stop;
         playerController.instance.transform.localScale = new Vector3(1f, 1f, 1f);
+        
         //playerController.instance.rbs.velocity = new Vector2(0f, 0f);
         //Debug.Log(startup);
         //Debug.Log(active);
@@ -57,7 +73,7 @@ public class AttackState : State
     }
     public override void OnExit()
     {
-        Debug.Log("leaving the earth");
+       // Debug.Log("leaving the earth");
         //playerController.instance.pSprite.color = new Color(1, 1, 1, 1);
         //playerController.instance.pSprite.color = Color.white;
         playerController.instance.weaponHitbox.enabled = false;
@@ -72,9 +88,8 @@ public class AttackState : State
         scale = 1f;
         phase = 0;
         count = 0;
+        lightFast = 0;
         //GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 0);
-        buttons.Clear();
-        oldButtons.Clear();
         //playerController.instance.weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
         playerController.instance.transform.localScale = new Vector3(1f, 1f, 1f);
         
@@ -102,6 +117,10 @@ public class AttackState : State
     }
     public override void StateUpdate()
     {
+        if(early > 0)
+        {
+            early--;
+        }
         //this is so player doesn't get dropped combo for killing enemy
         //
         //GIVE TO GABE TO HAVE ENEMY DROP ITEM ON DEATH
@@ -119,7 +138,7 @@ public class AttackState : State
             {
                 playerController.instance.transform.localScale = new Vector3(.8f, 1.2f, 1f);
                 //this enables the attack hitbox
-                if (count == startup)
+                if (count == Mathf.Max(3, (startup - (int) playerController.instance.itemVals[1]) - lightFast ))
                 {
                     phase++;
                     count = 0;
@@ -201,6 +220,37 @@ public class AttackState : State
             endlag = melee.heavyEndlag;
             activeWeapon = melee;
         }
+        if(buttons.Count >= 2)
+        {
+            
+            if(oldButtons.Count != 0)
+            {
+                if(buttons.ToArray()[0].Equals(oldButtons.ToArray()[0]) && buttons.ToArray()[1].Equals(oldButtons.ToArray()[1]))
+                {
+                    //Debug.Log("same");
+                    playerController.instance.comboDown += 20;
+                }
+                else
+                {
+                    //Debug.Log("Different");
+                    //Debug.Log(buttons.ToArray()[0].ToString() + " " + buttons.ToArray()[1].ToString() + " " + oldButtons.ToArray()[0].ToString() + " " + oldButtons.ToArray()[1].ToString());
+                    playerController.instance.comboUp += 20;
+                }
+            }
+            oldButtons.Clear();
+            oldButtons.Enqueue(buttons.ToArray()[0]);
+            oldButtons.Enqueue(buttons.ToArray()[1]);
+            buttons.Clear();
+            buttons.Enqueue(playerController.instance.attackVal);
+        }
+        else
+        {
+            buttons.Enqueue(playerController.instance.attackVal);
+        }
+        if(activeWeapon.element == Element.ELECTRIC)
+        {
+            lightFast = 2;
+        }
         if(playerController.instance.attackVal <= 1)
         {
             playerController.instance.weaponHitbox.sprite = playerController.instance.meleeSp;
@@ -221,6 +271,7 @@ public class AttackState : State
 
     public void DropItem()
     {
+        playerController.instance.comboUp += 50;
         float rand = Random.Range(0, 100);
         Debug.Log(rand.ToString() + "  " + playerController.instance.itemVals[8] + "  " + (playerController.instance.transform.position.x + 2f * playerController.instance.dir).ToString() + " " + playerController.instance.transform.position.y.ToString());
         if (playerController.instance.itemVals[8] > rand || shouldDrop)
@@ -294,7 +345,7 @@ public class MenuState : State
     int startDelay = 0;
 
     public string[] descrip = new string[] 
-    { "Attack Speed", "Attack Damage", "Combo Damage", "Life Steal", "HP Up", "Defence Up", "Crit Chance", "Dodge Chance", "Drop Chance"};
+    { "Attack Speed", "Attack Damage", "Combo Time", "Life Steal", "HP Up", "Defence Up", "Crit Chance", "Dodge Chance", "Drop Chance"};
 
     public Weapon[] weaponList = new Weapon[]
     {
@@ -330,7 +381,7 @@ public class MenuState : State
             SceneManager.LoadScene("weaponScene", LoadSceneMode.Additive);
             index = 1;
             weaponPos = Random.Range(0, weaponList.Length);
-            int elem = Random.Range(0, 5);
+            int elem = Random.Range(1, 5);
             if(elem == 0)
             {
                 weaponList[weaponPos].element = Element.DEFAULT;
@@ -483,7 +534,7 @@ public class MenuState : State
                         }
                         else
                         {
-                            playerController.instance.itemVals[att] += 0.02f;
+                            playerController.instance.itemVals[att] += 1f;
                         }
                     }
                     else if (index == 1)

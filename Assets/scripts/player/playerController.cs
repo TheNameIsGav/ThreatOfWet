@@ -63,6 +63,8 @@ public class playerController : MonoBehaviour
     public Sprite rangedSp;
     public bool block = false;
     public int blockTime = 0;
+    public float comboUp = 1f;
+    public float comboDown = 1f;
     // attack speed, attack damage, scaling, lifesteal, hp, def, crit, dodge, drop
     //Debug.Log(meleeWeapon.lightActive);
     // meleeWeapon.lightActive;
@@ -206,7 +208,7 @@ public class playerController : MonoBehaviour
         {
             if (Input.GetKeyDown(inputs[7]) || Input.GetButtonDown("Light Melee"))
             {
-                Debug.Log("lpldsdl");
+                //Debug.Log("lpldsdl");
                 attackVal = 1;
                 if (state != attack)
                 {
@@ -264,6 +266,7 @@ public class playerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Debug.Log((comboUp / comboDown).ToString() + "  " + comboUp.ToString() + "  " + comboDown.ToString());
         if (invulCount > 0)
         {
             invulCount--;
@@ -289,6 +292,8 @@ public class playerController : MonoBehaviour
         {
             comboCount = 0;
             attack.scale = 1f;
+            comboUp = 1;
+            comboDown = 1;
             PlayerUIScript.ScaleCombo(0);
         }
         //Debug.Log(Mathf.Atan2(playerController.instance.rbs.velocity.y, playerController.instance.rbs.velocity.x));
@@ -368,14 +373,14 @@ public class playerController : MonoBehaviour
     {
         if (newState != menu)
         {
-            Debug.Log("call exit");
+            //Debug.Log("call exit");
             state.OnExit();
         }
         oldState = state;
         state = newState;
         if (oldState != menu)
         {
-            Debug.Log("call enter");
+            //Debug.Log("call enter");
             state.OnEnter();
         }
     }
@@ -423,14 +428,19 @@ public class playerController : MonoBehaviour
         float rand = Random.Range(1, 101);
         if (itemVals[7] <= rand)
         {   
-                if (change < 1)
+                if (change < 0)
                 {
                     if (!block && !invuln)
                     {
                         health += Mathf.Max(change + itemVals[5], 0f);
                         invuln = true;
                         invulCount = 25;
+                        comboDown += 50;
                     }
+                    else if(attack.activeWeapon.element == Element.WATER && block && attack.early > 0)
+                {
+                    comboTime = (int) (50 + itemVals[2]);
+                }
                 }
                 else
                 {
