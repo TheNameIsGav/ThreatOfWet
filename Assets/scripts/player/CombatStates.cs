@@ -121,6 +121,15 @@ public class AttackState : State
         {
             early--;
         }
+        if (playerController.instance.jump)
+        {
+            playerController.instance.flatten = -4f;
+            playerController.instance.shortHop = 1;
+            playerController.instance.canDash = true;
+            playerController.instance.jumpRelease = false;
+            playerController.instance.ChangeState(playerController.instance.idle);
+            playerController.instance.state.JumpTrigger();
+        }
         //this is so player doesn't get dropped combo for killing enemy
         //
         //GIVE TO GABE TO HAVE ENEMY DROP ITEM ON DEATH
