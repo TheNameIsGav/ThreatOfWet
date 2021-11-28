@@ -18,6 +18,7 @@ public class enemyContact : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        
         if (collision.gameObject.CompareTag("Hostile") && playerController.instance.attack.delay <= 0)
         {
             playerController.instance.attack.delay = 5;
@@ -106,7 +107,7 @@ public class enemyContact : MonoBehaviour
             playerController.instance.ChangeHealth(playerController.instance.itemVals[3] * (elemBoost * heavyBoost * gradeBoost * (1 + ((float)playerController.instance.comboCount / 100)) * (playerController.instance.attack.activeWeapon.damageBase + playerController.instance.itemVals[1])));
             PlayerUIScript.ScaleCombo(playerController.instance.comboCount);
 
-            playerController.instance.comboTime = 50 + exTime + (int)playerController.instance.itemVals[2];
+            playerController.instance.comboTime = playerController.instance.comboBaseTime + exTime + (int)playerController.instance.itemVals[2];
             //combo just scales over time, 1.01, 1.02, 1.03 etc etc
             //then the grade is a seperate value, and the grade value is a seperate scale added on top, and this varries with performance.
             //button variance adds, going fast adds, enemy deaths add

@@ -66,6 +66,7 @@ public class playerController : MonoBehaviour
     public float comboUp = 1f;
     public float comboDown = 1f;
     public string comboGrade = "C";
+    public int comboBaseTime = 100;
     // attack speed, attack damage, scaling, lifesteal, hp, def, crit, dodge, drop
     //Debug.Log(meleeWeapon.lightActive);
     // meleeWeapon.lightActive;
@@ -440,7 +441,7 @@ public class playerController : MonoBehaviour
                     }
                     else if(attack.activeWeapon.element == Element.WATER && block && attack.early > 0)
                 {
-                    comboTime = (int) (50 + itemVals[2]);
+                    comboTime = (int) (comboBaseTime + itemVals[2]);
                 }
                 }
                 else
