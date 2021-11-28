@@ -11,9 +11,11 @@ public class EnemySpawnState : StateMachineBehaviour
         //Should be commented out once the spawn tiles are going to handle calling the spawn function
         //animator.gameObject.GetComponent<EnemyDefault>().Spawn(Vector2.zero, 4);
         (GameObject target, int retType) = animator.gameObject.GetComponent<NavMeshCapableAgent>().AStar(animator.gameObject, 
-                                                                                                            GameObject.Find("player"), 
-                                                                                                            GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>().navPoints);
-        if( retType == 1 ) animator.gameObject.transform.position = target.transform.position;
+                                                                                                         GameObject.Find("player"), 
+                                                                                                         GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>().navPoints);
+
+        Vector2 pathPt = new Vector2(target.transform.position.x, target.transform.position.y + (animator.gameObject.GetComponent<SpriteRenderer>().bounds.extents.y));
+        if ( retType == 1 ) animator.gameObject.transform.position = pathPt;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

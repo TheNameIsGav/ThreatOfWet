@@ -274,7 +274,7 @@ public class AttackState : State
         playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
         dropped = true;
         //GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 1);
-        playerController.instance.ChangeHealth(-1f * enemy.GetComponent<EnemyDefault>().shouldAttack());
+        //playerController.instance.ChangeHealth(-1f * enemy.GetComponent<EnemyDefault>().shouldAttack());
         playerController.instance.ChangeState(playerController.instance.idle);
     }
 
