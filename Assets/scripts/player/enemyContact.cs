@@ -66,31 +66,31 @@ public class enemyContact : MonoBehaviour
                 playerController.instance.comboGrade = "SS";
             }
             //S
-            else if (comboGrade > 6)
+            else if (comboGrade > 5)
             {
                 gradeBoost = 1.5f;
                 playerController.instance.comboGrade = "S";
             }
             //A
-            else if (comboGrade > 6)
+            else if (comboGrade > 4)
             {
                 gradeBoost = 1.4f;
                 playerController.instance.comboGrade = "A";
             }
             //B
-            else if (comboGrade > 6)
+            else if (comboGrade > 3)
             {
                 gradeBoost = 1.3f;
                 playerController.instance.comboGrade = "B";
             }
             //C
-            else if (comboGrade > 6)
+            else if (comboGrade > 2)
             {
                 gradeBoost = 1.2f;
                 playerController.instance.comboGrade = "C";
             }
             //D
-            else if (comboGrade > 6)
+            else if (comboGrade > 1)
             {
                 gradeBoost = 1.1f;
                 playerController.instance.comboGrade = "D";

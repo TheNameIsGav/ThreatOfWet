@@ -65,6 +65,7 @@ public class playerController : MonoBehaviour
     public int blockTime = 0;
     public float comboUp = 1f;
     public float comboDown = 1f;
+    public string comboGrade = "C";
     // attack speed, attack damage, scaling, lifesteal, hp, def, crit, dodge, drop
     //Debug.Log(meleeWeapon.lightActive);
     // meleeWeapon.lightActive;
@@ -266,7 +267,7 @@ public class playerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log((comboUp / comboDown).ToString() + "  " + comboUp.ToString() + "  " + comboDown.ToString());
+        Debug.Log((comboUp / comboDown).ToString() + "  " + comboUp.ToString() + "  " + comboDown.ToString() +" " + comboGrade);
         if (invulCount > 0)
         {
             invulCount--;
