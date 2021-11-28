@@ -281,6 +281,7 @@ public class AttackState : State
     public void DropItem()
     {
         playerController.instance.comboUp += 50;
+        playerController.instance.comboTime += playerController.instance.comboBaseTime + (int)playerController.instance.itemVals[2];
         float rand = Random.Range(0, 100);
         Debug.Log(rand.ToString() + "  " + playerController.instance.itemVals[8] + "  " + (playerController.instance.transform.position.x + 2f * playerController.instance.dir).ToString() + " " + playerController.instance.transform.position.y.ToString());
         if (playerController.instance.itemVals[8] > rand || shouldDrop)

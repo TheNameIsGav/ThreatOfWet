@@ -268,7 +268,7 @@ public class playerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log((comboUp / comboDown).ToString() + "  " + comboUp.ToString() + "  " + comboDown.ToString() +" " + comboGrade);
+        //Debug.Log((comboUp / comboDown).ToString() + "  " + comboUp.ToString() + "  " + comboDown.ToString() +" " + comboGrade);
         if (invulCount > 0)
         {
             invulCount--;
@@ -296,6 +296,7 @@ public class playerController : MonoBehaviour
             attack.scale = 1f;
             comboUp = 1;
             comboDown = 1;
+            comboGrade = "";
             PlayerUIScript.ScaleCombo(0);
         }
         //Debug.Log(Mathf.Atan2(playerController.instance.rbs.velocity.y, playerController.instance.rbs.velocity.x));
@@ -432,9 +433,11 @@ public class playerController : MonoBehaviour
         {   
                 if (change < 0)
                 {
+                Debug.Log("should be hit");
                     if (!block && !invuln)
                     {
-                        health += Mathf.Max(change + itemVals[5], 0f);
+                    Debug.Log("we got hurt" + change.ToString());
+                        health += Mathf.Min(change + itemVals[5], 0f);
                         invuln = true;
                         invulCount = 25;
                         comboDown += 50;
@@ -443,6 +446,7 @@ public class playerController : MonoBehaviour
                 {
                     comboTime = (int) (comboBaseTime + itemVals[2]);
                 }
+
                 }
                 else
                 {
@@ -453,7 +457,8 @@ public class playerController : MonoBehaviour
             {
                 health = (maxHealth + itemVals[4]);
             }
-            //GameObject.Find("PlayerUI").GetComponent<ComboCounter>().UpdatePlayerHealthBar(health, maxHealth + itemVals[4]);
+        //GameObject.Find("PlayerUI").GetComponent<ComboCounter>().UpdatePlayerHealthBar(health, maxHealth + itemVals[4]);
+        HealthBar.SetHealthBarValue(health / (maxHealth + itemVals[4]));
         }
     
 }
