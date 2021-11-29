@@ -145,7 +145,7 @@ public class AttackState : State
             //this is the start up on the attack
             if (phase == 0)
             {
-                playerController.instance.transform.localScale = new Vector3(.8f, 1.2f, 1f);
+                //playerController.instance.transform.localScale = new Vector3(.8f, 1.2f, 1f);
                 //this enables the attack hitbox
                 if (count == Mathf.Max(3, (startup - (int) playerController.instance.itemVals[1]) - lightFast ))
                 {
@@ -165,7 +165,7 @@ public class AttackState : State
             else if (phase == 1)
             {
                 //swing animation
-                playerController.instance.transform.localScale = new Vector3(1f, 1f, 1f);
+                //playerController.instance.transform.localScale = new Vector3(1f, 1f, 1f);
                 //this disables the attack hitbox
                 if (count == active)
                 {
@@ -184,7 +184,7 @@ public class AttackState : State
             //this is the endlag for the attack
             else if (phase == 2)
             {
-                playerController.instance.transform.localScale = new Vector3(1.2f, 0.8f, 1f);
+                //playerController.instance.transform.localScale = new Vector3(1.2f, 0.8f, 1f);
                 if (count == endlag)
                 {  
                       playerController.instance.ChangeState(playerController.instance.idle);

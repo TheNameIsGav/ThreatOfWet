@@ -62,7 +62,9 @@ public class PlayerUIScript : MonoBehaviour
     public static void ScaleCombo(int comboCount)
     {
         ParticleSystemController.scaleSystem(comboCount);
-        comboText.text = (comboCount.ToString() + "  " + playerController.instance.comboGrade);
+        if (playerController.instance != null) {
+            comboText.text = comboCount.ToString() + "   " + playerController.instance.comboGrade;
+        }
     }
 
 
