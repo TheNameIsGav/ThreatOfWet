@@ -12,8 +12,8 @@ public class playerController : MonoBehaviour
     public float flatten = -4;
     public float health = 100f;
     public float maxHealth = 100f;
-    public  DashState dash = new DashState();
-    public  IdleState idle = new IdleState();
+    public DashState dash = new DashState();
+    public IdleState idle = new IdleState();
     public MenuState menu = new MenuState();
     public AttackState attack = new AttackState();
     public PhysicsMaterial2D go;
@@ -46,6 +46,7 @@ public class playerController : MonoBehaviour
     public bool combo = false;
     public bool invuln = false;
     public int comboCount = 0;
+    public int comboTime = 0;
     public int hitstun = 30;
     public LineRenderer lineRender;
     public DistanceJoint2D distJoint;
@@ -55,11 +56,17 @@ public class playerController : MonoBehaviour
     public GameObject items;
     public GameObject activeItem;
     public float[] itemVals;
-    public bool weapon;
+    public bool weapon = false;
     public GameObject activeChest;
     public SpriteRenderer pSprite;
     public Sprite meleeSp;
     public Sprite rangedSp;
+    public bool block = false;
+    public int blockTime = 0;
+    public float comboUp = 1f;
+    public float comboDown = 1f;
+    public string comboGrade = "C";
+    public int comboBaseTime = 100;
     // attack speed, attack damage, scaling, lifesteal, hp, def, crit, dodge, drop
     //Debug.Log(meleeWeapon.lightActive);
     // meleeWeapon.lightActive;
@@ -93,7 +100,7 @@ public class playerController : MonoBehaviour
         weaponHitbox.enabled = false;
         pHori = 0;
         pVert = 0;
-        if(GameObject.Find("ControlSaver") != null)
+        if (GameObject.Find("ControlSaver") != null)
         {
             //Debug.Log("helsinki");
             inputs = customControls.instance.inputLst;
@@ -103,7 +110,7 @@ public class playerController : MonoBehaviour
             inputs = new KeyCode[] { KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Space, KeyCode.I, KeyCode.E, KeyCode.O, KeyCode.P, KeyCode.L, KeyCode.Semicolon };
             // (up , down, left, right, jump, dash, interact, light melee, heavy melee, light range, heavy range)
         }
-}
+    }
 
     // Update is called once per frame
     void Update()
@@ -127,20 +134,20 @@ public class playerController : MonoBehaviour
         {
             pHori++;
         }
-        if(Input.GetAxis("Horizontal") != 0)
+        if (Input.GetAxis("Horizontal") != 0)
         {
             pHori = Input.GetAxis("Horizontal");
         }
-        if(Input.GetAxis("Vertical") != 0)
+        if (Input.GetAxis("Vertical") != 0)
         {
-            pVert = -1*Input.GetAxis("Vertical");
+            pVert = -1 * Input.GetAxis("Vertical");
         }
 
         //pHori = Input.GetAxis("Horizontal");
         //pVert = Input.GetAxis("Vertical");
         //this initiates the jump
         if ((Input.GetKeyDown(inputs[4]) || Input.GetButtonDown("Jump") || jumpBuffer >= 0) && grounded)
-        { 
+        {
             //jumpSquat = jumpSquatVal;
             jump = true;
             jumpBuffer = -1;
@@ -199,17 +206,17 @@ public class playerController : MonoBehaviour
             dashBuffer = universalBufferTime;
         }
         //how to get a light melee input
-        if (state != attack || (state.phase >= 2 && combo)) { 
-
+        if (state != attack || attack.phase >= 1)
+        {
             if (Input.GetKeyDown(inputs[7]) || Input.GetButtonDown("Light Melee"))
             {
                 //Debug.Log("lpldsdl");
                 attackVal = 1;
-                if(state != attack)
+                if (state != attack)
                 {
                     ChangeState(attack);
                 }
-                
+
                 //weaponHitbox.enabled = true;
                 //weaponHitbox.transform.localScale = new Vector2(meleeWeapon.hitboxWidth * Mathf.Sign(rbs.velocity.x), meleeWeapon.hitboxHeight);
             }
@@ -226,35 +233,29 @@ public class playerController : MonoBehaviour
                 //weaponHitbox.enabled = false;
                 //weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
             }
-            //how to get a light ranged input
+            //THIS IS NOW BLOCK INPUT, WE LOVE TO SEE IT
             else if (Input.GetKeyDown(inputs[9]) || Input.GetButtonDown("Light Range"))
             {
                 //Debug.Log("lpldsdl");
-                attackVal = 3;
-                if (state != attack)
-                {
-                    ChangeState(attack);
-                }
+                //attackVal = 3;
+                //if (state != attack)
+                //{
                 //ChangeState(attack);
-            }
-            //how to get a heavy ranged input
-            else if (Input.GetKeyDown(inputs[10]) || Input.GetAxis("Heavy Range") > 0)
-            {
-                //Debug.Log("lpldsdl");
-                attackVal = 4;
-                if (state != attack)
-                {
-                    ChangeState(attack);
-                }
+                //}
                 //ChangeState(attack);
+
+                //magic number but only set here?
+                blockTime = 15;
+                block = true;
+
             }
             else
             {
                 attackVal = 0;
             }
-    }
+        }
         // this is also the button to pick up
-        if ((Input.GetButtonDown("Interact") || Input.GetKeyDown(inputs[6]) ) && state != menu)
+        if ((Input.GetButtonDown("Interact") || Input.GetKeyDown(inputs[6])) && state != menu && (item || weapon))
         {
             Debug.Log(itemVals[0].ToString() + " " + itemVals[1].ToString() + " " + itemVals[2].ToString());
             Debug.Log(itemVals[3].ToString() + " " + itemVals[4].ToString() + " " + itemVals[5].ToString());
@@ -267,13 +268,36 @@ public class playerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(invulCount > 0)
+        //Debug.Log((comboUp / comboDown).ToString() + "  " + comboUp.ToString() + "  " + comboDown.ToString() +" " + comboGrade);
+        if (invulCount > 0)
         {
             invulCount--;
         }
         else
         {
             invuln = false;
+        }
+        if(blockTime > 0 && state != attack)
+        {
+            blockTime--;
+        }
+        else
+        {
+            block = false;
+            blockTime = 0;
+        }
+        if(comboTime > 0)
+        {
+            comboTime--;
+        }
+        else
+        {
+            comboCount = 0;
+            attack.scale = 1f;
+            comboUp = 1;
+            comboDown = 1;
+            comboGrade = "";
+            PlayerUIScript.ScaleCombo(0);
         }
         //Debug.Log(Mathf.Atan2(playerController.instance.rbs.velocity.y, playerController.instance.rbs.velocity.x));
         if (coyote == universalBufferTime)
@@ -311,11 +335,11 @@ public class playerController : MonoBehaviour
         }
         if (Mathf.Abs(rbs.velocity.y) > 30f)
         {
-            rbs.velocity = new Vector2(rbs.velocity.x,30f * Mathf.Sign(rbs.velocity.y));
+            rbs.velocity = new Vector2(rbs.velocity.x, 30f * Mathf.Sign(rbs.velocity.y));
         }
-        if(pHori != 0)
+        if (pHori != 0)
         {
-            if(pHori == 1)
+            if (pHori == 1)
             {
                 dir = 1;
             }
@@ -332,17 +356,17 @@ public class playerController : MonoBehaviour
         {
             gameObject.GetComponent<SpriteRenderer>().flipX = false;
         }
-        if(rbs.velocity.y > 1f)
+        if (rbs.velocity.y > 1f)
         {
             coyote = universalBufferTime;
         }
-        if(pHori == 0 && Mathf.Abs(rbs.velocity.x) < 2f)
+        if (pHori == 0 && Mathf.Abs(rbs.velocity.x) < 2f)
         {
             //Debug.Log("tokeyo no drift");
             //rbs.velocity = new Vector2(0f, rbs.velocity.y);
         }
         animator.SetFloat("Speed", Mathf.Abs(rbs.velocity.x));
-        if(health < 0)
+        if (health < 0)
         {
             SceneManager.LoadScene("MainMenu");
         }
@@ -352,12 +376,14 @@ public class playerController : MonoBehaviour
     {
         if (newState != menu)
         {
+            //Debug.Log("call exit");
             state.OnExit();
         }
         oldState = state;
         state = newState;
         if (oldState != menu)
         {
+            //Debug.Log("call enter");
             state.OnEnter();
         }
     }
@@ -365,7 +391,7 @@ public class playerController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //this makes dashing into a wall / ground feel better than it did before
-        if (state ==  dash)
+        if (state == dash)
         {
             //rbs.velocity = new Vector2(rbs.velocity.x * 2, rbs.velocity.y * 2);
         }
@@ -404,24 +430,35 @@ public class playerController : MonoBehaviour
     {
         float rand = Random.Range(1, 101);
         if (itemVals[7] <= rand)
-        {
-            if (!combo && !invuln)
-            {
-                if (change < 1)
+        {   
+                if (change < 0)
                 {
-                    health += Mathf.Max(change + itemVals[5], 0f);
-                    invuln = true;
-                    invulCount = 25;
+                Debug.Log("should be hit");
+                    if (!block && !invuln)
+                    {
+                    Debug.Log("we got hurt" + change.ToString());
+                        health += Mathf.Min(change + itemVals[5], 0f);
+                        invuln = true;
+                        invulCount = 25;
+                        comboDown += 50;
+                    }
+                    else if(attack.activeWeapon.element == Element.WATER && block && attack.early > 0)
+                {
+                    comboTime = (int) (comboBaseTime + itemVals[2]);
+                }
+
                 }
                 else
                 {
                     health += change;
                 }
             }
+            if (health > (maxHealth + itemVals[4]))
+            {
+                health = (maxHealth + itemVals[4]);
+            }
+        //GameObject.Find("PlayerUI").GetComponent<ComboCounter>().UpdatePlayerHealthBar(health, maxHealth + itemVals[4]);
+        HealthBar.SetHealthBarValue(health / (maxHealth + itemVals[4]));
         }
-        if(health > (maxHealth + itemVals[4]))
-        {
-            health = (maxHealth + itemVals[4]);
-        }
-    }
+    
 }

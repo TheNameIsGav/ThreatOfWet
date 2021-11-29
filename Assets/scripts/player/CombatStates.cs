@@ -16,8 +16,6 @@ public class AttackState : State
     private int stun = 0;
     private float holdSpeed;
     public bool light;
-    private int guess = 0;
-    private int ended = 0;
     private int currVal = 0;
     private int lastVal = 0;
     public int comboCount = 0;
@@ -31,6 +29,8 @@ public class AttackState : State
     int dropCount = 0;
     bool shouldDrop = false;
     public bool dropped = false;
+    public int early = 0;
+    int lightFast = 0;
     public AttackState()
     {
 
@@ -39,19 +39,33 @@ public class AttackState : State
     {
         //Debug.Log("we got here");
         melee = playerController.instance.meleeWeapon;
-        ranged = playerController.instance.rangedWeapon;
+        
+        //ranged = playerController.instance.rangedWeapon;
         phase = 0;
         count = 0;
-        comboCount = 0;
+        playerController.instance.weaponHitbox.enabled = false;
+        playerController.instance.weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
         holdSpeed = playerController.instance.rbs.velocity.x;
+        if (playerController.instance.comboTime < 1)
+        {
+            buttons.Clear();
+            oldButtons.Clear();
+        }
         //playerController.instance.rbs.gravityScale = 0f;
         SetAttack();
+        if(activeWeapon.element == Element.WATER)
+        {
+            early = 10;
+            playerController.instance.block = true;
+            playerController.instance.blockTime = 10;
+
+        }
         currVal = playerController.instance.attackVal;
         lastVal = currVal;
         playerController.instance.rbs.gravityScale = playerController.instance.grav;
         playerController.instance.rbs.sharedMaterial = playerController.instance.stop;
         playerController.instance.transform.localScale = new Vector3(1f, 1f, 1f);
-        dropped = false;
+        
         //playerController.instance.rbs.velocity = new Vector2(0f, 0f);
         //Debug.Log(startup);
         //Debug.Log(active);
@@ -59,32 +73,30 @@ public class AttackState : State
     }
     public override void OnExit()
     {
+       // Debug.Log("leaving the earth");
         //playerController.instance.pSprite.color = new Color(1, 1, 1, 1);
-        playerController.instance.pSprite.color = Color.white;
+        //playerController.instance.pSprite.color = Color.white;
+        playerController.instance.weaponHitbox.enabled = false;
+        playerController.instance.weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
         playerController.instance.rbs.gravityScale = playerController.instance.grav;
         playerController.instance.rbs.sharedMaterial = playerController.instance.go;
-        playerController.instance.weaponHitbox.enabled = false;
-        playerController.instance.combo = false;
-        water = false;
-        playerController.instance.comboCount = 0;
+        //playerController.instance.weaponHitbox.enabled = false;
+        //playerController.instance.combo = false;
+        //water = false;
+        //playerController.instance.comboCount = 0;
         lastVal = 0;
         scale = 1f;
-        stun = 0;
         phase = 0;
         count = 0;
-        comboCount = 0;
-        GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 0);
-        ended = 0;
-        guess = 0;
-        buttons.Clear();
-        oldButtons.Clear();
-        playerController.instance.weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
+        lightFast = 0;
+        //GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 0);
+        //playerController.instance.weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
         playerController.instance.transform.localScale = new Vector3(1f, 1f, 1f);
         
     }
     // Update is called once per frame
     public override void Update()
-    {
+    {/*
         if (currVal != playerController.instance.attackVal && playerController.instance.attackVal != 0)
         {
             SetAttack();
@@ -101,180 +113,32 @@ public class AttackState : State
         {
             currVal = 0;
         }
+        */
     }
     public override void StateUpdate()
     {
-        //this is so player doesn't get dropped combo for killing enemy
-        if(playerController.instance.combo && enemy == null)
+        if(early > 0)
         {
-            float rand = Random.Range(0, 100);
-            Debug.Log(rand.ToString() + "  " + playerController.instance.itemVals[8] + "  " + (playerController.instance.transform.position.x + 2f * playerController.instance.dir).ToString() + " " + playerController.instance.transform.position.y.ToString());
-            if(playerController.instance.itemVals[8] > rand || shouldDrop)
-            {
-                dropCount = 0;
-                shouldDrop = false;
-                playerController.Instantiate(playerController.instance.items, new Vector3 (playerController.instance.transform.position.x + 2f*playerController.instance.dir, playerController.instance.transform.position.y + 1f, 0f), Quaternion.identity);
-            }
-            else
-            {
-                dropCount++;
-                if(dropCount >= Mathf.Ceil(100f / playerController.instance.itemVals[8]) - 1)
-                {
-                    dropCount = 0;
-                    shouldDrop = true;
-                }
-            }
-            playerController.instance.ChangeState(playerController.instance.idle);
+            early--;
         }
-        //this is the code for the enders
-        if (ended != 0)
+        if (playerController.instance.jump)
         {
-            
-            //this is for the ground element
-            if(ended == 1)
-            {
-                if (guess == 1)
-                {
-                    playerController.instance.pSprite.color = Color.yellow;
-                }
-                else
-                {
-                    playerController.instance.pSprite.color = Color.magenta;
-                }
-                if (count >= Mathf.Max(3,Mathf.Floor(resetVal - playerController.instance.itemVals[0])))
-                {
-                    playerController.instance.pSprite.color = new Color(1, 1, 1, 1);
-                    ComboDrop();
-                }
-                else if(lastVal == guess)
-                {
-                    playerController.instance.pSprite.color = new Color(1, 1, 1, 1);
-                    ended = 0;
-                    phase = 0;
-                    count = 0;
-                    guess = 0;
-                    scale *= 1.2f;
-                    comboCount = 0;
-                    GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 0);
-                }
-                else if (lastVal != 0)
-                {
-                    count = resetVal;
-                }
-            }
-            //this is for fire element
-            else if(ended == 2)
-            {
-                //enemy.transform.position = new Vector2(10f*  playerController.instance.dir + enemy.transform.position.x, 5f + enemy.transform.position.y);
-                playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 10f, 10f);
-                GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 0);
-                //enemy.GetComponent<EnemyDefault>().TakeDamage(new Damage(200f,false,true,false));
-                enemy.GetComponent<EnemyDefault>().TakeDamage(new Damage(15f* scale * (activeWeapon.damageBase + playerController.instance.itemVals[1]), true, 2f, playerController.instance.itemVals[6]));
-                playerController.instance.ChangeState(playerController.instance.idle);
-            }
-            //this is for water element
-            else if(ended == 3)
-            {
-                Debug.Log("water and water ");
-                if(count >= resetVal)
-                {
-                    //have player take damage
-                    playerController.instance.pSprite.color = Color.white;
-                    ComboDrop();
-                }
-                Debug.Log(count);
-                if (lastVal != 0)
-                {
-                    
-                    if (count > 15 && count < 45)
-                    {
-                        ended = 0;
-                        phase = 0;
-                        count = 0;
-                        guess = 0;
-                        comboCount = 0;
-                        playerController.instance.pSprite.color = Color.white;
-                        GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 0);
-                        water = true;
-                        Debug.Log("parried");
-                    }
-                    else
-                    {
-                        playerController.instance.pSprite.color = Color.white;
-                        count = resetVal;
-                    }
-                }
-                else
-                {
-                    //Debug.Log("what how it should be else");
-                    if (count > 15 && count < 45)
-                    {
-                        Debug.Log("green");
-                        playerController.instance.pSprite.color = new Color(0, 0, 1, 1);
-                    }
-                    else
-                    {
-                        Debug.Log("white");
-                        playerController.instance.pSprite.color = Color.white;
-                    }
-                }
-            }
-            //this is for lightning element
-            else if(ended == 4)
-            {
-                if(count >= resetVal)
-                {
-                    ComboDrop();
-                }
-                else if(lastVal != 0)
-                {
-                    if(lastVal % 2 != 0)
-                    {
-                        comboCount = -3;
-                        GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(-3, 2);
-                        ended = 0;
-                        phase = 0;
-                        count = 0;
-                        guess = 0;
-                    }
-                    else
-                    {
-                        count = resetVal;
-                    }
-                }
-            }
-            //this is for the neutral element
-            else if (ended == 5)
-            {
-                //dropped combo
-                if (count >= resetVal)
-                {
-                    ComboDrop();
-                }
-                else if (lastVal != 0)
-                {
-                    if (lastVal % 2 != 0)
-                    {
-                        comboCount = 0;
-                        GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 0);
-                        ended = 0;
-                        phase = 0;
-                        count = 0;
-                        guess = 0;  
-                    }
-                    else
-                    {
-                        count = resetVal;
-                    }
-                }
-            }
-            //this is for when elem of ender == enemy elem
-            else
-            {
-                ComboDrop();
-            }
-            count++;
-            
+            playerController.instance.flatten = -4f;
+            playerController.instance.shortHop = 1;
+            playerController.instance.canDash = true;
+            playerController.instance.jumpRelease = false;
+            playerController.instance.ChangeState(playerController.instance.idle);
+            playerController.instance.state.JumpTrigger();
+        }
+        //this is so player doesn't get dropped combo for killing enemy
+        //
+        //GIVE TO GABE TO HAVE ENEMY DROP ITEM ON DEATH
+        //in callable function now, should be easy for gabe
+
+        //this is the code for the enders
+        if (false)
+        {
+
         }
         else
         {
@@ -283,7 +147,7 @@ public class AttackState : State
             {
                 playerController.instance.transform.localScale = new Vector3(.8f, 1.2f, 1f);
                 //this enables the attack hitbox
-                if (count == startup)
+                if (count == Mathf.Max(3, (startup - (int) playerController.instance.itemVals[1]) - lightFast ))
                 {
                     phase++;
                     count = 0;
@@ -322,69 +186,15 @@ public class AttackState : State
             {
                 playerController.instance.transform.localScale = new Vector3(1.2f, 0.8f, 1f);
                 if (count == endlag)
-                {
-                    if (playerController.instance.combo)
-                    {
-                        Debug.Log("how are we here");
-                        //when the combo ender is a light
-                        if(comboCount >= 4 && light)
-                        {
-                            ComboDrop();
-                        }
-                        //when the combo ender is a heavy
-                        else if(comboCount >= 4 || (!light && !water))
-                        {
-                            count = 0;
-                            stun = 0;
-                            Ender();
-                        }
-                        //when the combo peice is a linker
-                        else
-                        {
-                            count = 0;
-                            phase = 3;
-                        }
-                    }
-                    //if the player didn't hit anything with attack
-                    else
-                    {
-                        playerController.instance.ChangeState(playerController.instance.idle);
-                    }
-                }    
+                {  
+                      playerController.instance.ChangeState(playerController.instance.idle);
+                }
                 else
                 {
-                    //this makes the ender feel better / happen quicker
-                    if ((comboCount >= 4 || (!light && !water)) && playerController.instance.combo)
-                    {
-                        //if combo ender is a light
-                        if (light)
-                        {
-                            ComboDrop();
-                        }
-                        //if combo ender is a heavy
-                        else
-                        {
-                            count = 0;
-                            stun = 0;
-                            Ender();
-                        }
-                    }
                     count++;
                 }
             }
             //this is the time to chain the combo
-            else if(phase == 3)
-            {
-                //this is when the player drops the combo
-                if(count >= playerController.instance.hitstun)
-                {
-                    ComboDrop();
-                }
-                else
-                {
-                    count++;
-                }
-            }
         }
         //prevents weird combo shenanigans
     if(delay > 0)
@@ -396,104 +206,11 @@ public class AttackState : State
     {
         //this can be empty I code poorly
     }
-    private void Ender()
-    {
-        //this shit stuff is for combo scaling
-        bool help = true;
-        if (buttons.Count == oldButtons.Count)
-        {
-            for (int i = 0; i < buttons.Count; i++)
-            {
-                if(buttons.ToArray()[i].Equals(oldButtons.ToArray()[i]))
-                {
-                    
-                }
-                else
-                {
-                    help = false;
-                    i = buttons.Count;
-                }
-            }
-        }
-        else
-        {
-            help = false;
-        }
-        if(help)
-        {
-            //Debug.Log(buttons.ToArray().ToString() + "  " + oldButtons.ToArray().ToString());
-            //Debug.Log(buttons.Peek().ToString() + "  " + oldButtons.Peek().ToString());
-            Debug.Log("them equat");
-            scale *= .9f;
-        }
-        else if(scale < 1f)
-        {
-            scale = 1f;
-        }
-        oldButtons.Clear();
-        
-        while(buttons.Count > 0)
-        {
-            oldButtons.Enqueue(buttons.Dequeue());
-        }
-
-        //buttons.CopyTo(oldButtons.ToArray(),0);
-        
-        //oldButtons = buttons;
-        buttons.Clear();
-        //combo scaling part ended
-        water = false;
-        comboCount = 0;
-        guess = Random.Range(1, 3);
-        //this is for the default ender, its the guess
-        if(guess == 2)
-        {
-            Debug.Log("Gun");
-            guess = 3;
-        }
-        else
-        {
-            Debug.Log("Sword");
-        }
-        //assigns the proper ender for the attack
-        if(activeWeapon.element == Element.DEFAULT)
-        {
-            ended = 5;
-        }
-        else if(activeWeapon.element == Element.FIRE)
-        {
-            ended = 2;
-        }
-        else if (activeWeapon.element == Element.WATER)
-        {
-            Debug.Log("what the fuck is it not water");
-            ended = 3;
-        }
-        else if (activeWeapon.element == Element.ELECTRIC)
-        {
-            ended = 4;
-        }
-        else if (activeWeapon.element == Element.GROUND)
-        {
-            ended = 1;
-        }
-        
-        if(activeWeapon.element == enemy.GetComponent<EnemyDefault>().Element && activeWeapon.element != Element.DEFAULT)
-        {
-            ended = 6;
-        }
-
-        lastVal = 0;
-    }
     private void SetAttack()
     {
-        //prevents skipping out of enders
-        if (ended == 0)
-        {
             phase = 0;
             count = 0;
-            //stun = 0;
-        }
+   
         //light melee
         if (playerController.instance.attackVal == 1)
         {
@@ -512,25 +229,38 @@ public class AttackState : State
             endlag = melee.heavyEndlag;
             activeWeapon = melee;
         }
-        //light ranged
-        else if (playerController.instance.attackVal == 3)
+        if(buttons.Count >= 2)
         {
-            light = true;
-            startup = ranged.lightStartup;
-            active = ranged.lightActive;
-            endlag = ranged.lightEndlag;
-            activeWeapon = ranged;
+            
+            if(oldButtons.Count != 0)
+            {
+                if(buttons.ToArray()[0].Equals(oldButtons.ToArray()[0]) && buttons.ToArray()[1].Equals(oldButtons.ToArray()[1]))
+                {
+                    //Debug.Log("same");
+                    playerController.instance.comboDown += 20;
+                }
+                else
+                {
+                    //Debug.Log("Different");
+                    //Debug.Log(buttons.ToArray()[0].ToString() + " " + buttons.ToArray()[1].ToString() + " " + oldButtons.ToArray()[0].ToString() + " " + oldButtons.ToArray()[1].ToString());
+                    playerController.instance.comboUp += 20;
+                }
+            }
+            oldButtons.Clear();
+            oldButtons.Enqueue(buttons.ToArray()[0]);
+            oldButtons.Enqueue(buttons.ToArray()[1]);
+            buttons.Clear();
+            buttons.Enqueue(playerController.instance.attackVal);
         }
-        //heavy ranged
-        else if (playerController.instance.attackVal == 4)
+        else
         {
-            light = false;
-            startup = ranged.heavyStartup;
-            active = ranged.heavyActive;
-            endlag = ranged.heavyEndlag;
-            activeWeapon = ranged;
+            buttons.Enqueue(playerController.instance.attackVal);
         }
-        if(playerController.instance.attackVal <= 2)
+        if(activeWeapon.element == Element.ELECTRIC)
+        {
+            lightFast = 2;
+        }
+        if(playerController.instance.attackVal <= 1)
         {
             playerController.instance.weaponHitbox.sprite = playerController.instance.meleeSp;
         }
@@ -543,9 +273,32 @@ public class AttackState : State
     {
         playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
         dropped = true;
-        GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 1);
-        playerController.instance.ChangeHealth(-1f * enemy.GetComponent<EnemyDefault>().shouldAttack());
+        //GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 1);
+        //playerController.instance.ChangeHealth(-1f * enemy.GetComponent<EnemyDefault>().shouldAttack());
         playerController.instance.ChangeState(playerController.instance.idle);
+    }
+
+    public void DropItem()
+    {
+        playerController.instance.comboUp += 50;
+        playerController.instance.comboTime += playerController.instance.comboBaseTime + (int)playerController.instance.itemVals[2];
+        float rand = Random.Range(0, 100);
+        Debug.Log(rand.ToString() + "  " + playerController.instance.itemVals[8] + "  " + (playerController.instance.transform.position.x + 2f * playerController.instance.dir).ToString() + " " + playerController.instance.transform.position.y.ToString());
+        if (playerController.instance.itemVals[8] > rand || shouldDrop)
+        {
+            dropCount = 0;
+            shouldDrop = false;
+            playerController.Instantiate(playerController.instance.items, new Vector3(playerController.instance.transform.position.x + 2f * playerController.instance.dir, playerController.instance.transform.position.y + 1f, 0f), Quaternion.identity);
+        }
+        else
+        {
+            dropCount++;
+            if (dropCount >= Mathf.Ceil(100f / playerController.instance.itemVals[8]) - 1)
+            {
+                dropCount = 0;
+                shouldDrop = true;
+            }
+        }
     }
 }
 
@@ -602,7 +355,7 @@ public class MenuState : State
     int startDelay = 0;
 
     public string[] descrip = new string[] 
-    { "Attack Speed", "Attack Damage", "Combo Damage", "Life Steal", "HP Up", "Defence Up", "Crit Chance", "Dodge Chance", "Drop Chance"};
+    { "Attack Speed", "Attack Damage", "Combo Time", "Life Steal", "HP Up", "Defence Up", "Crit Chance", "Dodge Chance", "Drop Chance"};
 
     public Weapon[] weaponList = new Weapon[]
     {
@@ -638,7 +391,7 @@ public class MenuState : State
             SceneManager.LoadScene("weaponScene", LoadSceneMode.Additive);
             index = 1;
             weaponPos = Random.Range(0, weaponList.Length);
-            int elem = Random.Range(0, 5);
+            int elem = Random.Range(1, 5);
             if(elem == 0)
             {
                 weaponList[weaponPos].element = Element.DEFAULT;
@@ -670,7 +423,7 @@ public class MenuState : State
         playerController.instance.rbs.velocity = new Vector2(0, 0);
         playerController.instance.rbs.gravityScale = 0;
         enter = false;
-        timer = 50;
+        timer = 1;
     }
     public override void OnExit()
     {
@@ -791,7 +544,7 @@ public class MenuState : State
                         }
                         else
                         {
-                            playerController.instance.itemVals[att] += 0.02f;
+                            playerController.instance.itemVals[att] += 1f;
                         }
                     }
                     else if (index == 1)

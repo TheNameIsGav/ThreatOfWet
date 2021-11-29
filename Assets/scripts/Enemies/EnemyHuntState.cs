@@ -6,6 +6,7 @@ public class EnemyHuntState : StateMachineBehaviour
 {
     GameObject pathingTo;
     GameObject player;
+    EnemyDefault thisScript;
     List<GameObject> navs = new List<GameObject>();
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -13,7 +14,8 @@ public class EnemyHuntState : StateMachineBehaviour
         animator.SetBool("ShouldCombat", false);
         player = GameObject.Find("player");
         navs = GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>().navPoints;
-        (GameObject target, int retType) = animator.gameObject.GetComponent<NavMeshCapableAgent>().AStar(animator.gameObject, GameObject.Find("player"), GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>().navPoints);
+        thisScript = animator.gameObject.GetComponent<EnemyDefault>();
+        (GameObject target, int retType) = animator.gameObject.GetComponent<NavMeshCapableAgent>().AStar(animator.gameObject, player, navs);
         //Debug.Log(target);
         pathingTo = target;
     }
@@ -21,10 +23,10 @@ public class EnemyHuntState : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (Vector2.Distance(animator.gameObject.transform.position, GameObject.Find("player").transform.position) <= /*animator.gameObject.GetComponent<EnemyDefault>().Range*/ 2f)
+        if (Vector2.Distance(animator.gameObject.transform.position, player.transform.position) <= thisScript.Range)
         {
             animator.SetBool("ShouldCombat", true);
-            //Debug.Log("Transitioning to Combat State");
+            Debug.Log("Transitioning to Combat State");
         }
 
         if (animator.gameObject.GetComponent<EnemyDefault>().Die)
@@ -32,13 +34,12 @@ public class EnemyHuntState : StateMachineBehaviour
             animator.SetBool("ShouldDie", true);
         }
 
-        
-        if(animator.gameObject.transform.position == pathingTo.transform.position) {
+        if(animator.gameObject.transform.position.x == pathingTo.transform.position.x) {
             int retType = 0;
-            (pathingTo, retType) = animator.gameObject.GetComponent<NavMeshCapableAgent>().AStar(animator.gameObject, GameObject.Find("player"), GameObject.Find("NavMesh").GetComponent<NavMeshGenerator>().navPoints); 
+            (pathingTo, retType) = animator.gameObject.GetComponent<NavMeshCapableAgent>().AStar(animator.gameObject, player, navs); 
         }
-
-        animator.gameObject.transform.position = Vector2.MoveTowards(animator.gameObject.transform.position, pathingTo.transform.position, .01f);
+        Vector2 pathPt = new Vector2(pathingTo.transform.position.x, pathingTo.transform.position.y + animator.gameObject.GetComponent<SpriteRenderer>().bounds.extents.y);
+        animator.gameObject.transform.position = Vector2.MoveTowards(animator.gameObject.transform.position, pathPt, thisScript.Speed);
 
     }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,22 +16,28 @@ public class EnemyDefault : MonoBehaviour
 
     float spawnDifficulty;
 
-    int speed;
-    public int Speed { get { return speed; } set { speed = value; } }
+    float speed = .01f;
+    public float Speed { get { return speed; } set { speed = value; } }
+
+    float attackSpeed = 1.5f;
+    public float AtkSpd { get { return attackSpeed; } set { attackSpeed = value; } }
 
     int baseDamage = 5;
 
     float aggroRange = 2.5f;
     public float Range { get { return aggroRange; } set { aggroRange = value; } }
 
-    Element element = Element.DEFAULT; //Singular Integer Identifier of the element type of this enemy
-    public Element Element { get { return element; } set { element = value; } }
-
     List<Enhancements> enhance = new List<Enhancements>();
     public List<Enhancements> Enhance { get { return enhance; } set { enhance = value; } }
 
     public string eName = "";
     public string EName { get { return name; } set { name = value; } }
+
+    bool canHeavy;
+    public bool Heavy { get { return canHeavy; } set { canHeavy = value; } }
+
+    bool canCharge;
+    public bool Charge { get { return canCharge; } set { canCharge = value; } }
 
     /// <summary>
     /// Takes in a positive float and subtracts that value from the enemies health
@@ -96,6 +103,65 @@ public class EnemyDefault : MonoBehaviour
         return d.getDamage();
     }
 
+    bool InRange()
+    {
+        GameObject p = GameObject.Find("player");
+
+        //theoretically checks to see if we can attack the player with a favor towards horizontal angles.
+        if(Mathf.Abs(p.transform.position.x - transform.position.x) <= aggroRange && Mathf.Abs(p.transform.position.y - transform.position.y) <= aggroRange/2) {
+            return true;
+        }
+        return false;
+    }
+
+    public void flashExclamation(Color color)
+    {
+        GetComponent<SpriteRenderer>().color = color;
+    }
+
+    IEnumerator EnemyAttack()
+    {
+        Debug.Log("Entering into attack method");
+        //Alert Color
+        if (canCharge && UnityEngine.Random.Range(0, 1) <= .33f) //If this enemy can charge attack
+        {
+            flashExclamation(Color.yellow);
+        }
+        else if (canHeavy && UnityEngine.Random.Range(0, 1) <= .33f) //If this enemy can heavy attack
+        {
+            flashExclamation(Color.magenta);
+        }
+        else //We normal attack
+        {
+            flashExclamation(Color.red);
+        }
+        yield return new WaitForSeconds(attackSpeed);
+
+        //Make Attack
+        if (InRange())
+        {
+            GameObject.Find("player").GetComponent<playerController>().ChangeHealth(-1f * shouldAttack());            
+        }
+        flashExclamation(Color.white);
+        yield return new WaitForSeconds(UnityEngine.Random.Range(5f, 10f));
+        StartCoroutine(EnemyAttack());
+    }
+
+    bool shouldStartAttacking = true;
+    public void StartAttackCycle()
+    {
+        Debug.Log("starting attack cycle");
+        if(shouldStartAttacking) StartCoroutine(EnemyAttack());
+        shouldStartAttacking = false;
+    }
+
+    public void StopAttackCycle()
+    {
+        Debug.Log("stopping attack cycle");
+        StopCoroutine(EnemyAttack());
+        shouldStartAttacking = true;
+    }
+
     //y = log_{b}x - 2 //Plug this into desmos to play with it
     private void GenerateEnhancements(float difficulty)
     {
@@ -111,7 +177,7 @@ public class EnemyDefault : MonoBehaviour
 
         for(int i = 0; i < num; i++)
         {
-            int index = Random.Range(0, t.Count);
+            int index = UnityEngine.Random.Range(0, t.Count);
             Enhancements e = t[index];
             enhance.Add(e);
             t.Remove(e);
@@ -137,7 +203,7 @@ public class EnemyDefault : MonoBehaviour
                     eName = "Diseased " + eName;
                     break;
                 case Enhancements.BIG:
-                    eName = "Large " + eName;
+                    eName = "Healthy " + eName;
                     break;
             }
         }
@@ -153,7 +219,8 @@ public class EnemyDefault : MonoBehaviour
         spawnDifficulty = difficulty;
         if (enhance.Contains(Enhancements.BIG))
         {
-            gameObject.transform.localScale = new Vector3(2, 2);
+            maxHealth *= 2;
+            health = maxHealth;
         }
 
         transform.GetChild(0).GetComponent<EnemyNameGenerator>().GenerateEnemyName(eName);
