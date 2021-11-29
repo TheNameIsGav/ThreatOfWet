@@ -56,7 +56,7 @@ public class playerController : MonoBehaviour
     public GameObject items;
     public GameObject activeItem;
     public float[] itemVals;
-    public bool weapon;
+    public bool weapon = false;
     public GameObject activeChest;
     public SpriteRenderer pSprite;
     public Sprite meleeSp;
@@ -255,7 +255,7 @@ public class playerController : MonoBehaviour
             }
         }
         // this is also the button to pick up
-        if ((Input.GetButtonDown("Interact") || Input.GetKeyDown(inputs[6])) && state != menu)
+        if ((Input.GetButtonDown("Interact") || Input.GetKeyDown(inputs[6])) && state != menu && (item || weapon))
         {
             Debug.Log(itemVals[0].ToString() + " " + itemVals[1].ToString() + " " + itemVals[2].ToString());
             Debug.Log(itemVals[3].ToString() + " " + itemVals[4].ToString() + " " + itemVals[5].ToString());

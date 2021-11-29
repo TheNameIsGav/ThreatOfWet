@@ -423,7 +423,7 @@ public class MenuState : State
         playerController.instance.rbs.velocity = new Vector2(0, 0);
         playerController.instance.rbs.gravityScale = 0;
         enter = false;
-        timer = 50;
+        timer = 1;
     }
     public override void OnExit()
     {
