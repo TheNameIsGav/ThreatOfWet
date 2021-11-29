@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 2198206052056695325}
   - component: {fileID: 2919149277640228807}
   m_Layer: 5
-  m_Name: Text
+  m_Name: ComboCount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

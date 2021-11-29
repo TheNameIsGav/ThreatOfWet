@@ -22,7 +22,7 @@ public class ComboBar : MonoBehaviour
     private void Update()
     {
         //Debug.Log(playerController.instance.comboTime.ToString() + playerController.instance.comboBase);
-        Debug.Log(Mathf.Min(1f, ( (float)playerController.instance.comboTime / (float)(playerController.instance.comboBaseTime + (int) playerController.instance.itemVals[2]))));
+        //Debug.Log(Mathf.Min(1f, ( (float)playerController.instance.comboTime / (float)(playerController.instance.comboBaseTime + (int) playerController.instance.itemVals[2]))));
         //counter.fillAmount = Mathf.Clamp(counter.fillAmount - (.01f  * decreaseScale), 0, 1);
         counter.fillAmount = Mathf.Min(1f, ((float)playerController.instance.comboTime / (float)(playerController.instance.comboBaseTime + (int)playerController.instance.itemVals[2])));
     }
