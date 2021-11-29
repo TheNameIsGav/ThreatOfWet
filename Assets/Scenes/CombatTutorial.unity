@@ -1101,7 +1101,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 504.69348, y: 63.495316}
+  m_Size: {x: 523.6172, y: 63.495316}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1115,7 +1115,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 306132612}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 186.5778, y: 15.3477, z: 0}
+  m_LocalPosition: {x: 177.1159, y: 15.3477, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2478,13 +2478,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3714314212588986724, guid: ab00f3dcf0949a8469d198c19b42ef0e, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 75667404e3dd66845aaa96d215bc9759, type: 3}
     - target: {fileID: 3714314212588986725, guid: ab00f3dcf0949a8469d198c19b42ef0e, type: 3}
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3714314212588986725, guid: ab00f3dcf0949a8469d198c19b42ef0e, type: 3}
       propertyPath: m_LocalScale.y
-      value: 20.5
+      value: 25.1
       objectReference: {fileID: 0}
     - target: {fileID: 3714314212588986725, guid: ab00f3dcf0949a8469d198c19b42ef0e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2546,7 +2550,7 @@ PrefabInstance:
     - target: {fileID: 4618196347232887352, guid: 729bfd5c9cccd7645af285f271435293, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 75667404e3dd66845aaa96d215bc9759, type: 3}
+      objectReference: {fileID: 21300000, guid: 972f57e5d2f2fdf40bfa2e13b078d7d2, type: 3}
     - target: {fileID: 4618196347232887353, guid: 729bfd5c9cccd7645af285f271435293, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -3862,6 +3866,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3714314212588986724, guid: ab00f3dcf0949a8469d198c19b42ef0e, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 75667404e3dd66845aaa96d215bc9759, type: 3}
+    - target: {fileID: 3714314212588986724, guid: ab00f3dcf0949a8469d198c19b42ef0e, type: 3}
+      propertyPath: m_DrawMode
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3714314212588986725, guid: ab00f3dcf0949a8469d198c19b42ef0e, type: 3}
       propertyPath: m_RootOrder
       value: 8
