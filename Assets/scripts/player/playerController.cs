@@ -366,6 +366,9 @@ public class playerController : MonoBehaviour
             //rbs.velocity = new Vector2(0f, rbs.velocity.y);
         }
         animator.SetFloat("Speed", Mathf.Abs(rbs.velocity.x));
+        animator.SetFloat("YVelocity", rbs.velocity.y);
+        animator.SetBool("Grounded", grounded);
+        animator.SetBool("DashingState", state == dash);
         if (health < 0)
         {
             SceneManager.LoadScene("MainMenu");
