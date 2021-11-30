@@ -369,6 +369,9 @@ public class playerController : MonoBehaviour
         animator.SetFloat("YVelocity", rbs.velocity.y);
         animator.SetBool("Grounded", grounded);
         animator.SetBool("DashingState", state == dash);
+        animator.SetBool("Attack", state == attack);
+        animator.SetInteger("Phase", attack.phase);
+
         if (health < 0)
         {
             SceneManager.LoadScene("MainMenu");
