@@ -44,7 +44,7 @@ public class AttackState : State
         phase = 0;
         count = 0;
         playerController.instance.weaponHitbox.enabled = false;
-        playerController.instance.weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
+        
         holdSpeed = playerController.instance.rbs.velocity.x;
         if (playerController.instance.comboTime < 1)
         {
@@ -59,6 +59,19 @@ public class AttackState : State
             playerController.instance.block = true;
             playerController.instance.blockTime = 10;
 
+        }
+        playerController.instance.weaponHitbox.transform.localScale = new Vector2(activeWeapon.hitboxWidth * Mathf.Sign(playerController.instance.dir) , activeWeapon.hitboxHeight);
+        if(Mathf.Sign(playerController.instance.dir) < 0)
+        {
+            //playerController.instance.weaponHitbox.flipX = true;
+            //playerController.instance.weaponHitbox.flipX = true;
+            //playerController.instance.weaponHitbox.flipY = true;
+            playerController.instance.weaponHitbox.transform.localRotation *= Quaternion.Euler(180, 0, 0);
+        }
+        else
+        {
+            //playerController.instance.weaponHitbox.flipX = false;
+            //playerController.instance.weaponHitbox.flipX = false;
         }
         currVal = playerController.instance.attackVal;
         lastVal = currVal;
@@ -76,8 +89,9 @@ public class AttackState : State
        // Debug.Log("leaving the earth");
         //playerController.instance.pSprite.color = new Color(1, 1, 1, 1);
         //playerController.instance.pSprite.color = Color.white;
+
         playerController.instance.weaponHitbox.enabled = false;
-        playerController.instance.weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
+        //playerController.instance.weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
         playerController.instance.rbs.gravityScale = playerController.instance.grav;
         playerController.instance.rbs.sharedMaterial = playerController.instance.go;
         //playerController.instance.weaponHitbox.enabled = false;
@@ -153,7 +167,7 @@ public class AttackState : State
                     count = 0;
 
                     playerController.instance.weaponHitbox.enabled = true;
-                    playerController.instance.weaponHitbox.transform.localScale = new Vector2(activeWeapon.hitboxWidth * Mathf.Sign(playerController.instance.dir), activeWeapon.hitboxHeight);
+                    //playerController.instance.weaponHitbox.transform.localScale = new Vector2(activeWeapon.hitboxWidth * Mathf.Sign(playerController.instance.dir), activeWeapon.hitboxHeight);
                 }
                 else
                 {
@@ -173,7 +187,7 @@ public class AttackState : State
                     count = 0;
 
                     playerController.instance.weaponHitbox.enabled = false;
-                    playerController.instance.weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
+                    //playerController.instance.weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
                 }
                 else
                 {

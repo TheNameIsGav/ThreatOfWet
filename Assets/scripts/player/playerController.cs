@@ -371,6 +371,7 @@ public class playerController : MonoBehaviour
         animator.SetBool("DashingState", state == dash);
         animator.SetBool("AttackState", state == attack);
         animator.SetInteger("AttackPhase", attack.phase);
+        animator.SetBool("Blocking", block);
         if (health < 0)
         {
             SceneManager.LoadScene("MainMenu");
@@ -379,8 +380,14 @@ public class playerController : MonoBehaviour
 
     public void ChangeState(State newState)
     {
+      
         if (newState != menu)
         {
+            if (block && state != menu)
+            {
+                block = false;
+                blockTime = 0;
+            }
             //Debug.Log("call exit");
             state.OnExit();
         }
