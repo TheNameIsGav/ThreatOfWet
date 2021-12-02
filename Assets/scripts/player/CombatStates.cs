@@ -15,7 +15,7 @@ public class AttackState : State
     private int count = 0;
     private int stun = 0;
     private float holdSpeed;
-    public bool light;
+    public bool light = true;
     private int currVal = 0;
     private int lastVal = 0;
     public int comboCount = 0;
@@ -37,6 +37,7 @@ public class AttackState : State
     }
     public override void OnEnter()
     {
+        light = true;
         //Debug.Log("we got here");
         melee = playerController.instance.meleeWeapon;
         
@@ -66,7 +67,7 @@ public class AttackState : State
             //playerController.instance.weaponHitbox.flipX = true;
             //playerController.instance.weaponHitbox.flipX = true;
             //playerController.instance.weaponHitbox.flipY = true;
-            playerController.instance.weaponHitbox.transform.localRotation *= Quaternion.Euler(180, 0, 0);
+            //playerController.instance.weaponHitbox.transform.localRotation *= Quaternion.Euler(180, 0, 0);
         }
         else
         {
@@ -86,10 +87,10 @@ public class AttackState : State
     }
     public override void OnExit()
     {
-       // Debug.Log("leaving the earth");
+        // Debug.Log("leaving the earth");
         //playerController.instance.pSprite.color = new Color(1, 1, 1, 1);
         //playerController.instance.pSprite.color = Color.white;
-
+        light = true;
         playerController.instance.weaponHitbox.enabled = false;
         //playerController.instance.weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
         playerController.instance.rbs.gravityScale = playerController.instance.grav;
@@ -251,13 +252,13 @@ public class AttackState : State
                 if(buttons.ToArray()[0].Equals(oldButtons.ToArray()[0]) && buttons.ToArray()[1].Equals(oldButtons.ToArray()[1]))
                 {
                     //Debug.Log("same");
-                    playerController.instance.comboDown += 20;
+                    playerController.instance.comboDown += 40;
                 }
                 else
                 {
                     //Debug.Log("Different");
                     //Debug.Log(buttons.ToArray()[0].ToString() + " " + buttons.ToArray()[1].ToString() + " " + oldButtons.ToArray()[0].ToString() + " " + oldButtons.ToArray()[1].ToString());
-                    playerController.instance.comboUp += 20;
+                    playerController.instance.comboUp += 30;
                 }
             }
             oldButtons.Clear();
@@ -286,7 +287,7 @@ public class AttackState : State
     public void ComboDrop()
     {
         playerController.instance.rbs.velocity = new Vector2(-1 * playerController.instance.dir * 30f, 10f);
-        dropped = true;
+        //dropped = true;
         //GameObject.Find("PlayerUI").GetComponent<ComboCounter>().AdjustComboCounter(0, 1);
         //playerController.instance.ChangeHealth(-1f * enemy.GetComponent<EnemyDefault>().shouldAttack());
         playerController.instance.ChangeState(playerController.instance.idle);
@@ -294,7 +295,7 @@ public class AttackState : State
 
     public void DropItem()
     {
-        playerController.instance.comboUp += 50;
+        playerController.instance.comboUp += 75;
         playerController.instance.comboTime += playerController.instance.comboBaseTime + (int)playerController.instance.itemVals[2];
         float rand = Random.Range(0, 100);
         Debug.Log(rand.ToString() + "  " + playerController.instance.itemVals[8] + "  " + (playerController.instance.transform.position.x + 2f * playerController.instance.dir).ToString() + " " + playerController.instance.transform.position.y.ToString());
