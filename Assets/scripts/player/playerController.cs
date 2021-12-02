@@ -206,16 +206,23 @@ public class playerController : MonoBehaviour
             dashBuffer = universalBufferTime;
         }
         //how to get a light melee input
-        if (state != attack || attack.phase >= 1)
-        {
+       
+        
             if (Input.GetKeyDown(inputs[7]) || Input.GetButtonDown("Light Melee"))
             {
-                //Debug.Log("lpldsdl");
+            //Debug.Log("lpldsdl");
+            if (state != attack || attack.phase >= 1)
+            {
                 attackVal = 1;
-                if (state != attack)
-                {
+               // if (state != attack)
+               // {
                     ChangeState(attack);
-                }
+               // }
+            }
+            else
+            {
+                comboDown += 10;
+            }
 
                 //weaponHitbox.enabled = true;
                 //weaponHitbox.transform.localScale = new Vector2(meleeWeapon.hitboxWidth * Mathf.Sign(rbs.velocity.x), meleeWeapon.hitboxHeight);
@@ -223,18 +230,25 @@ public class playerController : MonoBehaviour
             // how to get a heavy melee input
             else if (Input.GetKeyDown(inputs[8]) || Input.GetAxis("Heavy Melee") > 0)
             {
-                //Debug.Log("lpldsdl");
+            //Debug.Log("lpldsdl");
+            if (state != attack || attack.phase >= 1)
+            {
                 attackVal = 2;
-                if (state != attack)
-                {
+               // if (state != attack)
+               // {
                     ChangeState(attack);
-                }
-                //ChangeState(attack);
-                //weaponHitbox.enabled = false;
-                //weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
+               // }
             }
+            else
+            {
+                comboDown += 10;
+            }
+            //ChangeState(attack);
+            //weaponHitbox.enabled = false;
+            //weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
+        }
             //THIS IS NOW BLOCK INPUT, WE LOVE TO SEE IT
-            else if (Input.GetKeyDown(inputs[9]) || Input.GetButtonDown("Light Range"))
+            if (Input.GetKeyDown(inputs[9]) || Input.GetButtonDown("Light Range"))
             {
                 //Debug.Log("lpldsdl");
                 //attackVal = 3;
@@ -248,11 +262,7 @@ public class playerController : MonoBehaviour
                 blockTime = 15;
                 block = true;
 
-            }
-            else
-            {
-                attackVal = 0;
-            }
+            
         }
         // this is also the button to pick up
         if ((Input.GetButtonDown("Interact") || Input.GetKeyDown(inputs[6])) && state != menu && (item || weapon))
@@ -448,7 +458,7 @@ public class playerController : MonoBehaviour
                         invulCount = 25;
                         comboDown += 50;
                     }
-                    else if(attack.activeWeapon.element == Element.WATER && block && attack.early > 0)
+                    else if(state == attack && attack.activeWeapon.element == Element.WATER && block && attack.early > 0)
                 {
                     comboTime = (int) (comboBaseTime + itemVals[2]);
                 }
