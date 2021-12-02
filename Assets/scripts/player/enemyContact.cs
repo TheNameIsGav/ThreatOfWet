@@ -30,27 +30,30 @@ public class enemyContact : MonoBehaviour
             bool burn = false;
             float elemBoost = 1f;
             float heavyBoost = 1f;
-            if (playerController.instance.attack.activeWeapon.element == Element.FIRE)
+            if (playerController.instance != null)
             {
-                burn = true;
-            }
-            else if(playerController.instance.attack.activeWeapon.element == Element.ELECTRIC)
-            {
-                if (playerController.instance.attack.light)
+                if (playerController.instance.attack.activeWeapon.element == Element.FIRE)
                 {
-                    elemBoost = 1.1f;
+                    burn = true;
                 }
-            }
-            else if (playerController.instance.attack.activeWeapon.element == Element.GROUND)
-            {
+                else if (playerController.instance.attack.activeWeapon.element == Element.ELECTRIC)
+                {
+                    if (playerController.instance.attack.light)
+                    {
+                        elemBoost = 1.1f;
+                    }
+                }
+                else if (playerController.instance.attack.activeWeapon.element == Element.GROUND)
+                {
+                    if (!playerController.instance.attack.light)
+                    {
+                        elemBoost = 1.1f;
+                    }
+                }
                 if (!playerController.instance.attack.light)
                 {
-                    elemBoost = 1.1f;
-                }  
-            }
-            if (!playerController.instance.attack.light)
-            {
-                heavyBoost = 1.5f;
+                    heavyBoost = 1.5f;
+                }
             }
             float gradeBoost = 1f;
             float comboGrade = (playerController.instance.comboUp / playerController.instance.comboDown);
