@@ -18,6 +18,7 @@ public class EnemyHuntState : StateMachineBehaviour
         (GameObject target, int retType) = animator.gameObject.GetComponent<NavMeshCapableAgent>().AStar(animator.gameObject, player, navs);
         //Debug.Log(target);
         pathingTo = target;
+        animator.SetFloat("AttackCooldown", 0);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -26,7 +27,7 @@ public class EnemyHuntState : StateMachineBehaviour
         if (Vector2.Distance(animator.gameObject.transform.position, player.transform.position) <= thisScript.Range)
         {
             animator.SetBool("ShouldCombat", true);
-            Debug.Log("Transitioning to Combat State");
+            //Debug.Log("Transitioning to Combat State");
         }
 
         if (animator.gameObject.GetComponent<EnemyDefault>().Die)
@@ -40,6 +41,9 @@ public class EnemyHuntState : StateMachineBehaviour
         }
         Vector2 pathPt = new Vector2(pathingTo.transform.position.x, pathingTo.transform.position.y + animator.gameObject.GetComponent<SpriteRenderer>().bounds.extents.y);
         animator.gameObject.transform.position = Vector2.MoveTowards(animator.gameObject.transform.position, pathPt, thisScript.Speed);
+
+        if(player.transform.position.x > animator.gameObject.transform.position.x) { animator.gameObject.GetComponent<SpriteRenderer>().flipX = true;} 
+        else { animator.gameObject.GetComponent<SpriteRenderer>().flipX = false; }
 
     }
 
