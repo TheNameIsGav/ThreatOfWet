@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyDefault : MonoBehaviour
 {
@@ -38,6 +39,35 @@ public class EnemyDefault : MonoBehaviour
 
     public bool canCharge;
     public bool Charge { get { return canCharge; } set { canCharge = value; } }
+
+    public void StartExclamationCountdown(float duration)
+    {
+        //Debug.Log("Duration " + duration);
+        StartCoroutine(startExclamationPrivate(duration));
+    }
+
+    IEnumerator startExclamationPrivate(float duration)
+    {
+        //Debug.Log("e");
+        GameObject a = transform.GetChild(0).transform.GetChild(2).gameObject;
+        if (a != null)
+        {
+            a.SetActive(true);
+            Image excl = a.GetComponent<Image>();
+            yield return new WaitForSeconds(duration / 3.33f);
+            excl.color = Color.magenta;
+            yield return new WaitForSeconds(duration / 3.33f);
+            excl.color = Color.red;
+            yield return new WaitForSeconds(duration / 3.33f);
+            a.SetActive(false);
+            excl.color = Color.yellow;
+        }
+        else
+        {
+            yield return new WaitForSeconds(duration);
+        }
+
+    }
 
     /// <summary>
     /// Takes in a positive float and subtracts that value from the enemies health
@@ -103,7 +133,7 @@ public class EnemyDefault : MonoBehaviour
         return d.getDamage();
     }
 
-    bool InRange()
+    public bool InRange()
     {
         GameObject p = GameObject.Find("player");
 
@@ -114,53 +144,6 @@ public class EnemyDefault : MonoBehaviour
         return false;
     }
 
-    public void flashExclamation(Color color)
-    {
-        GetComponent<SpriteRenderer>().color = color;
-    }
-
-    IEnumerator EnemyAttack()
-    {
-        Debug.Log("Entering into attack method");
-        //Alert Color
-        if (canCharge && UnityEngine.Random.Range(0, 1) <= .33f) //If this enemy can charge attack
-        {
-            flashExclamation(Color.yellow);
-        }
-        else if (canHeavy && UnityEngine.Random.Range(0, 1) <= .33f) //If this enemy can heavy attack
-        {
-            flashExclamation(Color.magenta);
-        }
-        else //We normal attack
-        {
-            flashExclamation(Color.red);
-        }
-        yield return new WaitForSeconds(attackSpeed);
-
-        //Make Attack
-        if (InRange())
-        {
-            GameObject.Find("player").GetComponent<playerController>().ChangeHealth(-1f * shouldAttack());            
-        }
-        flashExclamation(Color.white);
-        yield return new WaitForSeconds(UnityEngine.Random.Range(5f, 10f));
-        StartCoroutine(EnemyAttack());
-    }
-
-    bool shouldStartAttacking = true;
-    public void StartAttackCycle()
-    {
-        Debug.Log("starting attack cycle");
-        if(shouldStartAttacking) StartCoroutine(EnemyAttack());
-        shouldStartAttacking = false;
-    }
-
-    public void StopAttackCycle()
-    {
-        Debug.Log("stopping attack cycle");
-        StopCoroutine(EnemyAttack());
-        shouldStartAttacking = true;
-    }
 
     //y = log_{b}x - 2 //Plug this into desmos to play with it
     private void GenerateEnhancements(float difficulty)
