@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 1957377534}
+  size: 12
 --- !u!1 &1134846961498847865
 GameObject:
   m_ObjectHideFlags: 0
@@ -432,7 +433,7 @@ DistanceJoint2D:
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: -50.51218, y: 0.78484654}
   m_AutoConfigureDistance: 1
-  m_Distance: 50.51828
+  m_Distance: 206.24913
   m_MaxDistanceOnly: 1
 --- !u!1 &2845900222651375959
 GameObject:
