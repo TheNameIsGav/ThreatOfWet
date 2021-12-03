@@ -366,6 +366,13 @@ public class playerController : MonoBehaviour
             //rbs.velocity = new Vector2(0f, rbs.velocity.y);
         }
         animator.SetFloat("Speed", Mathf.Abs(rbs.velocity.x));
+        animator.SetFloat("YVelocity", rbs.velocity.y);
+        animator.SetBool("Grounded", grounded);
+        animator.SetBool("DashingState", state == dash);
+        animator.SetBool("AttackState", state == attack);
+        animator.SetInteger("AttackPhase", attack.phase);
+        animator.SetBool("Blocking", block);
+        animator.SetBool("Heavy", !attack.light);
         if (health < 0)
         {
             SceneManager.LoadScene("MainMenu");
@@ -374,8 +381,14 @@ public class playerController : MonoBehaviour
 
     public void ChangeState(State newState)
     {
+      
         if (newState != menu)
         {
+            if (block && state != menu)
+            {
+                block = false;
+                blockTime = 0;
+            }
             //Debug.Log("call exit");
             state.OnExit();
         }
@@ -440,7 +453,8 @@ public class playerController : MonoBehaviour
                         health += Mathf.Min(change + itemVals[5], 0f);
                         invuln = true;
                         invulCount = 25;
-                        comboDown += 50;
+                        comboDown += 100;
+                    attack.ComboDrop();
                     }
                     else if(attack.activeWeapon.element == Element.WATER && block && attack.early > 0)
                 {

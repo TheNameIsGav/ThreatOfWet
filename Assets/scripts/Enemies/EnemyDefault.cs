@@ -8,7 +8,7 @@ public class EnemyDefault : MonoBehaviour
     float health = 100;
     public float Health { get { return health; } set { health = value; } }
 
-    float maxHealth = 100;
+    public float maxHealth = 100;
     public float MaxHealth { get { return maxHealth; } set { maxHealth = value; } }
 
     bool shouldDie = false;
@@ -16,16 +16,16 @@ public class EnemyDefault : MonoBehaviour
 
     float spawnDifficulty;
 
-    float speed = .01f;
+    public float speed = .01f;
     public float Speed { get { return speed; } set { speed = value; } }
 
-    float attackSpeed = 1.5f;
+    public float attackSpeed = 1.5f;
     public float AtkSpd { get { return attackSpeed; } set { attackSpeed = value; } }
 
-    int baseDamage = 5;
+    public int baseDamage = 5;
 
-    float aggroRange = 2.5f;
-    public float Range { get { return aggroRange; } set { aggroRange = value; } }
+    public float attackRange = 2.5f;
+    public float Range { get { return attackRange; } set { attackRange = value; } }
 
     List<Enhancements> enhance = new List<Enhancements>();
     public List<Enhancements> Enhance { get { return enhance; } set { enhance = value; } }
@@ -33,10 +33,10 @@ public class EnemyDefault : MonoBehaviour
     public string eName = "";
     public string EName { get { return name; } set { name = value; } }
 
-    bool canHeavy;
+    public bool canHeavy;
     public bool Heavy { get { return canHeavy; } set { canHeavy = value; } }
 
-    bool canCharge;
+    public bool canCharge;
     public bool Charge { get { return canCharge; } set { canCharge = value; } }
 
     /// <summary>
@@ -108,7 +108,7 @@ public class EnemyDefault : MonoBehaviour
         GameObject p = GameObject.Find("player");
 
         //theoretically checks to see if we can attack the player with a favor towards horizontal angles.
-        if(Mathf.Abs(p.transform.position.x - transform.position.x) <= aggroRange && Mathf.Abs(p.transform.position.y - transform.position.y) <= aggroRange/2) {
+        if(Mathf.Abs(p.transform.position.x - transform.position.x) <= attackRange && Mathf.Abs(p.transform.position.y - transform.position.y) <= attackRange/2) {
             return true;
         }
         return false;
@@ -220,9 +220,9 @@ public class EnemyDefault : MonoBehaviour
         if (enhance.Contains(Enhancements.BIG))
         {
             maxHealth *= 2;
-            health = maxHealth;
+            
         }
-
+        health = maxHealth;
         transform.GetChild(0).GetComponent<EnemyNameGenerator>().GenerateEnemyName(eName);
 
         transform.position = position;
