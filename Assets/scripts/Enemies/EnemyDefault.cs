@@ -40,6 +40,9 @@ public class EnemyDefault : MonoBehaviour
     public bool canCharge;
     public bool Charge { get { return canCharge; } set { canCharge = value; } }
 
+    Damage damEncap = new Damage(5);
+    public Damage Damage { get { return damEncap; } set { damEncap = value; } }
+
     public void StartExclamationCountdown(float duration)
     {
         //Debug.Log("Duration " + duration);
@@ -109,7 +112,7 @@ public class EnemyDefault : MonoBehaviour
         }
     }
 
-    public float shouldAttack()
+    void GenerateDamage()
     {
         Damage d = new Damage(baseDamage);
 
@@ -126,11 +129,31 @@ public class EnemyDefault : MonoBehaviour
         if (enhance.Contains(Enhancements.PIERCING))
         {
             d.Crit = true;
-            d.CritDam = .5f;
-            d.CritPercent = 75;
+            d.CritDam = .25f;
+            d.CritPercent = 25;
         }
 
-        return d.getDamage();
+        if (enhance.Contains(Enhancements.UNBLOCK))
+        {
+            d.Heavy = true;
+        }
+
+        if (enhance.Contains(Enhancements.CHARGE))
+        {
+            d.Charge = true;
+        }
+
+        damEncap = d;
+    }
+
+    public float shouldAttack()
+    {
+        if (damEncap.Heavy)
+        {
+            playerController.instance.block = false;
+        }
+
+        return damEncap.getDamage();
     }
 
     public bool InRange()
@@ -138,7 +161,9 @@ public class EnemyDefault : MonoBehaviour
         GameObject p = GameObject.Find("player");
 
         //theoretically checks to see if we can attack the player with a favor towards horizontal angles.
-        if(Mathf.Abs(p.transform.position.x - transform.position.x) <= attackRange && Mathf.Abs(p.transform.position.y - transform.position.y) <= attackRange/2) {
+        if((Mathf.Abs(p.transform.position.x - transform.position.x) <= attackRange && Mathf.Abs(p.transform.position.y - transform.position.y) <= attackRange/2) 
+            ||
+            (enhance.Contains(Enhancements.CHARGE) && Mathf.Abs(p.transform.position.x - transform.position.x) <= attackRange*3 && Mathf.Abs(p.transform.position.y - transform.position.y) <= attackRange / 2)) {
             return true;
         }
         return false;
@@ -151,9 +176,9 @@ public class EnemyDefault : MonoBehaviour
         //Calculates the correct number of enhancements to generate onto this enemy
         //2.56 is the offset so that we can never have a negative number of enhancements
         difficulty = Mathf.Max(2.56f, difficulty);
-        int num = Mathf.Min(Mathf.RoundToInt(Mathf.Log(difficulty, 1.6f) - 2), 7);
+        int num = Mathf.Min(Mathf.RoundToInt(Mathf.Log(difficulty, 1.6f) - 2), 9);
         List<Enhancements> t = new List<Enhancements>();
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < 9; i++)
         {
             t.Add((Enhancements)i);
         }
@@ -188,6 +213,12 @@ public class EnemyDefault : MonoBehaviour
                 case Enhancements.BIG:
                     eName = "Healthy " + eName;
                     break;
+                case Enhancements.UNBLOCK:
+                    eName = "Unblockable " + eName;
+                    break;
+                case Enhancements.CHARGE:
+                    eName = "Charging " + eName;
+                    break;
             }
         }
     }
@@ -199,6 +230,7 @@ public class EnemyDefault : MonoBehaviour
     /// <param name="difficulty"></param>
     public void Spawn(Vector2 position, float difficulty) {
         GenerateEnhancements(difficulty);
+        GenerateDamage();
         spawnDifficulty = difficulty;
         if (enhance.Contains(Enhancements.BIG))
         {
