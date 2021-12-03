@@ -371,8 +371,8 @@ public class playerController : MonoBehaviour
         animator.SetBool("DashingState", state == dash);
         animator.SetBool("AttackState", state == attack);
         animator.SetInteger("AttackPhase", attack.phase);
-        animator.SetBool("Blocking", block);
-        animator.SetBool("Heavy", !attack.light);
+        //animator.SetBool("Blocking", block);
+        //animator.SetBool("Heavy", !attack.light);
         if (health < 0)
         {
             SceneManager.LoadScene("MainMenu");
