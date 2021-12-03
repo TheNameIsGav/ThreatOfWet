@@ -38,7 +38,7 @@ public class SpawnHandler : MonoBehaviour
     {
         // Get All Local Platforms
         Collider2D[] collide = Physics2D.OverlapCircleAll(
-            player.transform.position + new Vector3(spawnRadius, 0, 0), spawnRadius, LayerMask.GetMask("SpawnableTile"));
+            player.transform.position + new Vector3(spawnRadius + 2, 0, 0), spawnRadius, LayerMask.GetMask("SpawnableTile"));
         GameObject[] collidedObjects = new GameObject[collide.Length];
         if (collide.Length < 1)
             return collidedObjects;
@@ -91,7 +91,7 @@ public class SpawnHandler : MonoBehaviour
     private GameObject[] ChoosePlatforms(GameObject[] platforms, float diff)
     {
         maxEnemySpawn = Mathf.FloorToInt(Mathf.Min(
-            Mathf.Ceil(diff / 5f),
+            Mathf.Ceil(diff / 4f),
             (float) platforms.Length));
 /*        if (maxEnemySpawn <= 0)
         {

@@ -301,6 +301,7 @@ MonoBehaviour:
   comboUp: 1
   comboDown: 1
   comboGrade: C
+  comboBaseTime: 100
 --- !u!120 &5419697240797163335
 LineRenderer:
   m_ObjectHideFlags: 0
