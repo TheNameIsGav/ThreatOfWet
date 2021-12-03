@@ -16,8 +16,19 @@ public class MovePoint : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public bool IsUnoccupied()
     {
-        
+        gameObject.AddComponent<BoxCollider2D>();
+        Collider2D[] collidedColliders = Physics2D.OverlapCircleAll(
+            transform.position, .25f);
+        for (int i = 0; i < collidedColliders.Length; i++)
+        {
+            if (collidedColliders[i].gameObject.tag.Equals("Hostile")
+                || collidedColliders[i].gameObject.tag.Equals("Player"))
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }

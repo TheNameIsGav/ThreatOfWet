@@ -36,11 +36,13 @@ public class SpawnHandler : MonoBehaviour
 
     private GameObject[] GetSpawnablePlatforms(GameObject player)
     {
+        // Get All Local Platforms
         Collider2D[] collide = Physics2D.OverlapCircleAll(
-            player.transform.position + new Vector3(spawnRadius, 0, 0), spawnRadius, LayerMask.GetMask("SpawnableTile"));
-        
-        
+            player.transform.position + new Vector3(spawnRadius + 2, 0, 0), spawnRadius, LayerMask.GetMask("SpawnableTile"));
         GameObject[] collidedObjects = new GameObject[collide.Length];
+        if (collide.Length < 1)
+            return collidedObjects;
+
         int spawnableSize = 0;
         for (int i = 0; i < collide.Length; i++)
         {
@@ -51,25 +53,45 @@ public class SpawnHandler : MonoBehaviour
                 spawnableSize++;
             } 
         }
-        GameObject[] finalCollidedObjectList = new GameObject[spawnableSize];
+
+        // Get All Spawnable Platforms, Trim for OverSpawning
+        GameObject[] trimmedCollidedObjectList = new GameObject[spawnableSize];
         int j = 0;
+        int finalSize = 0;
         for (int i = 0; i < collidedObjects.Length; i++)
         {
             if (collidedObjects[i].GetComponent<BasicTile>() != null
-                && collidedObjects[i].GetComponent<BasicTile>().CanSpawnEnemy())
+                && collidedObjects[i].GetComponent<BasicTile>().CanSpawnEnemy()
+                && GameManager.instance.NavMesh.GetComponent<NavMeshGenerator>().
+                    FindNearestMovePoint(collidedObjects[i]).GetComponent<MovePoint>().IsUnoccupied())
             {
-                finalCollidedObjectList[j] = collidedObjects[i];
+                trimmedCollidedObjectList[j] = collidedObjects[i];
                 // Debug.Log(finalCollidedObjectList[j].name);
                 j++;
+                finalSize++;
+            } else
+            {
+                if (!GameManager.instance.NavMesh.GetComponent<NavMeshGenerator>().
+                    FindNearestMovePoint(collidedObjects[i]).GetComponent<MovePoint>().IsUnoccupied())
+                {
+                    Debug.Log("Check Works");
+                }
             }
         }
-        return finalCollidedObjectList;
+
+        // Trim List of Nulls
+        GameObject[] finalPlatformList = new GameObject[finalSize];
+        for (int i = 0; i < finalSize; i++)
+        {
+            finalPlatformList[i] = trimmedCollidedObjectList[i];
+        }
+        return finalPlatformList;
     }
 
     private GameObject[] ChoosePlatforms(GameObject[] platforms, float diff)
     {
         maxEnemySpawn = Mathf.FloorToInt(Mathf.Min(
-            Mathf.Ceil(diff / 5f),
+            Mathf.Ceil(diff / 4f),
             (float) platforms.Length));
 /*        if (maxEnemySpawn <= 0)
         {
