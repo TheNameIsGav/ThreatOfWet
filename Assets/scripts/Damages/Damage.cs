@@ -31,6 +31,15 @@ public class Damage
     bool ranged;
     public bool Ranged { get { return ranged; } set { ranged = value; } }
 
+    bool healing;
+    public bool Heal { get { return healing; } set { healing = value; } }
+
+    bool charged;
+    public bool Charge { get { return charged; } set { charged = value; } }
+
+    bool heavy;
+    public bool Heavy { get { return heavy; } set { heavy = value; } }
+
     /// <summary>
     /// Constructor for a damage
     /// </summary>

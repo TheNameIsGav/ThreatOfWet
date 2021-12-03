@@ -24,7 +24,6 @@ public class enemyContact : MonoBehaviour
             playerController.instance.attack.delay = 5;
             playerController.instance.comboCount++;
             playerController.instance.attack.enemy = collision.gameObject;
-            playerController.instance.comboUp += playerController.instance.comboTime;
             playerController.instance.comboDown += 5;
             int exTime = 0;
             bool burn = false;
@@ -99,17 +98,25 @@ public class enemyContact : MonoBehaviour
                 gradeBoost = 1.1f;
                 playerController.instance.comboGrade = "D";
             }
-            //E
+            //F
             else
             {
                 gradeBoost = 1.0f;
-                playerController.instance.comboGrade = "E";
+                playerController.instance.comboGrade = "F";
             }
 
             collision.gameObject.GetComponent<EnemyDefault>().TakeDamage(new Damage(elemBoost * heavyBoost * gradeBoost* (1 + ((float)playerController.instance.comboCount / 100)) * (playerController.instance.attack.activeWeapon.damageBase + playerController.instance.itemVals[1]), true, 2f, playerController.instance.itemVals[6], false, burn, false));
             playerController.instance.ChangeHealth(playerController.instance.itemVals[3] * (elemBoost * heavyBoost * gradeBoost * (1 + ((float)playerController.instance.comboCount / 100)) * (playerController.instance.attack.activeWeapon.damageBase + playerController.instance.itemVals[1])));
             PlayerUIScript.ScaleCombo(playerController.instance.comboCount);
-
+            if(playerController.instance.comboTime >= (playerController.instance.comboBaseTime + exTime + (int)playerController.instance.itemVals[2]) - 25 || playerController.instance.comboTime < 25)
+            {
+                playerController.instance.comboUp += 50;
+            }
+            else
+            {
+                playerController.instance.comboUp += 15;
+            }
+            //playerController.instance.comboUp += playerController.instance.comboTime;
             playerController.instance.comboTime = playerController.instance.comboBaseTime + exTime + (int)playerController.instance.itemVals[2];
             //combo just scales over time, 1.01, 1.02, 1.03 etc etc
             //then the grade is a seperate value, and the grade value is a seperate scale added on top, and this varries with performance.
