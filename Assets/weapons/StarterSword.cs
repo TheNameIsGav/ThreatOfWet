@@ -35,11 +35,11 @@ public class StarterSword : Weapon
         rhythm = false;
 
         lightStartup = 8;
-        lightActive = 4;
+        lightActive = 3;
         lightEndlag = 8;
 
         heavyStartup = 20;
-        heavyActive = 8;
+        heavyActive = 3;
         heavyEndlag = 20;
         element = Element.DEFAULT;
     }
