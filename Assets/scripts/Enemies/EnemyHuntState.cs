@@ -42,7 +42,10 @@ public class EnemyHuntState : StateMachineBehaviour
         Vector2 pathPt = new Vector2(pathingTo.transform.position.x, pathingTo.transform.position.y + animator.gameObject.GetComponent<SpriteRenderer>().bounds.extents.y);
         animator.gameObject.transform.position = Vector2.MoveTowards(animator.gameObject.transform.position, pathPt, thisScript.Speed);
 
-        if(player.transform.position.x > animator.gameObject.transform.position.x) { animator.gameObject.GetComponent<SpriteRenderer>().flipX = true;} 
+        if (GameObject.Find("player").transform.position.x < animator.gameObject.transform.position.x)
+        {
+            animator.gameObject.GetComponent<SpriteRenderer>().flipX = true;
+        }
         else { animator.gameObject.GetComponent<SpriteRenderer>().flipX = false; }
 
     }
