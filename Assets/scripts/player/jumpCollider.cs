@@ -43,10 +43,15 @@ public class jumpCollider : MonoBehaviour
                     //playerController.instance.state.shortHop = 0;
                     if (playerController.instance.state != playerController.instance.dash && playerController.instance.rbs.velocity.y < 1f && !(((playerController.instance.transform.position.x /*+ (playerController.instance.transform.localScale.x / 2)*/) <= (collision.gameObject.transform.position.x - (Mathf.Sign(collision.gameObject.transform.position.x) * collision.gameObject.GetComponent<BoxCollider2D>().size.x / 2))) || ((playerController.instance.transform.position.x /*- (playerController.instance.transform.localScale.x / 2)*/) >= (collision.gameObject.transform.position.x + (collision.gameObject.GetComponent<BoxCollider2D>().size.x / 2)))))
                     {
-                        //Debug.Log("fucking aasdasdasd");
+                    //Debug.Log("fucking aasdasdasd");
+                    playerController.instance.wall = false;
                         playerController.instance.canDash = true;
                     }
+                else
+                {
+                    playerController.instance.wall = true;
                 }
+            }
             }
         
     }
@@ -103,9 +108,20 @@ public class jumpCollider : MonoBehaviour
                         //Debug.Log((!((playerController.instance.transform.position.x /*+ (playerController.instance.transform.localScale.x / 2)*/) <= (collision.gameObject.transform.position.x - (collision.gameObject.transform.localScale.x / 2))) || ((playerController.instance.transform.position.x /*- (playerController.instance.transform.localScale.x / 2)*/) >= (collision.gameObject.transform.position.x + (collision.gameObject.transform.localScale.x / 2)))));
                         //Debug.Log("tpggled");
                         playerController.instance.canDash = true;
-                    }
+                    playerController.instance.wall = false;
+                }
+                else
+                {
+                    playerController.instance.wall = true;
+                    //playerController.instance.rbs.velocity = new Vector2(playerController.instance.rbs.velocity.x - (playerController.instance.dir * 15f), playerController.instance.rbs.velocity.y);
+                }
                 }
             }
-        
+             else if (!collision.gameObject.CompareTag("Slippery"))
+        {
+            playerController.instance.grounded = true;
+            playerController.instance.coyote = playerController.instance.universalBufferTime + 1;
+        }
+
     }
 }

@@ -29,7 +29,7 @@ public class enemyContact : MonoBehaviour
             bool burn = false;
             float elemBoost = 1f;
             float heavyBoost = 1f;
-            if (playerController.instance != null)
+            if (playerController.instance != null && playerController.instance.attack.activeWeapon != null)
             {
                 if (playerController.instance.attack.activeWeapon.element == Element.FIRE)
                 {

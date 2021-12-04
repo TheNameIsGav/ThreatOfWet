@@ -67,6 +67,7 @@ public class playerController : MonoBehaviour
     public float comboDown = 1f;
     public string comboGrade = "C";
     public int comboBaseTime = 100;
+    public bool wall = false;
     // attack speed, attack damage, scaling, lifesteal, hp, def, crit, dodge, drop
     //Debug.Log(meleeWeapon.lightActive);
     // meleeWeapon.lightActive;
@@ -350,11 +351,20 @@ public class playerController : MonoBehaviour
         }
         if (dir == -1)
         {
-            gameObject.GetComponent<SpriteRenderer>().flipX = true;
+            //gameObject.GetComponent<SpriteRenderer>().flipX = true;
+            if (transform.localScale.x < 0) { }
+            else
+            {
+                transform.localScale = new Vector3(-1 *transform.localScale.x, transform.localScale.y, transform.localScale.z);
+            }
         }
         else
         {
-            gameObject.GetComponent<SpriteRenderer>().flipX = false;
+            if (transform.localScale.x < 0)
+            {
+                transform.localScale = new Vector3(-1 *transform.localScale.x, transform.localScale.y, transform.localScale.z);
+            }
+            //gameObject.GetComponent<SpriteRenderer>().flipX = false;
         }
         if (rbs.velocity.y > 1f)
         {

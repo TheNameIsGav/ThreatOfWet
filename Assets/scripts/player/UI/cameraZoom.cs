@@ -31,16 +31,13 @@ public class cameraZoom : MonoBehaviour
     {
         if ( playerController.instance.comboTime > 0)
         {
-            // Debug.Log("zoom");
-            // cam.orthographicSize = 2f;
-            // cam.Size = 6;
             if (size > 5)
             {
-                size -= 0.15f;
+           //     size -= 0.15f;
             }
             else
             {
-                size = 5;
+           //     size = 5;
             }
             cam.orthographicSize = size;
         }
