@@ -285,7 +285,7 @@ public class AttackState : State
         }
         else
         {
-            playerController.instance.weaponHitbox.sprite = playerController.instance.rangedSp;
+            playerController.instance.weaponHitbox.sprite = playerController.instance.meleeSp;
         }
     }
     public void ComboDrop()
