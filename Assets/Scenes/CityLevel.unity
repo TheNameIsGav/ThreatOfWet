@@ -788,7 +788,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 458ca278c7e2f2741ae5b671721f1c9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockDirection: Left Down
+  blockDirection: Left Down Up
 --- !u!212 &1503908983
 SpriteRenderer:
   m_ObjectHideFlags: 0

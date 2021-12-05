@@ -95,28 +95,38 @@ public class DirectionCollisionTile : BasicTile
         if (Up())
         {
             if (ppos.y > tpos.y // see if its up
-                && (ppos.x - pw <= tpos.x + (hitbox.bounds.size.x / 2f)
-                && ppos.x + pw >= tpos.x - (hitbox.bounds.size.x / 2f))) // see if its actually up
+                && ((ppos.x - pw <= tpos.x + (hitbox.bounds.size.x / 2f)// see if its actually up
+                && ppos.x + pw >= tpos.x - (hitbox.bounds.size.x / 2f))
+                || (ppos.x <= tpos.x + (hitbox.bounds.size.x / 2f)
+                && ppos.x >= tpos.x - (hitbox.bounds.size.x / 2f))))
                 return true;
         } 
         if (Right())
         {
             if (ppos.x > tpos.x // see if its to the right
-                && (ppos.y - ph <= tpos.y + (hitbox.bounds.size.y / 2f)
-                && ppos.y + ph >= tpos.y - (hitbox.bounds.size.y / 2f))) // see if its actually to the right;
+                && ((ppos.y - ph <= tpos.y + (hitbox.bounds.size.y / 2f)
+                && ppos.y + ph >= tpos.y - (hitbox.bounds.size.y / 2f))
+                || (ppos.y <= tpos.y + (hitbox.bounds.size.y / 2f)
+                && ppos.y >= tpos.y - (hitbox.bounds.size.y / 2f)))) // see if its actually to the right;
                 return true;
         } 
         if (Down())
         {
-            return ppos.y < tpos.y // see if its down
+            if (ppos.y < tpos.y // see if its down
                 && (ppos.x - pw <= tpos.x + (hitbox.bounds.size.x / 2f)
-                && ppos.x + pw >= tpos.x - (hitbox.bounds.size.x / 2f)); // see if its actually down
+                && ppos.x + pw >= tpos.x - (hitbox.bounds.size.x / 2f)
+                || (ppos.x <= tpos.x + (hitbox.bounds.size.x / 2f)
+                && ppos.x >= tpos.x - (hitbox.bounds.size.x / 2f)))) // see if its actually down
+                return true;
         } 
         if (Left())
         {
-            return ppos.x < tpos.x // see if its to the left
-                && (ppos.y - ph <= tpos.y + (hitbox.bounds.size.y / 2f)
-                && ppos.y + ph >= tpos.y - (hitbox.bounds.size.y / 2f)); // see if its actually to the left;
+            if (ppos.x < tpos.x // see if its to the left
+                && ((ppos.y - ph <= tpos.y + (hitbox.bounds.size.y / 2f)
+                && ppos.y + ph >= tpos.y - (hitbox.bounds.size.y / 2f))
+                || (ppos.y <= tpos.y + (hitbox.bounds.size.y / 2f)
+                && ppos.y >= tpos.y - (hitbox.bounds.size.y / 2f)))) // see if its actually to the left
+                return true;
         } 
         if (!Up() && !Down() && !Right() && !Left())
             Debug.LogError("One Way Collider '" + name + "' does not have a valid direction (" + blockDirection + ")");
