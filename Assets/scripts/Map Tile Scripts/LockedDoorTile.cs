@@ -49,7 +49,7 @@ public class LockedDoorTile : BasicTile
             else
             {
                 GameManager.instance.ResetCameraToPlayer();
-                elevate = 5;
+                elevate = 6;
             }
         }
     }
