@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3137816571301282961}
   - component: {fileID: 3137816571301282960}
-  - component: {fileID: 3137816571301282962}
+  - component: {fileID: -1366965132970038552}
   m_Layer: 6
   m_Name: One Way Wall
   m_TagString: Untagged
@@ -84,7 +84,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3137816571301282962
+--- !u!114 &-1366965132970038552
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,4 +96,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 458ca278c7e2f2741ae5b671721f1c9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blockDirection: 4
+  blockDirection: 
