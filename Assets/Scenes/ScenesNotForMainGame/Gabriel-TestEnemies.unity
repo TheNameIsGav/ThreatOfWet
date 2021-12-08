@@ -415,11 +415,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1520864626152655418, guid: e14f0e9a6ad419f4e8d0fd0b16a94d2f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -25.34
+      value: -23.05
       objectReference: {fileID: 0}
     - target: {fileID: 1520864626152655418, guid: e14f0e9a6ad419f4e8d0fd0b16a94d2f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.21
+      value: -1.13
       objectReference: {fileID: 0}
     - target: {fileID: 1520864626152655418, guid: e14f0e9a6ad419f4e8d0fd0b16a94d2f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -609,17 +609,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slime
       objectReference: {fileID: 0}
+    - target: {fileID: 398849020047902466, guid: 73bac3ddcc0442540a4ef5cdb662afe9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7902567377387858573, guid: 73bac3ddcc0442540a4ef5cdb662afe9, type: 3}
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7902567377387858573, guid: 73bac3ddcc0442540a4ef5cdb662afe9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.3099985
+      value: -3.13
       objectReference: {fileID: 0}
     - target: {fileID: 7902567377387858573, guid: 73bac3ddcc0442540a4ef5cdb662afe9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.74
+      value: 6.55
       objectReference: {fileID: 0}
     - target: {fileID: 7902567377387858573, guid: 73bac3ddcc0442540a4ef5cdb662afe9, type: 3}
       propertyPath: m_LocalPosition.z
