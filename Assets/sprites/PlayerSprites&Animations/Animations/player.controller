@@ -75,13 +75,8 @@ AnimatorState:
   m_Transitions:
   - {fileID: 6023989826450457666}
   - {fileID: 3632876449449255673}
-<<<<<<< HEAD
-  m_StateMachineBehaviours:
-  - {fileID: 1988684961592733878}
-=======
   - {fileID: -3935265162249627492}
   m_StateMachineBehaviours: []
->>>>>>> origin/jacksonPolish
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -757,29 +752,19 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-<<<<<<< HEAD
     m_Controller: {fileID: 9100000}
-  - m_Name: XVelocity
-    m_Type: 1
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-=======
-    m_Controller: {fileID: 0}
   - m_Name: Blocking
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Heavy
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
->>>>>>> origin/jacksonPolish
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -1002,25 +987,12 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
-<<<<<<< HEAD
---- !u!114 &1988684961592733878
-MonoBehaviour:
-=======
 --- !u!1101 &1763739068469843839
 AnimatorStateTransition:
->>>>>>> origin/jacksonPolish
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac7c8c4c9af20cd428e98065089ab446, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-=======
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
@@ -1065,7 +1037,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
->>>>>>> origin/jacksonPolish
 --- !u!1102 &2270857686627715576
 AnimatorState:
   serializedVersion: 6
@@ -1472,61 +1443,54 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 2270857686627715576}
-    m_Position: {x: 240, y: 280, z: 0}
+    m_Position: {x: -390, y: 450, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -453304958054741303}
-    m_Position: {x: 260, y: 460, z: 0}
+    m_Position: {x: -60, y: 310, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -261337431933579298}
-    m_Position: {x: 590, y: 250, z: 0}
+    m_Position: {x: 220, y: 450, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1082015309871509747}
-    m_Position: {x: 590, y: 490, z: 0}
+    m_Position: {x: 310, y: 740, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7363829010764936051}
-    m_Position: {x: -110, y: 270, z: 0}
+    m_Position: {x: -420, y: 750, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4605260013688323936}
-    m_Position: {x: -310, y: -130, z: 0}
+    m_Position: {x: -390, y: 80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2984983201534663278}
-    m_Position: {x: -330, y: 20, z: 0}
+    m_Position: {x: -690, y: 80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -874109636340782827}
-    m_Position: {x: 310, y: -100, z: 0}
+    m_Position: {x: -60, y: 80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7476366214637472060}
-<<<<<<< HEAD
-    m_Position: {x: -110, y: 50, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 7512663211256284441}
-    m_Position: {x: -220, y: -170, z: 0}
-=======
-    m_Position: {x: -300, y: 100, z: 0}
+    m_Position: {x: -690, y: 230, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5736570356590499451}
-    m_Position: {x: 810, y: 20, z: 0}
+    m_Position: {x: -60, y: 900, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5530898247828198037}
-    m_Position: {x: -540, y: -130, z: 0}
+    m_Position: {x: -690, y: 10, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4491422241314533084}
-    m_Position: {x: -550, y: -20, z: 0}
+    m_Position: {x: -910, y: 80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7077965562761083448}
-    m_Position: {x: -540, y: 100, z: 0}
+    m_Position: {x: -910, y: 230, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2920991993671384976}
-    m_Position: {x: -505, y: 165, z: 0}
->>>>>>> origin/jacksonPolish
+    m_Position: {x: -800, y: 320, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 870, y: -110, z: 0}
-  m_EntryPosition: {x: 210, y: 180, z: 0}
-  m_ExitPosition: {x: 870, y: -70, z: 0}
+  m_AnyStatePosition: {x: 330, y: 0, z: 0}
+  m_EntryPosition: {x: -380, y: 420, z: 0}
+  m_ExitPosition: {x: 330, y: 40, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 2270857686627715576}
 --- !u!1101 &5522071489110013713
