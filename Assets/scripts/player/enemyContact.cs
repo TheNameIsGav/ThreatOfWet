@@ -110,7 +110,7 @@ public class enemyContact : MonoBehaviour
             PlayerUIScript.ScaleCombo(playerController.instance.comboCount);
             if(playerController.instance.comboTime >= (playerController.instance.comboBaseTime + exTime + (int)playerController.instance.itemVals[2]) - 25 || playerController.instance.comboTime < 25)
             {
-                playerController.instance.comboUp += 50;
+                playerController.instance.comboUp += 30;
             }
             else
             {

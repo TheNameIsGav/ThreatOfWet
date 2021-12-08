@@ -89,7 +89,7 @@ public class EnemyDefault : MonoBehaviour
             GameObject p = GameObject.Find("player");
             if (p != null)
             {
-                p.GetComponent<playerController>().ChangeHealth(val * .25f);
+                //p.GetComponent<playerController>().ChangeHealth(-1* val * .25f);
             }
         }
 
