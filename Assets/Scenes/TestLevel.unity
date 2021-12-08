@@ -32935,6 +32935,7 @@ GameObject:
   - component: {fileID: 1586485246}
   - component: {fileID: 1586485245}
   - component: {fileID: 1586485244}
+  - component: {fileID: 1586485248}
   m_Layer: 0
   m_Name: UI Display
   m_TagString: Untagged
@@ -33027,6 +33028,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!95 &1586485248
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1586485243}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0f4f3bc6cca469b4b881a998a261869d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!4 &1590539164 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7785612071807955990, guid: dea06f60d0305974f809f24b309b5a3f, type: 3}
