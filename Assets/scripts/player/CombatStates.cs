@@ -93,7 +93,6 @@ public class AttackState : State
         //playerController.instance.pSprite.color = new Color(1, 1, 1, 1);
         //playerController.instance.pSprite.color = Color.white;
         light = true;
-        Debug.Log("FUCKUGUGUGUGUGUG DREEEEW");
         playerController.instance.weaponHitbox.enabled = false;
         //playerController.instance.weaponHitbox.GetComponent<SpriteRenderer>().enabled = false;
         //playerController.instance.weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);

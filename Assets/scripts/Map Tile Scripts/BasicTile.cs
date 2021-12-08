@@ -9,9 +9,9 @@ public class BasicTile : MonoBehaviour
 
     protected virtual void Start()
     {
-        hitbox = GetComponent<Collider2D>();
+        hitbox = GetComponent<BoxCollider2D>();
         if (hitbox == null)
-            hitbox = this.gameObject.AddComponent<BoxCollider2D>();
+            hitbox = gameObject.AddComponent<BoxCollider2D>();
     }
 
     public virtual void updateBehavior(Collider2D col, Collider2D other, bool exitingCollider)

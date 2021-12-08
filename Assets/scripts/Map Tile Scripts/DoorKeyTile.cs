@@ -25,6 +25,9 @@ public class DoorKeyTile : BasicTile
             if (door == null)
             {
                 throw new System.Exception("Door Not Defined for Key {"+name+"}");
+            } else
+            {
+                Debug.Log(col.gameObject.name);
             }
         }
     }

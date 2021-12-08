@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5927603635577990357}
   - component: {fileID: 5927603635577990356}
   - component: {fileID: 5927603635577990359}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Back and Forth Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
