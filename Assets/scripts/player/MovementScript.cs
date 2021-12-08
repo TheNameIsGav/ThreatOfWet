@@ -97,6 +97,13 @@ public class IdleState : State
                     playerController.instance.transform.localScale = (new Vector3(.9f / (playerController.instance.transform.parent.transform.localScale.x),
                         1.1f / (playerController.instance.transform.parent.transform.localScale.y), 1f));
                 */
+                if (playerController.instance.wall)
+                {
+                    playerController.instance.grounded = false;
+                    Debug.Log("YOU GO HELL NWO");
+                    //playerController.instance.transform.position = new Vector2(playerController.instance.transform.position.x +(3* playerController.instance.dir), playerController.instance.transform.position.y);
+                    playerController.instance.rbs.velocity = new Vector2(playerController.instance.rbs.velocity.x - (playerController.instance.dir * 10f), playerController.instance.rbs.velocity.y * 1.5f);
+                }
                 playerController.instance.coyote = playerController.instance.universalBufferTime + 1;
             }
 
@@ -455,7 +462,7 @@ public class DashState : State
                 playerController.instance.transform.localScale = (new Vector3(.9f / (playerController.instance.transform.parent.transform.localScale.x),
                     1.1f / (playerController.instance.transform.parent.transform.localScale.y), 1f));
             */
-            if (hori == 0)
+            if (hori == 0 || hori != dashDirx)
             {
                 //stops momentum if no direction
                 ////Debug.Log.Log("FOE THR LOV E OF GOD");

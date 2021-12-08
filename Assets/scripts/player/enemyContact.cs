@@ -29,7 +29,7 @@ public class enemyContact : MonoBehaviour
             bool burn = false;
             float elemBoost = 1f;
             float heavyBoost = 1f;
-            if (playerController.instance != null)
+            if (playerController.instance != null && playerController.instance.attack.activeWeapon != null)
             {
                 if (playerController.instance.attack.activeWeapon.element == Element.FIRE)
                 {
@@ -110,7 +110,7 @@ public class enemyContact : MonoBehaviour
             PlayerUIScript.ScaleCombo(playerController.instance.comboCount);
             if(playerController.instance.comboTime >= (playerController.instance.comboBaseTime + exTime + (int)playerController.instance.itemVals[2]) - 25 || playerController.instance.comboTime < 25)
             {
-                playerController.instance.comboUp += 50;
+                playerController.instance.comboUp += 30;
             }
             else
             {

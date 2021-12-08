@@ -67,6 +67,7 @@ public class playerController : MonoBehaviour
     public float comboDown = 1f;
     public string comboGrade = "C";
     public int comboBaseTime = 100;
+    public bool wall = false;
     // attack speed, attack damage, scaling, lifesteal, hp, def, crit, dodge, drop
     //Debug.Log(meleeWeapon.lightActive);
     // meleeWeapon.lightActive;
@@ -234,25 +235,31 @@ public class playerController : MonoBehaviour
                 //weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
             }
             //THIS IS NOW BLOCK INPUT, WE LOVE TO SEE IT
-            else if (Input.GetKeyDown(inputs[9]) || Input.GetButtonDown("Light Range"))
-            {
-                //Debug.Log("lpldsdl");
-                //attackVal = 3;
-                //if (state != attack)
-                //{
-                //ChangeState(attack);
-                //}
-                //ChangeState(attack);
-
-                //magic number but only set here?
-                blockTime = 15;
-                block = true;
-
-            }
             else
             {
                 attackVal = 0;
             }
+        }
+        if (Input.GetKey(inputs[9]) || Input.GetButton("Light Range"))
+        {
+            //Debug.Log("lpldsdl");
+            //attackVal = 3;
+            //if (state != attack)
+            //{
+            //ChangeState(attack);
+            //}
+            //ChangeState(attack);
+
+            //magic number but only set here?
+            ChangeState(idle);
+            blockTime = 1;
+            block = true;
+
+        }
+        else
+        {
+            block = false;
+            blockTime = 0;
         }
         // this is also the button to pick up
         if ((Input.GetButtonDown("Interact") || Input.GetKeyDown(inputs[6])) && state != menu && (item || weapon))
@@ -277,14 +284,9 @@ public class playerController : MonoBehaviour
         {
             invuln = false;
         }
-        if(blockTime > 0 && state != attack)
+        if(blockTime > 0)
         {
-            blockTime--;
-        }
-        else
-        {
-            block = false;
-            blockTime = 0;
+            blockTime++;
         }
         if(comboTime > 0)
         {
@@ -350,11 +352,20 @@ public class playerController : MonoBehaviour
         }
         if (dir == -1)
         {
-            gameObject.GetComponent<SpriteRenderer>().flipX = true;
+            //gameObject.GetComponent<SpriteRenderer>().flipX = true;
+            if (transform.localScale.x < 0) { }
+            else
+            {
+                transform.localScale = new Vector3(-1 *transform.localScale.x, transform.localScale.y, transform.localScale.z);
+            }
         }
         else
         {
-            gameObject.GetComponent<SpriteRenderer>().flipX = false;
+            if (transform.localScale.x < 0)
+            {
+                transform.localScale = new Vector3(-1 *transform.localScale.x, transform.localScale.y, transform.localScale.z);
+            }
+            //gameObject.GetComponent<SpriteRenderer>().flipX = false;
         }
         if (rbs.velocity.y > 1f)
         {
@@ -366,13 +377,14 @@ public class playerController : MonoBehaviour
             //rbs.velocity = new Vector2(0f, rbs.velocity.y);
         }
         animator.SetFloat("Speed", Mathf.Abs(rbs.velocity.x));
+        animator.SetFloat("XVelocity", rbs.velocity.x);
         animator.SetFloat("YVelocity", rbs.velocity.y);
         animator.SetBool("Grounded", grounded);
         animator.SetBool("DashingState", state == dash);
         animator.SetBool("AttackState", state == attack);
         animator.SetInteger("AttackPhase", attack.phase);
-        //animator.SetBool("Blocking", block);
-        //animator.SetBool("Heavy", !attack.light);
+        animator.SetBool("Blocking", block);
+        animator.SetBool("Heavy", !attack.light);
         if (health < 0)
         {
             SceneManager.LoadScene("MainMenu");
@@ -453,12 +465,14 @@ public class playerController : MonoBehaviour
                         health += Mathf.Min(change + itemVals[5], 0f);
                         invuln = true;
                         invulCount = 25;
-                        comboDown += 100;
+                        comboDown += 150;
                     attack.ComboDrop();
                     }
-                    else if(attack.activeWeapon.element == Element.WATER && block && attack.early > 0)
+                    else if(attack.activeWeapon.element == Element.WATER && blockTime < 20)
                 {
                     comboTime = (int) (comboBaseTime + itemVals[2]);
+                    comboCount++;
+                    comboUp += 20;
                 }
 
                 }

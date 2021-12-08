@@ -8,6 +8,7 @@ public class AttackState : State
     public Weapon melee;
     public Weapon ranged;
     public Weapon activeWeapon;
+    public Sprite sword;
     private float startup;
     private float active;
     private float endlag;
@@ -44,8 +45,8 @@ public class AttackState : State
         //ranged = playerController.instance.rangedWeapon;
         phase = 0;
         count = 0;
-        playerController.instance.weaponHitbox.enabled = false;
-        
+        //playerController.instance.weaponHitbox.enabled = false;
+        playerController.instance.weaponHitbox.GetComponent<SpriteRenderer>().enabled = true;
         holdSpeed = playerController.instance.rbs.velocity.x;
         if (playerController.instance.comboTime < 1)
         {
@@ -61,16 +62,17 @@ public class AttackState : State
             playerController.instance.blockTime = 10;
 
         }
-        playerController.instance.weaponHitbox.transform.localScale = new Vector2(activeWeapon.hitboxWidth * Mathf.Sign(playerController.instance.dir) , activeWeapon.hitboxHeight);
+        playerController.instance.weaponHitbox.transform.localScale = new Vector2(activeWeapon.hitboxWidth /* * Mathf.Sign(playerController.instance.dir) */, activeWeapon.hitboxHeight);
         if(Mathf.Sign(playerController.instance.dir) < 0)
         {
-            //playerController.instance.weaponHitbox.flipX = true;
+           // playerController.instance.weaponHitbox.GetComponent<SpriteRenderer>().flipY = true;
             //playerController.instance.weaponHitbox.flipX = true;
             //playerController.instance.weaponHitbox.flipY = true;
             //playerController.instance.weaponHitbox.transform.localRotation *= Quaternion.Euler(180, 0, 0);
         }
         else
         {
+           // playerController.instance.weaponHitbox.GetComponent<SpriteRenderer>().flipY = false ;
             //playerController.instance.weaponHitbox.flipX = false;
             //playerController.instance.weaponHitbox.flipX = false;
         }
@@ -92,6 +94,7 @@ public class AttackState : State
         //playerController.instance.pSprite.color = Color.white;
         light = true;
         playerController.instance.weaponHitbox.enabled = false;
+        //playerController.instance.weaponHitbox.GetComponent<SpriteRenderer>().enabled = false;
         //playerController.instance.weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
         playerController.instance.rbs.gravityScale = playerController.instance.grav;
         playerController.instance.rbs.sharedMaterial = playerController.instance.go;
@@ -167,7 +170,7 @@ public class AttackState : State
                     phase++;
                     count = 0;
 
-                    playerController.instance.weaponHitbox.enabled = true;
+                    //playerController.instance.weaponHitbox.enabled = true;
                     //playerController.instance.weaponHitbox.transform.localScale = new Vector2(activeWeapon.hitboxWidth * Mathf.Sign(playerController.instance.dir), activeWeapon.hitboxHeight);
                 }
                 else
@@ -187,7 +190,7 @@ public class AttackState : State
                     phase++;
                     count = 0;
 
-                    playerController.instance.weaponHitbox.enabled = false;
+                    //playerController.instance.weaponHitbox.enabled = false;
                     //playerController.instance.weaponHitbox.transform.localScale = new Vector2(0.1f, .5f);
                 }
                 else
@@ -281,7 +284,7 @@ public class AttackState : State
         }
         else
         {
-            playerController.instance.weaponHitbox.sprite = playerController.instance.rangedSp;
+            playerController.instance.weaponHitbox.sprite = playerController.instance.meleeSp;
         }
     }
     public void ComboDrop()
