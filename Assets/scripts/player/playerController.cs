@@ -16,6 +16,7 @@ public class playerController : MonoBehaviour
     public IdleState idle = new IdleState();
     public MenuState menu = new MenuState();
     public AttackState attack = new AttackState();
+    public BlockState blockS = new BlockState();
     public PhysicsMaterial2D go;
     public PhysicsMaterial2D stop;
     //public static AttackState attack;
@@ -251,13 +252,14 @@ public class playerController : MonoBehaviour
             //ChangeState(attack);
 
             //magic number but only set here?
-            ChangeState(idle);
+            ChangeState(blockS);
             blockTime = 1;
             block = true;
 
         }
-        else
+        else if(state == blockS)
         {
+            ChangeState(idle);
             block = false;
             blockTime = 0;
         }
