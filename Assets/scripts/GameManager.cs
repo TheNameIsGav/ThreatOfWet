@@ -140,10 +140,11 @@ public class GameManager : MonoBehaviour
         }
         if (timeToSpawn <= 0)
         {
-            timeToSpawn = 10f + (20f * Mathf.Log10((difficulty + 5) / 4f));
+            timeToSpawn = 10f + (30f * Mathf.Log10((difficulty + 5) / 4f));
             Debug.Log("Time till Next Spawn: "+timeToSpawn);
             // Debug.Log();
-            SpawnHandler.instance.SpawnStuff(difficulty, Player);
+            if (SpawnHandler.instance != null)
+                SpawnHandler.instance.SpawnStuff(difficulty, Player);
         }
     }
 }

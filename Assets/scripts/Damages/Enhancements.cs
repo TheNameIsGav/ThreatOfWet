@@ -10,5 +10,7 @@ public enum Enhancements
     PIERCING, //Done
     SERRATED, //Done
     NECROTIC, //Done
+    UNBLOCK, //Done
+    CHARGE, //Done
     BIG //Done
 }

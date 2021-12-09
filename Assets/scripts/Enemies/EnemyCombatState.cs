@@ -13,9 +13,8 @@ public class EnemyCombatState : StateMachineBehaviour
         animator.SetBool("ShouldHunt", false);
         player = GameObject.Find("player");
         thisScript = animator.gameObject.GetComponent<EnemyDefault>();
-
-        animator.gameObject.GetComponent<EnemyDefault>().StartAttackCycle();
-        
+        //Debug.Log("Set attack cooldown to " + animator.GetFloat("AttackCooldown") + " seconds (ish)");
+        animator.SetFloat("AttackCooldown", animator.GetFloat("AttackCooldown") * 60);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -25,6 +24,10 @@ public class EnemyCombatState : StateMachineBehaviour
         {
             animator.SetBool("ShouldHunt", true);
             //Debug.Log("Transitioning to Hunt State");
+        } else
+        {
+            if (animator.GetFloat("AttackCooldown") == 0) { animator.Play("RaiseAttack", layerIndex, 1); }
+            else { animator.SetFloat("AttackCooldown", animator.GetFloat("AttackCooldown") - 1); }
         }
 
         if (animator.gameObject.GetComponent<EnemyDefault>().Die)
@@ -36,7 +39,7 @@ public class EnemyCombatState : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.gameObject.GetComponent<EnemyDefault>().StopAttackCycle();
+
     }
 
 

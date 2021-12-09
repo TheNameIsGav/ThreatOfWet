@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyDefault : MonoBehaviour
 {
@@ -39,6 +40,38 @@ public class EnemyDefault : MonoBehaviour
     public bool canCharge;
     public bool Charge { get { return canCharge; } set { canCharge = value; } }
 
+    Damage damEncap = new Damage(5);
+    public Damage Damage { get { return damEncap; } set { damEncap = value; } }
+
+    public void StartExclamationCountdown(float duration)
+    {
+        //Debug.Log("Duration " + duration);
+        StartCoroutine(startExclamationPrivate(duration));
+    }
+
+    IEnumerator startExclamationPrivate(float duration)
+    {
+        //Debug.Log("e");
+        GameObject a = transform.GetChild(0).transform.GetChild(2).gameObject;
+        if (a != null)
+        {
+            a.SetActive(true);
+            Image excl = a.GetComponent<Image>();
+            yield return new WaitForSeconds(duration / 3.33f);
+            excl.color = Color.magenta;
+            yield return new WaitForSeconds(duration / 3.33f);
+            excl.color = Color.red;
+            yield return new WaitForSeconds(duration / 3.33f);
+            a.SetActive(false);
+            excl.color = Color.yellow;
+        }
+        else
+        {
+            yield return new WaitForSeconds(duration);
+        }
+
+    }
+
     /// <summary>
     /// Takes in a positive float and subtracts that value from the enemies health
     /// </summary>
@@ -56,7 +89,7 @@ public class EnemyDefault : MonoBehaviour
             GameObject p = GameObject.Find("player");
             if (p != null)
             {
-                p.GetComponent<playerController>().ChangeHealth(val * .25f);
+                //p.GetComponent<playerController>().ChangeHealth(-1* val * .25f);
             }
         }
 
@@ -79,7 +112,7 @@ public class EnemyDefault : MonoBehaviour
         }
     }
 
-    public float shouldAttack()
+    void GenerateDamage()
     {
         Damage d = new Damage(baseDamage);
 
@@ -96,71 +129,46 @@ public class EnemyDefault : MonoBehaviour
         if (enhance.Contains(Enhancements.PIERCING))
         {
             d.Crit = true;
-            d.CritDam = .5f;
-            d.CritPercent = 75;
+            d.CritDam = .25f;
+            d.CritPercent = 25;
         }
 
-        return d.getDamage();
+        if (enhance.Contains(Enhancements.UNBLOCK))
+        {
+            d.Heavy = true;
+        }
+
+        if (enhance.Contains(Enhancements.CHARGE))
+        {
+            d.Charge = true;
+        }
+
+        damEncap = d;
     }
 
-    bool InRange()
+    public float shouldAttack()
+    {
+        if (damEncap.Heavy)
+        {
+            playerController.instance.block = false;
+        }
+
+        return damEncap.getDamage();
+    }
+
+    public bool InRange()
     {
         GameObject p = GameObject.Find("player");
 
         //theoretically checks to see if we can attack the player with a favor towards horizontal angles.
-        if(Mathf.Abs(p.transform.position.x - transform.position.x) <= attackRange && Mathf.Abs(p.transform.position.y - transform.position.y) <= attackRange/2) {
+        if((Mathf.Abs(p.transform.position.x - transform.position.x) <= attackRange && Mathf.Abs(p.transform.position.y - transform.position.y) <= attackRange/2) 
+            ||
+            (enhance.Contains(Enhancements.CHARGE) && Mathf.Abs(p.transform.position.x - transform.position.x) <= attackRange*3 && Mathf.Abs(p.transform.position.y - transform.position.y) <= attackRange / 2)) {
             return true;
         }
         return false;
     }
 
-    public void flashExclamation(Color color)
-    {
-        GetComponent<SpriteRenderer>().color = color;
-    }
-
-    IEnumerator EnemyAttack()
-    {
-        Debug.Log("Entering into attack method");
-        //Alert Color
-        if (canCharge && UnityEngine.Random.Range(0, 1) <= .33f) //If this enemy can charge attack
-        {
-            flashExclamation(Color.yellow);
-        }
-        else if (canHeavy && UnityEngine.Random.Range(0, 1) <= .33f) //If this enemy can heavy attack
-        {
-            flashExclamation(Color.magenta);
-        }
-        else //We normal attack
-        {
-            flashExclamation(Color.red);
-        }
-        yield return new WaitForSeconds(attackSpeed);
-
-        //Make Attack
-        if (InRange())
-        {
-            GameObject.Find("player").GetComponent<playerController>().ChangeHealth(-1f * shouldAttack());            
-        }
-        flashExclamation(Color.white);
-        yield return new WaitForSeconds(UnityEngine.Random.Range(5f, 10f));
-        StartCoroutine(EnemyAttack());
-    }
-
-    bool shouldStartAttacking = true;
-    public void StartAttackCycle()
-    {
-        Debug.Log("starting attack cycle");
-        if(shouldStartAttacking) StartCoroutine(EnemyAttack());
-        shouldStartAttacking = false;
-    }
-
-    public void StopAttackCycle()
-    {
-        Debug.Log("stopping attack cycle");
-        StopCoroutine(EnemyAttack());
-        shouldStartAttacking = true;
-    }
 
     //y = log_{b}x - 2 //Plug this into desmos to play with it
     private void GenerateEnhancements(float difficulty)
@@ -168,9 +176,9 @@ public class EnemyDefault : MonoBehaviour
         //Calculates the correct number of enhancements to generate onto this enemy
         //2.56 is the offset so that we can never have a negative number of enhancements
         difficulty = Mathf.Max(2.56f, difficulty);
-        int num = Mathf.Min(Mathf.RoundToInt(Mathf.Log(difficulty, 1.6f) - 2), 7);
+        int num = Mathf.Min(Mathf.RoundToInt(Mathf.Log(difficulty, 1.6f) - 2), 9);
         List<Enhancements> t = new List<Enhancements>();
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < 9; i++)
         {
             t.Add((Enhancements)i);
         }
@@ -205,6 +213,12 @@ public class EnemyDefault : MonoBehaviour
                 case Enhancements.BIG:
                     eName = "Healthy " + eName;
                     break;
+                case Enhancements.UNBLOCK:
+                    eName = "Unblockable " + eName;
+                    break;
+                case Enhancements.CHARGE:
+                    eName = "Charging " + eName;
+                    break;
             }
         }
     }
@@ -216,6 +230,7 @@ public class EnemyDefault : MonoBehaviour
     /// <param name="difficulty"></param>
     public void Spawn(Vector2 position, float difficulty) {
         GenerateEnhancements(difficulty);
+        GenerateDamage();
         spawnDifficulty = difficulty;
         if (enhance.Contains(Enhancements.BIG))
         {

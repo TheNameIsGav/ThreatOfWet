@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af7181f404f1447c0a7a17b3070b952b, type: 3}
+  m_Name: SpriteShapeProfileTerrain
+  m_EditorClassIdentifier: 
+  m_Angles:
+  - m_Start: -170
+    m_End: -10
+    m_Order: 0
+    m_Sprites:
+    - {fileID: 21300000, guid: 79a892a81b417da4bad957d08bacdf10, type: 3}
+  - m_Start: -10
+    m_End: 10
+    m_Order: 0
+    m_Sprites:
+    - {fileID: 21300000, guid: 296f58a1117791c42bc513977bec30ae, type: 3}
+  - m_Start: -190
+    m_End: -170
+    m_Order: 0
+    m_Sprites:
+    - {fileID: 21300000, guid: 79a892a81b417da4bad957d08bacdf10, type: 3}
+  - m_Start: 10
+    m_End: 170
+    m_Order: 0
+    m_Sprites:
+    - {fileID: 21300000, guid: 79a892a81b417da4bad957d08bacdf10, type: 3}
+  m_FillTexture: {fileID: 2800000, guid: 08bbe7a1ce1f8b64da00f02ee1a3aeb6, type: 3}
+  m_CornerSprites:
+  - m_CornerType: 0
+    m_Sprites:
+    - {fileID: 21300000, guid: 947ad39bdd5e3ac43a4fa6fc38f3b2bb, type: 3}
+  - m_CornerType: 1
+    m_Sprites:
+    - {fileID: 21300000, guid: 091373261ebd79347b3a6e8bbf33d352, type: 3}
+  - m_CornerType: 2
+    m_Sprites:
+    - {fileID: 21300000, guid: 9f9b4aa5c6a79824c8b6c885f3ccea69, type: 3}
+  - m_CornerType: 3
+    m_Sprites:
+    - {fileID: 21300000, guid: 879e3b778e8a68348abaee2a789b44f5, type: 3}
+  - m_CornerType: 4
+    m_Sprites:
+    - {fileID: 21300000, guid: 09099918e2c133b44b82d73acbe6ef1b, type: 3}
+  - m_CornerType: 5
+    m_Sprites:
+    - {fileID: 21300000, guid: 91cdd7fd58ad76346b3e03b1f1bdcaeb, type: 3}
+  - m_CornerType: 6
+    m_Sprites:
+    - {fileID: 21300000, guid: 7900bc0a6781c6646b3dddb48295467e, type: 3}
+  - m_CornerType: 7
+    m_Sprites:
+    - {fileID: 21300000, guid: 31c5ba236ceffeb4c8d0bedac5cfb9ad, type: 3}
+  m_FillOffset: 0
+  m_UseSpriteBorders: 1
