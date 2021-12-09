@@ -190,7 +190,7 @@ public class playerController : MonoBehaviour
          }
          */
         //this is the check for starting a dash
-        if ((Input.GetKeyDown(inputs[5]) || dashBuffer >= 0 || Input.GetButtonDown("Dash")) && canDash)
+        if ((Input.GetKeyDown(inputs[5]) || dashBuffer >= 0 || Input.GetButtonDown("Dash")) && canDash && state != menu)
         {
             //state = new DashState();
             ChangeState(dash);
@@ -202,14 +202,14 @@ public class playerController : MonoBehaviour
             dashBuffer = -1;
             //transform.localScale = new Vector3(1f, 0.5f, 1f);
         }
-        else if (Input.GetKeyDown(inputs[5]) || Input.GetButtonDown("Dash"))
+        else if (state != menu && (Input.GetKeyDown(inputs[5]) || Input.GetButtonDown("Dash")))
         {
             dashBuffer = universalBufferTime;
         }
         //how to get a light melee input
-        if (state != attack || attack.phase >= 1)
+        if (state != menu && (state != attack || attack.phase >= 1))
         {
-            if (Input.GetKeyDown(inputs[7]) || Input.GetButtonDown("Light Melee"))
+            if (Input.GetKeyDown(inputs[7]) || Input.GetAxis("Heavy Melee") > 0)
             {
                 //Debug.Log("lpldsdl");
                 attackVal = 1;
@@ -222,7 +222,7 @@ public class playerController : MonoBehaviour
                 //weaponHitbox.transform.localScale = new Vector2(meleeWeapon.hitboxWidth * Mathf.Sign(rbs.velocity.x), meleeWeapon.hitboxHeight);
             }
             // how to get a heavy melee input
-            else if (Input.GetKeyDown(inputs[8]) || Input.GetAxis("Heavy Melee") > 0)
+            else if (Input.GetKeyDown(inputs[8]) || Input.GetAxis("Heavy Range") > 0)
             {
                 //Debug.Log("lpldsdl");
                 attackVal = 2;
@@ -240,7 +240,7 @@ public class playerController : MonoBehaviour
                 attackVal = 0;
             }
         }
-        if (Input.GetKey(inputs[9]) || Input.GetButton("Light Range"))
+        if (state != menu && (Input.GetKey(inputs[9]) || Input.GetButton("Light Range")))
         {
             //Debug.Log("lpldsdl");
             //attackVal = 3;
