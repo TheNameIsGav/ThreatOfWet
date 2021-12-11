@@ -637,3 +637,42 @@ public class MenuState : State
 
     }
 }
+
+public class DeathState : State
+{
+    float depth = 0f;
+    public DeathState()
+    {
+
+    }
+    public override void OnEnter()
+    {
+        SceneManager.LoadScene("deathScene", LoadSceneMode.Additive);
+    }
+    public override void OnExit()
+    {
+
+    }
+    public override void Update()
+    {
+        if(depth >= 1.3 && Input.anyKey)
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
+    }
+    public override void StateUpdate()
+    {
+        depth += 0.02f;
+        if (GameObject.Find("fade") != null)
+        {
+            Color tmp = GameObject.Find("fade").GetComponent<SpriteRenderer>().color;
+            tmp.a = depth;
+            GameObject.Find("fade").GetComponent<SpriteRenderer>().color = tmp;
+        }
+    }
+    public override void JumpTrigger()
+    {
+
+    }
+
+}
