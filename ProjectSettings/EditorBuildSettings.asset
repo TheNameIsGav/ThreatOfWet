@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/WrightTutorialLevel.unity
     guid: 3e4ea36fac5c1044fa0ccd338b6ee8ea
+  - enabled: 1
+    path: Assets/Scenes/deathScene.unity
+    guid: 4da0e0ca69b980d42893ef6998efde61
   m_configObjects: {}

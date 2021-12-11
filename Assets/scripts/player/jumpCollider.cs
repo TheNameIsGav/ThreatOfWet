@@ -34,26 +34,16 @@ public class jumpCollider : MonoBehaviour
             playerController.instance.activeChest = collision.gameObject;
         }
         //Debug.Log(collision.GetType().ToString());
-            if (!collision.gameObject.CompareTag("Slippery") && collision.GetType().ToString() == "UnityEngine.BoxCollider2D")
+        if (!collision.gameObject.CompareTag("Slippery"))
+        {
+            playerController.instance.grounded = true;
+            playerController.instance.coyote = playerController.instance.universalBufferTime + 1;
+            if (!playerController.instance.wall)
             {
-                if (collision.gameObject.transform.position.y - ((collision.gameObject.GetComponent<BoxCollider2D>().size.y / 2) /* * Mathf.Sign(collision.gameObject.transform.position.y)*/) < (playerController.instance.transform.position.y + ((playerController.instance.transform.localScale.y / 2) /* * Mathf.Sign(playerController.instance.transform.position.y)*/)))
-                {
-                    playerController.instance.grounded = true;
-                    playerController.instance.coyote = playerController.instance.universalBufferTime + 1;
-                    //playerController.instance.state.shortHop = 0;
-                    if (playerController.instance.state != playerController.instance.dash && playerController.instance.rbs.velocity.y < 1f && !(((playerController.instance.transform.position.x /*+ (playerController.instance.transform.localScale.x / 2)*/) <= (collision.gameObject.transform.position.x - (Mathf.Sign(collision.gameObject.transform.position.x) * collision.gameObject.GetComponent<BoxCollider2D>().size.x / 2))) || ((playerController.instance.transform.position.x /*- (playerController.instance.transform.localScale.x / 2)*/) >= (collision.gameObject.transform.position.x + (collision.gameObject.GetComponent<BoxCollider2D>().size.x / 2)))))
-                    {
-                    //Debug.Log("fucking aasdasdasd");
-                    playerController.instance.wall = false;
-                        playerController.instance.canDash = true;
-                    }
-                else
-                {
-                    playerController.instance.wall = true;
-                }
+                playerController.instance.canDash = true;
             }
-            }
-        
+        }
+
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -93,35 +83,15 @@ public class jumpCollider : MonoBehaviour
             playerController.instance.activeChest = collision.gameObject;
         }
 
-            if (!collision.gameObject.CompareTag("Slippery") && collision.GetType().ToString() == "UnityEngine.BoxCollider2D")
+            if (!collision.gameObject.CompareTag("Slippery"))
             {
-                if (collision.gameObject.transform.position.y - ((collision.gameObject.GetComponent<BoxCollider2D>().size.y / 2) /* *Mathf.Sign(collision.gameObject.transform.position.y)*/) < (playerController.instance.transform.position.y + ((playerController.instance.transform.localScale.y / 2)/* * Mathf.Sign(playerController.instance.transform.position.y)*/)))
+                playerController.instance.grounded = true;
+                 playerController.instance.coyote = playerController.instance.universalBufferTime + 1;
+                if (!playerController.instance.wall)
                 {
-                    playerController.instance.grounded = true;
-                    playerController.instance.coyote = playerController.instance.universalBufferTime + 1;
-                    //playerController.instance.state.shortHop = 0;
-                    //Debug.Log((playerController.instance.transform.position.x).ToString() + " lt " + (collision.gameObject.transform.position.x - (collision.gameObject.transform.localScale.x / 2)).ToString() + " " + (playerController.instance.transform.position.x).ToString() + " gt " + (collision.gameObject.transform.position.x + (collision.gameObject.transform.localScale.x / 2)).ToString());
-                    //Debug.Log((!((playerController.instance.transform.position.x /*+ (playerController.instance.transform.localScale.x / 2)*/) <= (collision.gameObject.transform.position.x - (collision.gameObject.transform.localScale.x / 2))) || ((playerController.instance.transform.position.x /*- (playerController.instance.transform.localScale.x / 2)*/) >= (collision.gameObject.transform.position.x + (collision.gameObject.transform.localScale.x / 2)))));
-                    if (playerController.instance.state != playerController.instance.dash && playerController.instance.rbs.velocity.y < 1f && !(((playerController.instance.transform.position.x /*+ (playerController.instance.transform.localScale.x / 2)*/) <= (collision.gameObject.transform.position.x - (collision.gameObject.GetComponent<BoxCollider2D>().size.x / 2))) || ((playerController.instance.transform.position.x /*- (playerController.instance.transform.localScale.x / 2)*/) >= (collision.gameObject.transform.position.x + (collision.gameObject.GetComponent<BoxCollider2D>().size.x / 2)))))
-                    {
-                        //Debug.Log((playerController.instance.transform.position.x ).ToString() + " lt " + (collision.gameObject.transform.position.x - (collision.gameObject.transform.localScale.x / 2)).ToString() + " " + (playerController.instance.transform.position.x ).ToString() + " gt " + (collision.gameObject.transform.position.x + (collision.gameObject.transform.localScale.x / 2)).ToString());
-                        //Debug.Log((!((playerController.instance.transform.position.x /*+ (playerController.instance.transform.localScale.x / 2)*/) <= (collision.gameObject.transform.position.x - (collision.gameObject.transform.localScale.x / 2))) || ((playerController.instance.transform.position.x /*- (playerController.instance.transform.localScale.x / 2)*/) >= (collision.gameObject.transform.position.x + (collision.gameObject.transform.localScale.x / 2)))));
-                        //Debug.Log("tpggled");
                         playerController.instance.canDash = true;
-                    playerController.instance.wall = false;
-                }
-                else
-                {
-                    playerController.instance.wall = true;
-                    //playerController.instance.rbs.velocity = new Vector2(playerController.instance.rbs.velocity.x - (playerController.instance.dir * 15f), playerController.instance.rbs.velocity.y);
-                }
                 }
             }
-             else if (!collision.gameObject.CompareTag("Slippery"))
-        {
-            playerController.instance.grounded = true;
-            playerController.instance.coyote = playerController.instance.universalBufferTime + 1;
-        }
 
     }
 }

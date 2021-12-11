@@ -17,6 +17,7 @@ public class playerController : MonoBehaviour
     public MenuState menu = new MenuState();
     public AttackState attack = new AttackState();
     public BlockState blockS = new BlockState();
+    public DeathState death = new DeathState();
     public PhysicsMaterial2D go;
     public PhysicsMaterial2D stop;
     //public static AttackState attack;
@@ -386,31 +387,37 @@ public class playerController : MonoBehaviour
         animator.SetInteger("AttackPhase", attack.phase);
         animator.SetBool("Blocking", block);
         animator.SetBool("Heavy", !attack.light);
+
+
         if (health < 0)
         {
-            SceneManager.LoadScene("MainMenu");
+            if (state != death)
+            {
+                ChangeState(death);
+            }
         }
     }
 
     public void ChangeState(State newState)
     {
-      
-        if (newState != menu)
-        {
-            if (block && state != menu)
+        if (state != death) { 
+            if (newState != menu)
             {
-                block = false;
-                blockTime = 0;
+                if (block && state != menu)
+                {
+                    block = false;
+                    blockTime = 0;
+                }
+                //Debug.Log("call exit");
+                state.OnExit();
             }
-            //Debug.Log("call exit");
-            state.OnExit();
-        }
-        oldState = state;
-        state = newState;
-        if (oldState != menu)
-        {
-            //Debug.Log("call enter");
-            state.OnEnter();
+            oldState = state;
+            state = newState;
+            if (oldState != menu)
+            {
+                //Debug.Log("call enter");
+                state.OnEnter();
+            }
         }
     }
 
