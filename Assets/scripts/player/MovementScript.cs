@@ -500,3 +500,34 @@ public class DashState : State
     }
     public override void JumpTrigger() { }
 }
+
+public class BlockState : State
+{
+    public BlockState()
+    {
+
+    }
+    public override void OnEnter()
+    {
+        playerController.instance.rbs.gravityScale = playerController.instance.grav;
+        playerController.instance.rbs.sharedMaterial = playerController.instance.stop;
+    }
+    public override void OnExit()
+    {
+        playerController.instance.rbs.gravityScale = playerController.instance.grav;
+        playerController.instance.rbs.sharedMaterial = playerController.instance.go;
+    }
+    public override void Update()
+    {
+
+    }
+    public override void StateUpdate()
+    {
+        
+    }
+    public override void JumpTrigger()
+    {
+        
+    }
+
+}
