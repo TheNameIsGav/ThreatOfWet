@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: fakeBlock
+  m_Name: PlayerBlock
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,7 +20,7 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: -4610146067293017151, guid: 00f4651e43ab45c4489d5d47cc8e7847, type: 3}
+      value: {fileID: 21300000, guid: e51ed12b23eb4244f827d2d7c29b6bbf, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -40,7 +40,7 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: -4610146067293017151, guid: 00f4651e43ab45c4489d5d47cc8e7847, type: 3}
+    - {fileID: 21300000, guid: e51ed12b23eb4244f827d2d7c29b6bbf, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
