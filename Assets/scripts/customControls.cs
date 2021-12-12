@@ -17,6 +17,7 @@ public class customControls : MonoBehaviour
 
     public Weapon pMelee = new StarterSword();
     public Weapon pRange = new StarterGun();
+    public bool techDash = true;
 
     public float[] pItems = new float[] { 0f, 0f, 0f, 0f, 0f, 0f, 10f, 0f, 35f };
     //float hjj = Input.GetAxis("Joystick1Axis1");

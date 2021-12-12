@@ -86,6 +86,7 @@ public class playerController : MonoBehaviour
             itemVals = customControls.instance.pItems;
             meleeWeapon = customControls.instance.pMelee;
             rangedWeapon = customControls.instance.pRange;
+            nDash = customControls.instance.techDash;
         }
         else
         {
@@ -93,6 +94,7 @@ public class playerController : MonoBehaviour
             itemVals = new float[] { 0f, 0f, 0f, 0f, 0f, 0f, 10f, 0f, 35f };
             meleeWeapon = new StarterSword();
             rangedWeapon = new StarterGun();
+            nDash = true;
 
             // (up , down, left, right, jump, dash, interact, light melee, heavy melee, light range, heavy range)
         }
