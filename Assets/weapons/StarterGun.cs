@@ -22,10 +22,4 @@ public class StarterGun : Weapon
 
         damageBase = 10f;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

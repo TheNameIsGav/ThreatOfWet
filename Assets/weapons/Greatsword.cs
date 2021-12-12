@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WarHammer : Weapon
+public class Greatsword : Weapon
 {
-    public WarHammer()
+    public Greatsword()
     {
         name = "War Hammer";
         desciption = "stop, hammer time";
@@ -22,5 +22,4 @@ public class WarHammer : Weapon
 
         damageBase = 70f;
     }
-
 }

@@ -22,10 +22,4 @@ public class Shotgun : Weapon
 
         damageBase = 70f;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

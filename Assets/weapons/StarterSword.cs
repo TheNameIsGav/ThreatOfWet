@@ -43,10 +43,4 @@ public class StarterSword : Weapon
         heavyEndlag = 20;
         element = Element.DEFAULT;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

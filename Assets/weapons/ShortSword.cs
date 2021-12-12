@@ -20,10 +20,4 @@ public class ShortSword : Weapon
         heavyActive = 10;
         heavyEndlag = 12;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

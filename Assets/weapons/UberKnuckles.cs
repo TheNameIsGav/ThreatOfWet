@@ -22,10 +22,4 @@ public class UberKnuckles : Weapon
 
         damageBase = 25f;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }
