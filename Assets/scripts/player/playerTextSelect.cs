@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class playerTextSelect : MonoBehaviour
 {
     public Text tx;
+    public Image im;
     public int index;
     // Start is called before the first frame update
     void Start()
@@ -17,11 +18,11 @@ public class playerTextSelect : MonoBehaviour
     {
         if (playerController.instance.menu.index == index)
         {
-            tx.enabled = true;
+            im.enabled = true;
         }
         else
         {
-            tx.enabled = false;
+            im.enabled = false;
         }
     }
 }
