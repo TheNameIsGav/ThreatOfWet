@@ -17,17 +17,17 @@ public class wallCollider : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("there is wall");
+       // Debug.Log("there is wall");
         playerController.instance.wall = true;
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        Debug.Log("still wal");
+        //Debug.Log("still wal");
         playerController.instance.wall = true;
     }
     private void OnTriggerExit2D(Collider2D other)
     {
-        Debug.Log("there is no wall");
+        //Debug.Log("there is no wall");
         playerController.instance.wall = false;
     }
 }

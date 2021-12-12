@@ -23,9 +23,4 @@ public class ArmBlade : Weapon
         damageBase = 30f;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

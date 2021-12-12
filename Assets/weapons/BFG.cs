@@ -21,11 +21,6 @@ public class BFG : Weapon
         heavyEndlag = 60;
 
         damageBase = 200f;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
 
     }
 }

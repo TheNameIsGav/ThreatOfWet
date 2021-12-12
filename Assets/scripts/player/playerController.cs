@@ -70,6 +70,10 @@ public class playerController : MonoBehaviour
     public string comboGrade = "C";
     public int comboBaseTime = 100;
     public bool wall = false;
+
+    //Gav
+    [SerializeField]
+    public Sprite[] weaponSprites;
     // attack speed, attack damage, scaling, lifesteal, hp, def, crit, dodge, drop
     //Debug.Log(meleeWeapon.lightActive);
     // meleeWeapon.lightActive;

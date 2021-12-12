@@ -5,15 +5,6 @@ using UnityEngine.UI;
 
 public class PlayerUIScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-
-    /*    [SerializeField]
-        private Image[] comboPeices;
-
-        [SerializeField]
-        private Sprite[] comboTiles;
-    */
-
     private static Text comboText;
 
     private void Awake()
@@ -39,71 +30,40 @@ public class PlayerUIScript : MonoBehaviour
         HealthBar.SetHealthBarValue(currentHealth / maxHealth);
     }
 
-    private void ShakeCombo()
-    {
-        Debug.Log("Shaking");
-        IEnumerator coroutine;
-        coroutine = Shaky(.5f);
-        StartCoroutine(coroutine);
-    }
-
-    private IEnumerator Shaky(float duration)
-    {
-        float shareOffset = 0f;
-        for(float i = 0; i <= duration; i+= .01f)
-        {
-            shareOffset = Random.Range(-1f, 1f);
-            //GameObject.Find("ComboContainer").transform.localPosition += new Vector3(shareOffset, shareOffset, 0);
-            yield return new WaitForSeconds(.01f);
-        }
-        //GameObject.Find("ComboContainer").transform.localPosition = Vector3.zero;
-    }
-
     public static void ScaleCombo(int comboCount)
     {
-        ParticleSystemController.scaleSystem(comboCount);
+        //ParticleSystemController.scaleSystem(comboCount);
         if (playerController.instance != null) {
             comboText.text = comboCount.ToString() + "   " + playerController.instance.comboGrade;
         }
     }
 
-
-    /*public void AdjustComboCounter(int currentCount, int comboType)
+    public static void UpdateWeaponSprite(Sprite wep, Element elem)
     {
-        Debug.Log(currentCount);
-        switch (currentCount){
-            case -3: //3 electric unfilled, 1 normal unfilled
-                comboPeices[0].sprite = comboTiles[2];
-                comboPeices[1].sprite = comboTiles[2];
-                comboPeices[2].sprite = comboTiles[2];
-                comboPeices[3].sprite = comboTiles[0];
+
+        GameObject target = GameObject.Find("WeaponImage");
+
+        target.GetComponent<RawImage>().texture = wep.texture;
+        target.GetComponent<RawImage>().SetNativeSize();
+
+        GameObject background = GameObject.Find("WeaponBackground");
+        Debug.Log(elem);
+        switch (elem){
+            case Element.WATER:
+                background.GetComponent<Image>().color = Color.blue;
                 break;
-            case -2: //1 electric filled, 2 electric unfilled, 1 normal unfilled
-                comboPeices[0].sprite = comboTiles[3];
+            case Element.GROUND:
+                background.GetComponent<Image>().color = Color.green;
                 break;
-            case -1: //2 electric filled, 1 electric unfilled, 1 normal unfilled
-                comboPeices[1].sprite = comboTiles[3];
+            case Element.ELECTRIC:
+                background.GetComponent<Image>().color = Color.yellow;
                 break;
-            case 0:
-                // Restart combo, add functionality to see if we need to display electric before resetting -- add additional switch to determine shattered combo (1), electric combo (2) , or normal combo (0)
-                comboPeices[0].sprite = comboTiles[0];
-                comboPeices[1].sprite = comboTiles[0];
-                comboPeices[2].sprite = comboTiles[0];
-                comboPeices[3].sprite = comboTiles[0];
-                if (comboType  == 1) { ShakeCombo(); }
+            case Element.FIRE:
+                background.GetComponent<Image>().color = Color.red;
                 break;
-            case 1:
-                comboPeices[0].sprite = comboTiles[1];
-                break;
-            case 2:
-                comboPeices[1].sprite = comboTiles[1];
-                break;
-            case 3:
-                comboPeices[2].sprite = comboTiles[1];
-                break;
-            case 4:
-                comboPeices[3].sprite = comboTiles[1];
+            case Element.DEFAULT:
+                background.GetComponent<Image>().color = Color.white;
                 break;
         }
-    }*/
+    }
 }
