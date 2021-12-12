@@ -237,6 +237,9 @@ public class AttackState : State
             active = melee.lightActive;
             endlag = melee.lightEndlag;
             activeWeapon = melee;
+
+            //Gav's Weapon Audio
+            GameObject.Find("weaponHitbox").GetComponent<weaponAudio>().SetAndPlaySound(playerController.instance.weaponInt, true);
         }
         //heavy melee
         else if (playerController.instance.attackVal == 2)
@@ -246,6 +249,9 @@ public class AttackState : State
             active = melee.heavyActive;
             endlag = melee.heavyEndlag;
             activeWeapon = melee;
+
+            //Gav's Weapon Audio
+            GameObject.Find("weaponHitbox").GetComponent<weaponAudio>().SetAndPlaySound(playerController.instance.weaponInt, false);
         }
         if(buttons.Count >= 2)
         {
@@ -286,6 +292,9 @@ public class AttackState : State
         {
             playerController.instance.weaponHitbox.sprite = playerController.instance.meleeSp;
         }
+
+        
+
     }
     public void ComboDrop()
     {
@@ -634,10 +643,12 @@ public class MenuState : State
                         //Gav Changes
                         //Debug.Log(playerController.instance.meleeWeapon.element);
                         //Debug.Log(playerController.instance.weaponSprites[weaponPos]);
-                        //Sets the sprite of the melee weapon
+                        //Sets the sprite of the melee weapon & the position of the weapon in the weaponList
+                        playerController.instance.weaponInt = weaponPos;
                         playerController.instance.meleeSp = playerController.instance.weaponSprites[weaponPos];
                         //Changes the player UI to have the right weapon
                         PlayerUIScript.UpdateWeaponSprite(playerController.instance.weaponSprites[weaponPos], weaponList[weaponPos].element);
+                        
                     }
                 }
                 

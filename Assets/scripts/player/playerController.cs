@@ -74,6 +74,21 @@ public class playerController : MonoBehaviour
     //Gav
     [SerializeField]
     public Sprite[] weaponSprites;
+    public int weaponInt = 0;
+
+    [SerializeField]
+    public AudioClip playerRun;
+    [SerializeField]
+    public AudioClip playerDie;
+    [SerializeField]
+    public AudioClip playerDash;
+    [SerializeField]
+    public AudioClip playerJump;
+
+
+
+
+
     // attack speed, attack damage, scaling, lifesteal, hp, def, crit, dodge, drop
     //Debug.Log(meleeWeapon.lightActive);
     // meleeWeapon.lightActive;

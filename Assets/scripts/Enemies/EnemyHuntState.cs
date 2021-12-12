@@ -19,6 +19,12 @@ public class EnemyHuntState : StateMachineBehaviour
         //Debug.Log(target);
         pathingTo = target;
         animator.SetFloat("AttackCooldown", 0);
+
+
+        animator.gameObject.GetComponent<AudioSource>().clip = animator.gameObject.GetComponent<EnemyDefault>().run;
+        animator.gameObject.GetComponent<AudioSource>().loop = true;
+        animator.gameObject.GetComponent<AudioSource>().Play();
+
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -51,10 +57,11 @@ public class EnemyHuntState : StateMachineBehaviour
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-        
-    //}
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        animator.gameObject.GetComponent<AudioSource>().loop = false;
+        animator.gameObject.GetComponent<AudioSource>().Stop();
+    }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
     /*override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

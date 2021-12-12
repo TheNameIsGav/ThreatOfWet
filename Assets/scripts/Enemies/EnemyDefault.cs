@@ -43,6 +43,12 @@ public class EnemyDefault : MonoBehaviour
     Damage damEncap = new Damage(5);
     public Damage Damage { get { return damEncap; } set { damEncap = value; } }
 
+    [SerializeField]
+    public AudioClip run;
+
+    [SerializeField]
+    AudioClip attack;
+
     public void StartExclamationCountdown(float duration)
     {
         //Debug.Log("Duration " + duration);
@@ -60,8 +66,17 @@ public class EnemyDefault : MonoBehaviour
             yield return new WaitForSeconds(duration / 3.33f);
             excl.color = Color.magenta;
             yield return new WaitForSeconds(duration / 3.33f);
+
+            //Audio Stuff
+            gameObject.GetComponent<AudioSource>().clip = attack;
+            gameObject.GetComponent<AudioSource>().Play();
+            //
+
             excl.color = Color.red;
             yield return new WaitForSeconds(duration / 3.33f);
+
+           
+
             a.SetActive(false);
             excl.color = Color.yellow;
         }
@@ -79,10 +94,6 @@ public class EnemyDefault : MonoBehaviour
     public void TakeDamage(Damage dam)
     {
         float val = dam.getDamage();
-        if (enhance.Contains(Enhancements.SHIELDED) && dam.Ranged)
-        {
-            return;
-        }
 
         if (enhance.Contains(Enhancements.SPIKY))
         {
@@ -230,7 +241,6 @@ public class EnemyDefault : MonoBehaviour
     /// <param name="difficulty"></param>
     public void Spawn(Vector2 position, float difficulty) {
         GenerateEnhancements(difficulty);
-        GenerateDamage();
         spawnDifficulty = difficulty;
         if (enhance.Contains(Enhancements.BIG))
         {
@@ -239,8 +249,15 @@ public class EnemyDefault : MonoBehaviour
         }
         health = maxHealth;
         transform.GetChild(0).GetComponent<EnemyNameGenerator>().GenerateEnemyName(eName);
+        
 
         transform.position = position;
+    }
+
+    private void Start()
+    {
+        GenerateDamage();
+        Debug.Log(damEncap.getDamage());
     }
 
 }
