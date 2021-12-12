@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class MainMenuButtonController : MonoBehaviour
 {
     public Toggle tutorialToggle;
+    public Image tutorialSelected;
     public void PlayGame()
     {
         if (tutorialToggle.isOn)
@@ -29,10 +30,12 @@ public class MainMenuButtonController : MonoBehaviour
         if (tutorialToggle.isOn)
         {
             tutorialToggle.isOn = false;
+            tutorialSelected.gameObject.SetActive(false);
         }
         else
         {
             tutorialToggle.isOn = true;
+            tutorialSelected.gameObject.SetActive(true);
         }
     }
 }

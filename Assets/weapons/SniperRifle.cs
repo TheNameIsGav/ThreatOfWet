@@ -23,9 +23,4 @@ public class SniperRifle : Weapon
         damageBase = 75f;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

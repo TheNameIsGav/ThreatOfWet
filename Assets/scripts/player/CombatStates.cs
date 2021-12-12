@@ -375,11 +375,12 @@ public class MenuState : State
     public string[] descrip = new string[] 
     { "Attack Speed", "Attack Damage", "Combo Time", "Life Steal", "HP Up", "Defence Up", "Crit Chance", "Dodge Chance", "Drop Chance"};
 
+    //Gav
     public Weapon[] weaponList = new Weapon[]
     {
-        new ArmBlade(), new BFG(), new EnergySword(), new GatlingGun(), new LaserAssault(), new LaserPistol(), new LongSword(), new OrbitalCannon(),
-        new Revolver(), new ShortSword(), new Shotgun(), new SniperRifle(), new Staff(), new StarterGun(), new StarterSword(), new UberKnuckles(),
-        new WarHammer() 
+        new ArmBlade(), new BFG(), new GatlingGun(), new LaserAssault(), new LaserPistol(), new LongSword(), new OrbitalCannon(),
+        new Shotgun(), new SniperRifle(), new Staff(), new StarterGun(), new StarterSword(), new UberKnuckles(),
+        new WarHammer(), new Greatsword() 
     };
 // Start is called before the first frame update
     public MenuState()
@@ -615,16 +616,28 @@ public class MenuState : State
                             if (GameObject.Find("ControlSaver") != null)
                             {
                                 customControls.instance.pRange = playerController.instance.rangedWeapon;
-                            }
+                            }        
                         }
                         else
                         {
                             playerController.instance.meleeWeapon = weaponList[weaponPos];
+
+                            
                             if (GameObject.Find("ControlSaver") != null)
                             {
                                 customControls.instance.pMelee = playerController.instance.meleeWeapon;
                             }
+
+                            
                         }
+
+                        //Gav Changes
+                        //Debug.Log(playerController.instance.meleeWeapon.element);
+                        //Debug.Log(playerController.instance.weaponSprites[weaponPos]);
+                        //Sets the sprite of the melee weapon
+                        playerController.instance.meleeSp = playerController.instance.weaponSprites[weaponPos];
+                        //Changes the player UI to have the right weapon
+                        PlayerUIScript.UpdateWeaponSprite(playerController.instance.weaponSprites[weaponPos], weaponList[weaponPos].element);
                     }
                 }
                 
@@ -636,4 +649,43 @@ public class MenuState : State
     {
 
     }
+}
+
+public class DeathState : State
+{
+    float depth = 0f;
+    public DeathState()
+    {
+
+    }
+    public override void OnEnter()
+    {
+        SceneManager.LoadScene("deathScene", LoadSceneMode.Additive);
+    }
+    public override void OnExit()
+    {
+
+    }
+    public override void Update()
+    {
+        if(depth >= 1.3 && Input.anyKey)
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
+    }
+    public override void StateUpdate()
+    {
+        depth += 0.02f;
+        if (GameObject.Find("fade") != null)
+        {
+            Color tmp = GameObject.Find("fade").GetComponent<SpriteRenderer>().color;
+            tmp.a = depth;
+            GameObject.Find("fade").GetComponent<SpriteRenderer>().color = tmp;
+        }
+    }
+    public override void JumpTrigger()
+    {
+
+    }
+
 }

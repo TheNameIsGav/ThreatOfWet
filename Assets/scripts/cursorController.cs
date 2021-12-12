@@ -5,9 +5,9 @@ using UnityEngine;
 public class cursorController : MonoBehaviour
 {
     private Vector3 position1 = new Vector3 (-120, 64, 0);
-    private Vector3 position2 = new Vector3(-114, 5, 0);
-    private Vector3 position3 = new Vector3(-70, -48.5f, 0);
-    private Vector3 position4 = new Vector3(-44, -90, 0);
+    private Vector3 position2 = new Vector3(-95, 5, 0);
+    private Vector3 position3 = new Vector3(-70, -47.5f, 0);
+    private Vector3 position4 = new Vector3(-50, -90, 0);
     public Transform myCursor;
 
 

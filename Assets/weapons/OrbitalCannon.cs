@@ -22,10 +22,4 @@ public class OrbitalCannon : Weapon
 
         damageBase = 150f;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

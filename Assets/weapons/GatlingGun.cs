@@ -22,10 +22,4 @@ public class GatlingGun : Weapon
 
         damageBase = 8f;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

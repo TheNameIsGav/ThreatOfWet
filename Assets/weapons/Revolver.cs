@@ -22,10 +22,4 @@ public class Revolver : Weapon
 
         damageBase = 40f;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

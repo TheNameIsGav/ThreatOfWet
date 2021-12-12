@@ -23,9 +23,4 @@ public class LaserAssault : Weapon
         damageBase = 20f;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

@@ -29,9 +29,12 @@ public abstract class Weapon
     //these store the sprite and animations for the weapon (if specific animations end up being used)
     public Animation lightSwing;
     public Animation heavySwing;
+
+    [SerializeField]
     public Sprite weaponSprite;
 
     public float damageBase = 4f;
+
 
 
 

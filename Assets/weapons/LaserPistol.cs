@@ -22,10 +22,4 @@ public class LaserPistol : Weapon
 
         damageBase = 15f;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

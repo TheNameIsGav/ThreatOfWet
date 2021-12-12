@@ -22,10 +22,4 @@ public class Staff : Weapon
 
         damageBase = 35f;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

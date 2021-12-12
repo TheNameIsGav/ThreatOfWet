@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af7181f404f1447c0a7a17b3070b952b, type: 3}
+  m_Name: ShapeshipTerrain
+  m_EditorClassIdentifier: 
+  m_Angles:
+  - m_Start: -10
+    m_End: 10
+    m_Order: 0
+    m_Sprites:
+    - {fileID: 21300000, guid: d277aa43c9f259941824085f7e0cb534, type: 3}
+  - m_Start: -170
+    m_End: -10
+    m_Order: 0
+    m_Sprites:
+    - {fileID: 21300000, guid: 3e4d4467cc73832448dc7e0aef12c6ea, type: 3}
+  - m_Start: 170
+    m_End: 190
+    m_Order: 0
+    m_Sprites:
+    - {fileID: 21300000, guid: 615cb177f998edc4e955bda076c8a31c, type: 3}
+  - m_Start: 10
+    m_End: 170
+    m_Order: 0
+    m_Sprites:
+    - {fileID: 21300000, guid: 6d86e2aee91712845b85e1c798ad7de1, type: 3}
+  m_FillTexture: {fileID: 2800000, guid: 5803f58e278407a4c923451afa1c7381, type: 3}
+  m_CornerSprites:
+  - m_CornerType: 0
+    m_Sprites:
+    - {fileID: 21300000, guid: 0a589400aaa78cf4a80442ca1e5cba07, type: 3}
+  - m_CornerType: 1
+    m_Sprites:
+    - {fileID: 21300000, guid: 87c27c6515fe6194f85596f96940f7fe, type: 3}
+  - m_CornerType: 2
+    m_Sprites:
+    - {fileID: 21300000, guid: 77d85732833421e4a864faf2828b0bda, type: 3}
+  - m_CornerType: 3
+    m_Sprites:
+    - {fileID: 21300000, guid: 3427ea235bddac94ab2361fad7713ef9, type: 3}
+  - m_CornerType: 4
+    m_Sprites:
+    - {fileID: 21300000, guid: 6314cd0c79bb8974f807a6bcd2b32c97, type: 3}
+  - m_CornerType: 5
+    m_Sprites:
+    - {fileID: 21300000, guid: 9d8740b59cc4ffe45a278f2358ec6f95, type: 3}
+  - m_CornerType: 6
+    m_Sprites:
+    - {fileID: 21300000, guid: 3427ea235bddac94ab2361fad7713ef9, type: 3}
+  - m_CornerType: 7
+    m_Sprites:
+    - {fileID: 21300000, guid: 77d85732833421e4a864faf2828b0bda, type: 3}
+  m_FillOffset: 0
+  m_UseSpriteBorders: 1

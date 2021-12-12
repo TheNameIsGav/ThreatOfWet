@@ -16,6 +16,8 @@ public class playerController : MonoBehaviour
     public IdleState idle = new IdleState();
     public MenuState menu = new MenuState();
     public AttackState attack = new AttackState();
+    public BlockState blockS = new BlockState();
+    public DeathState death = new DeathState();
     public PhysicsMaterial2D go;
     public PhysicsMaterial2D stop;
     //public static AttackState attack;
@@ -68,6 +70,10 @@ public class playerController : MonoBehaviour
     public string comboGrade = "C";
     public int comboBaseTime = 100;
     public bool wall = false;
+
+    //Gav
+    [SerializeField]
+    public Sprite[] weaponSprites;
     // attack speed, attack damage, scaling, lifesteal, hp, def, crit, dodge, drop
     //Debug.Log(meleeWeapon.lightActive);
     // meleeWeapon.lightActive;
@@ -190,7 +196,7 @@ public class playerController : MonoBehaviour
          }
          */
         //this is the check for starting a dash
-        if ((Input.GetKeyDown(inputs[5]) || dashBuffer >= 0 || Input.GetButtonDown("Dash")) && canDash)
+        if ((Input.GetKeyDown(inputs[5]) || dashBuffer >= 0 || Input.GetButtonDown("Dash")) && canDash && state != menu)
         {
             //state = new DashState();
             ChangeState(dash);
@@ -202,14 +208,14 @@ public class playerController : MonoBehaviour
             dashBuffer = -1;
             //transform.localScale = new Vector3(1f, 0.5f, 1f);
         }
-        else if (Input.GetKeyDown(inputs[5]) || Input.GetButtonDown("Dash"))
+        else if (state != menu && (Input.GetKeyDown(inputs[5]) || Input.GetButtonDown("Dash")))
         {
             dashBuffer = universalBufferTime;
         }
         //how to get a light melee input
-        if (state != attack || attack.phase >= 1)
+        if (state != menu && (state != attack || attack.phase >= 1))
         {
-            if (Input.GetKeyDown(inputs[7]) || Input.GetButtonDown("Light Melee"))
+            if (Input.GetKeyDown(inputs[7]) || Input.GetAxis("Heavy Melee") > 0)
             {
                 //Debug.Log("lpldsdl");
                 attackVal = 1;
@@ -222,7 +228,7 @@ public class playerController : MonoBehaviour
                 //weaponHitbox.transform.localScale = new Vector2(meleeWeapon.hitboxWidth * Mathf.Sign(rbs.velocity.x), meleeWeapon.hitboxHeight);
             }
             // how to get a heavy melee input
-            else if (Input.GetKeyDown(inputs[8]) || Input.GetAxis("Heavy Melee") > 0)
+            else if (Input.GetKeyDown(inputs[8]) || Input.GetAxis("Heavy Range") > 0)
             {
                 //Debug.Log("lpldsdl");
                 attackVal = 2;
@@ -240,7 +246,7 @@ public class playerController : MonoBehaviour
                 attackVal = 0;
             }
         }
-        if (Input.GetKey(inputs[9]) || Input.GetButton("Light Range"))
+        if (state != menu && (Input.GetKey(inputs[9]) || Input.GetButton("Light Range")))
         {
             //Debug.Log("lpldsdl");
             //attackVal = 3;
@@ -251,13 +257,14 @@ public class playerController : MonoBehaviour
             //ChangeState(attack);
 
             //magic number but only set here?
-            ChangeState(idle);
+            ChangeState(blockS);
             blockTime = 1;
             block = true;
 
         }
-        else
+        else if(state == blockS)
         {
+            ChangeState(idle);
             block = false;
             blockTime = 0;
         }
@@ -377,7 +384,7 @@ public class playerController : MonoBehaviour
             //rbs.velocity = new Vector2(0f, rbs.velocity.y);
         }
         animator.SetFloat("Speed", Mathf.Abs(rbs.velocity.x));
-        animator.SetFloat("XVelocity", rbs.velocity.x);
+        //animator.SetFloat("XVelocity", rbs.velocity.x);
         animator.SetFloat("YVelocity", rbs.velocity.y);
         animator.SetBool("Grounded", grounded);
         animator.SetBool("DashingState", state == dash);
@@ -385,31 +392,37 @@ public class playerController : MonoBehaviour
         animator.SetInteger("AttackPhase", attack.phase);
         animator.SetBool("Blocking", block);
         animator.SetBool("Heavy", !attack.light);
+
+
         if (health < 0)
         {
-            SceneManager.LoadScene("MainMenu");
+            if (state != death)
+            {
+                ChangeState(death);
+            }
         }
     }
 
     public void ChangeState(State newState)
     {
-      
-        if (newState != menu)
-        {
-            if (block && state != menu)
+        if (state != death) { 
+            if (newState != menu)
             {
-                block = false;
-                blockTime = 0;
+                if (block && state != menu)
+                {
+                    block = false;
+                    blockTime = 0;
+                }
+                //Debug.Log("call exit");
+                state.OnExit();
             }
-            //Debug.Log("call exit");
-            state.OnExit();
-        }
-        oldState = state;
-        state = newState;
-        if (oldState != menu)
-        {
-            //Debug.Log("call enter");
-            state.OnEnter();
+            oldState = state;
+            state = newState;
+            if (oldState != menu)
+            {
+                //Debug.Log("call enter");
+                state.OnEnter();
+            }
         }
     }
 
