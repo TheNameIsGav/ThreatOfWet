@@ -102,6 +102,9 @@ public class playerController : MonoBehaviour
             meleeWeapon = customControls.instance.pMelee;
             rangedWeapon = customControls.instance.pRange;
             nDash = customControls.instance.techDash;
+            weaponInt = customControls.instance.weaponIndex;
+            meleeSp = weaponSprites[weaponInt];
+           
         }
         else
         {
@@ -110,6 +113,7 @@ public class playerController : MonoBehaviour
             meleeWeapon = new StarterSword();
             rangedWeapon = new StarterGun();
             nDash = true;
+            weaponInt = 11;
 
             // (up , down, left, right, jump, dash, interact, light melee, heavy melee, light range, heavy range)
         }
@@ -134,6 +138,7 @@ public class playerController : MonoBehaviour
             inputs = new KeyCode[] { KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D, KeyCode.Space, KeyCode.I, KeyCode.E, KeyCode.O, KeyCode.P, KeyCode.L, KeyCode.Semicolon };
             // (up , down, left, right, jump, dash, interact, light melee, heavy melee, light range, heavy range)
         }
+        PlayerUIScript.UpdateWeaponSprite(playerController.instance.weaponSprites[weaponInt], meleeWeapon.element);
     }
 
     // Update is called once per frame

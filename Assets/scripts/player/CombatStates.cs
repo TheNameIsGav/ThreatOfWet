@@ -619,16 +619,7 @@ public class MenuState : State
                     }
                     else
                     {
-                        if (weaponList[weaponPos].ranged)
-                        {
-                            playerController.instance.rangedWeapon = weaponList[weaponPos];
-                            if (GameObject.Find("ControlSaver") != null)
-                            {
-                                customControls.instance.pRange = playerController.instance.rangedWeapon;
-                            }        
-                        }
-                        else
-                        {
+
                             playerController.instance.meleeWeapon = weaponList[weaponPos];
 
                             
@@ -638,13 +629,18 @@ public class MenuState : State
                             }
 
                             
-                        }
+                        
 
                         //Gav Changes
                         //Debug.Log(playerController.instance.meleeWeapon.element);
                         //Debug.Log(playerController.instance.weaponSprites[weaponPos]);
                         //Sets the sprite of the melee weapon & the position of the weapon in the weaponList
                         playerController.instance.weaponInt = weaponPos;
+                        if(GameObject.Find("ControlSaver") != null)
+                        {
+                            customControls.instance.weaponIndex = weaponPos;
+                            customControls.instance.pMelee.element = playerController.instance.meleeWeapon.element;
+                        }
                         playerController.instance.meleeSp = playerController.instance.weaponSprites[weaponPos];
                         //Changes the player UI to have the right weapon
                         PlayerUIScript.UpdateWeaponSprite(playerController.instance.weaponSprites[weaponPos], weaponList[weaponPos].element);

@@ -18,7 +18,7 @@ public class customControls : MonoBehaviour
     public Weapon pMelee = new StarterSword();
     public Weapon pRange = new StarterGun();
     public bool techDash = true;
-
+    public int weaponIndex = 0;
     public float[] pItems = new float[] { 0f, 0f, 0f, 0f, 0f, 0f, 10f, 0f, 35f };
     //float hjj = Input.GetAxis("Joystick1Axis1");
     /*
@@ -49,6 +49,7 @@ public class customControls : MonoBehaviour
             pItems = new float[] { 0f, 0f, 0f, 0f, 0f, 0f, 10f, 0f, 35f };
             pMelee = new StarterSword();
             pRange = new StarterGun();
+            weaponIndex = 11;
         }
     }
 }
