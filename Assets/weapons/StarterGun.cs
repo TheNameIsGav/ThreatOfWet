@@ -13,11 +13,11 @@ public class StarterGun : Weapon
         rhythm = false;
 
         lightStartup = 6;
-        lightActive = 4;
+        lightActive = 3;
         lightEndlag = 6;
 
         heavyStartup = 16;
-        heavyActive = 4;
+        heavyActive = 3;
         heavyEndlag = 12;
 
         damageBase = 10f;

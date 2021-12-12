@@ -13,11 +13,11 @@ public class Shotgun : Weapon
         rhythm = false;
 
         lightStartup = 14;
-        lightActive = 8;
+        lightActive = 3;
         lightEndlag = 10;
 
         heavyStartup = 24;
-        heavyActive = 8;
+        heavyActive = 3;
         heavyEndlag = 20;
 
         damageBase = 70f;

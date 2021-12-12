@@ -13,11 +13,11 @@ public class BFG : Weapon
         rhythm = false;
 
         lightStartup = 40;
-        lightActive = 60;
+        lightActive = 3;
         lightEndlag = 40;
 
         heavyStartup = 80;
-        heavyActive = 60;
+        heavyActive = 3;
         heavyEndlag = 60;
 
         damageBase = 200f;

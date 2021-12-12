@@ -13,11 +13,11 @@ public class ArmBlade : Weapon
         rhythm = false;
 
         lightStartup = 4;
-        lightActive = 4;
+        lightActive = 3;
         lightEndlag = 4;
 
         heavyStartup = 16;
-        heavyActive = 12;
+        heavyActive = 3;
         heavyEndlag = 12;
 
         damageBase = 30f;

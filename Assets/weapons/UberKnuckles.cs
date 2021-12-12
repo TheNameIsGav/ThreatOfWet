@@ -13,11 +13,11 @@ public class UberKnuckles : Weapon
         rhythm = false;
 
         lightStartup = 2;
-        lightActive = 2;
+        lightActive = 3;
         lightEndlag = 2;
 
         heavyStartup = 8;
-        heavyActive = 8;
+        heavyActive = 3;
         heavyEndlag = 8;
 
         damageBase = 25f;

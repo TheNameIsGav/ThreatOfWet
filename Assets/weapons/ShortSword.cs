@@ -17,7 +17,7 @@ public class ShortSword : Weapon
         lightEndlag = 3;
 
         heavyStartup = 12;
-        heavyActive = 10;
+        heavyActive = 3;
         heavyEndlag = 12;
     }
 }

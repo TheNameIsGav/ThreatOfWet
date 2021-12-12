@@ -13,11 +13,11 @@ public class EnergySword : Weapon
         rhythm = false;
 
         lightStartup = 10;
-        lightActive = 6;
+        lightActive = 3;
         lightEndlag = 8;
 
         heavyStartup = 20;
-        heavyActive = 24;
+        heavyActive = 3;
         heavyEndlag = 18;
 
         damageBase = 35f;

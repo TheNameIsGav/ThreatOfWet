@@ -33,7 +33,7 @@ public abstract class Weapon
     [SerializeField]
     public Sprite weaponSprite;
 
-    public float damageBase = 4f;
+    public float damageBase = 12f;
 
 
 

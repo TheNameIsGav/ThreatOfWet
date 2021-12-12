@@ -13,11 +13,11 @@ public class SniperRifle : Weapon
         rhythm = false;
 
         lightStartup = 16;
-        lightActive = 10;
+        lightActive = 3;
         lightEndlag = 14;
 
         heavyStartup = 26;
-        heavyActive = 10;
+        heavyActive = 3;
         heavyEndlag = 24;
 
         damageBase = 75f;

@@ -13,11 +13,11 @@ public class LongSword : Weapon
         rhythm = false;
 
         lightStartup = 12;
-        lightActive = 8;
+        lightActive = 3;
         lightEndlag = 10;
 
         heavyStartup = 24;
-        heavyActive = 28;
+        heavyActive = 3;
         heavyEndlag = 24;
     }
 }

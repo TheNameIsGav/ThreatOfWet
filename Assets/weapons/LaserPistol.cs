@@ -13,11 +13,11 @@ public class LaserPistol : Weapon
         rhythm = false;
 
         lightStartup = 10;
-        lightActive = 6;
+        lightActive = 3;
         lightEndlag = 8;
 
         heavyStartup = 18;
-        heavyActive = 6;
+        heavyActive = 3;
         heavyEndlag = 14;
 
         damageBase = 15f;

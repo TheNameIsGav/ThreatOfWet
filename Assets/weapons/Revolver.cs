@@ -13,11 +13,11 @@ public class Revolver : Weapon
         rhythm = false;
 
         lightStartup = 8;
-        lightActive = 6;
+        lightActive = 3;
         lightEndlag = 8;
 
         heavyStartup = 18;
-        heavyActive = 6;
+        heavyActive = 3;
         heavyEndlag = 10;
 
         damageBase = 40f;

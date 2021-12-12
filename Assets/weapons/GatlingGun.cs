@@ -17,7 +17,7 @@ public class GatlingGun : Weapon
         lightEndlag = 2;
 
         heavyStartup = 14;
-        heavyActive = 20;
+        heavyActive = 3;
         heavyEndlag = 14;
 
         damageBase = 8f;

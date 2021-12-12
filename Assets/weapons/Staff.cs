@@ -13,11 +13,11 @@ public class Staff : Weapon
         rhythm = false;
 
         lightStartup = 8;
-        lightActive = 8;
+        lightActive = 3;
         lightEndlag = 6;
 
         heavyStartup = 20;
-        heavyActive = 24;
+        heavyActive = 3;
         heavyEndlag = 20;
 
         damageBase = 35f;
