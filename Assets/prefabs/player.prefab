@@ -422,7 +422,7 @@ DistanceJoint2D:
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: -50.51218, y: 0.78484654}
   m_AutoConfigureDistance: 1
-  m_Distance: 165.09138
+  m_Distance: 50.51828
   m_MaxDistanceOnly: 1
 --- !u!114 &970053277
 MonoBehaviour:
@@ -644,7 +644,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: ab0fe498d9e83c940af8f0469d850ee3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
