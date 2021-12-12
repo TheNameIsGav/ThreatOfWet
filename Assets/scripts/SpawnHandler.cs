@@ -90,9 +90,9 @@ public class SpawnHandler : MonoBehaviour
 
     private GameObject[] ChoosePlatforms(GameObject[] platforms, float diff)
     {
+        float maxEnemies = Math.Max(Mathf.Ceil(diff / 4f), 3);
         maxEnemySpawn = Mathf.FloorToInt(Mathf.Min(
-            Mathf.Ceil(diff / 4f),
-            (float) platforms.Length));
+            maxEnemies, platforms.Length));
 /*        if (maxEnemySpawn <= 0)
         {
             maxEnemySpawn = 1;
