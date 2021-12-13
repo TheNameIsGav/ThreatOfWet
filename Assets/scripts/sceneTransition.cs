@@ -23,9 +23,48 @@ public class sceneTransition : MonoBehaviour
         {
             SceneManager.LoadScene("CombatTutorial");
         }
-        else
+        else if(SceneManager.GetActiveScene().name == "CombatTutorial")
         {
             SceneManager.LoadScene("TestLevel");
+        }
+        else
+        {
+            int i = Random.Range(0, 2);
+            if (SceneManager.GetActiveScene().name == "TestLevel")
+            {
+                if(i == 0)
+                {
+                    SceneManager.LoadScene("CityLevel");
+                }
+                else
+                {
+                    SceneManager.LoadScene("SpaceshipLevel");
+                }
+
+            }
+            else if(SceneManager.GetActiveScene().name == "CityLevel")
+            {
+                if (i == 0)
+                {
+                    SceneManager.LoadScene("TestLevel");
+                }
+                else
+                {
+                    SceneManager.LoadScene("SpaceshipLevel");
+                }
+            }
+            else
+            {
+                if (i == 0)
+                {
+                    SceneManager.LoadScene("CityLevel");
+                }
+                else
+                {
+                    SceneManager.LoadScene("TestLevel");
+                }
+            }
+                    
         }
     }
 }
