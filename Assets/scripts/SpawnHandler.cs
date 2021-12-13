@@ -21,7 +21,7 @@ public class SpawnHandler : MonoBehaviour
 
     public void SpawnStuff(float diff, GameObject player)
     {
-        // Debug.Log("Spawn Called!");
+        Debug.Log("Spawn Called!");
         GameObject[] platforms = GetSpawnablePlatforms(player);
         // Debug.Log("Spawnable Platforms Found! (" + platforms.Length + ")");
         GameObject[] chosenPlatforms = ChoosePlatforms(platforms, diff);
@@ -36,9 +36,12 @@ public class SpawnHandler : MonoBehaviour
 
     private GameObject[] GetSpawnablePlatforms(GameObject player)
     {
+        Debug.Log("Calling spawner");
         // Get All Local Platforms
+        
         Collider2D[] collide = Physics2D.OverlapCircleAll(
             player.transform.position + new Vector3(spawnRadius + 2, 0, 0), spawnRadius, LayerMask.GetMask("SpawnableTile"));
+        
         GameObject[] collidedObjects = new GameObject[collide.Length];
         if (collide.Length < 1)
             return collidedObjects;
@@ -53,7 +56,7 @@ public class SpawnHandler : MonoBehaviour
                 spawnableSize++;
             } 
         }
-
+        
         // Get All Spawnable Platforms, Trim for OverSpawning
         GameObject[] trimmedCollidedObjectList = new GameObject[spawnableSize];
         int j = 0;
@@ -85,6 +88,7 @@ public class SpawnHandler : MonoBehaviour
         {
             finalPlatformList[i] = trimmedCollidedObjectList[i];
         }
+        Debug.Log("Bottom of platforms");
         return finalPlatformList;
     }
 
